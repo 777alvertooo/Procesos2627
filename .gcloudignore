@@ -1,0 +1,7 @@
+.gcloudignore
+.git
+.github
+.gitignore
+.env
+node_modules
+logs
