@@ -1,0 +1,25 @@
+{
+  "name": "procesos2627",
+  "version": "1.0.0",
+  "description": "Arquitectura base de una aplicación SaaS con gestión de usuarios",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "testW": "node_modules\\.bin\\jasmine-node servidor",
+    "test": "./node_modules/.bin/jasmine-node servidor"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/777alvertooo/Procesos2627.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.22.3"
+  },
+  "devDependencies": {
+    "jasmine-node": "^3.0.0"
+  }
+}
