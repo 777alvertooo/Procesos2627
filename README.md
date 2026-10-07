@@ -9,8 +9,11 @@ Arquitectura base de una aplicación SaaS con gestión de usuarios (Sprint 1).
 | Tecnología | Justificación |
 |---|---|
 | Node.js + npm | Permite usar JavaScript tanto en el cliente como en el servidor y gestionar dependencias de forma sencilla. |
-| Express | Framework HTTP minimalista con el que se define el API REST en un único archivo. |
-| Bootstrap 4 | Diseño responsive mobile-first sin escribir CSS propio. |
+| Express | Framework HTTP minimalista con el que se define el API REST con un Router y un handler por endpoint. |
+| express-session | Gestiona la sesión con una cookie `httpOnly`, así el usuario no tiene que volver a autenticarse al recargar. |
+| bcryptjs | Hash de contraseñas con bcrypt en JavaScript puro, sin compilar módulos nativos en el despliegue. |
+| jQuery | Simplifica la manipulación del DOM y las peticiones AJAX del cliente. |
+| Bootstrap 4 + Popper.js | Diseño responsive mobile-first y componentes (alertas, modal) sin escribir CSS propio. |
 | Jasmine (jasmine-node) | Framework de pruebas unitarias que se ejecuta en el servidor con un script de npm. |
 | GitHub Actions | CI que ejecuta las pruebas en cada pull request y en cada cambio en `main`. |
 | Google Cloud Run | Despliegue del servicio con capa gratuita y URL pública. |
@@ -21,35 +24,50 @@ Arquitectura base de una aplicación SaaS con gestión de usuarios (Sprint 1).
 index.js                              Punto de entrada: crea Express y une las tres capas
 servidor/
   presentacion/                       Capa de presentación (API REST)
-    Rutas.js                          Router con los endpoints
+    Rutas.js                          Router con los endpoints públicos y protegidos
     RespuestaHttp.js                  Convierte los resultados en respuestas HTTP
+    GestorSesion.js                   Abrir, cerrar y consultar la sesión
+    middlewares/                      SesionMiddleware, HaIniciadoSesion
     handlers/                         Un handler por endpoint
   logica/                             Capa lógica
     modelo.js                         Sistema: punto de entrada de la capa lógica
     usecases/                         Un caso de uso por operación
     entities/                         Usuario
-    enums/                            EstadoUsuario, TipoError
+    enums/                            EstadoUsuario, OrigenUsuario, TipoError
     errores/                          ErrorSistema
-    validaciones/                     ValidadorEmail
+    validaciones/                     ValidadorEmail, ValidadorClave
+    servicios/                        ServicioHash (bcrypt)
     mappers/                          UsuarioMapper (datos públicos del usuario)
   datos/                              Capa de acceso a datos
     cadMemoria.js                     Implementación en memoria
   pruebas/                            Pruebas unitarias de la capa lógica (un spec por caso de uso)
 cliente/
-  index.html                          Página del cliente
+  index.html                          SPA
+  comunicacion/clienteRest.js         Cliente de comunicación con el API REST
+  presentacion/                       Capa de presentación del cliente (GUI)
+    controlWeb.js                     Coordina los componentes y usa ClienteRest
+    componentes/                      Un componente visual por fichero
+    utilidades/                       Html (escapado de texto)
 ```
 
-El flujo de una petición es `Rutas → handler → Sistema (modelo.js) → caso de uso → cad`. La capa lógica recibe la capa de acceso a datos como dependencia (`new Sistema({ cad: ... })`), así se podrá sustituir la implementación en memoria por una base de datos sin modificar la lógica.
+En el servidor, una petición recorre `Rutas → middleware → handler → Sistema (modelo.js) → caso de uso → cad`. La capa lógica recibe la capa de acceso a datos como dependencia (`new Sistema({ cad: ... })`), así se podrá sustituir la implementación en memoria por una base de datos sin modificar la lógica.
+
+En el cliente, los componentes solo pintan HTML y avisan de los eventos; `controlWeb.js` decide qué mostrar y es el único que llama a `clienteRest.js`, que es el único que hace peticiones AJAX.
 
 ### Endpoints
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/agregarUsuario/:email?nick=...` | Agrega un usuario |
-| GET | `/obtenerUsuarios` | Lista de usuarios |
-| GET | `/numeroUsuarios` | Número de usuarios |
-| GET | `/usuarioActivo/:email` | Indica si el usuario está activo |
-| GET | `/eliminarUsuario/:email` | Elimina un usuario |
+| Método | Ruta | Acceso | Descripción |
+|---|---|---|---|
+| POST | `/registrarUsuario` | Público | Registro local (`email`, `password`, `nick`) |
+| POST | `/iniciarSesion` | Público | Inicio de sesión local (`email`, `password`) |
+| GET | `/usuarioSesion` | Público | Usuario de la sesión actual o `null` |
+| POST | `/cerrarSesion` | Público | Cierra la sesión |
+| GET | `/obtenerUsuarios` | Con sesión | Lista de usuarios |
+| GET | `/numeroUsuarios` | Con sesión | Número de usuarios |
+| GET | `/usuarioActivo/:email` | Con sesión | Indica si el usuario está activo |
+| DELETE | `/eliminarUsuario/:email` | Con sesión | Elimina un usuario |
+
+Las rutas con sesión responden `401` si no hay una sesión válida. Si el usuario de la sesión ha sido eliminado, la sesión se invalida en la siguiente petición.
 
 ## Ejecutar en local
 
@@ -72,6 +90,8 @@ npm run testW     # Windows (PowerShell / cmd)
 | Variable | Descripción |
 |---|---|
 | `PORT` | Puerto del servidor (opcional, por defecto 3000; Cloud Run lo define solo) |
+| `NODE_ENV` | `production` en el despliegue (la cookie de sesión solo viaja por HTTPS) |
+| `SESSION_SECRET` | Secreto para firmar la cookie de sesión (si falta se genera uno aleatorio al arrancar) |
 
 ## Flujo de trabajo y CI/CD
 
