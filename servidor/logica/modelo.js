@@ -1,21 +1,35 @@
-const { AgregarUsuario } = require("./usecases/AgregarUsuario.js");
+const { RegistrarUsuario } = require("./usecases/RegistrarUsuario.js");
+const { IniciarSesion } = require("./usecases/IniciarSesion.js");
+const { ObtenerUsuario } = require("./usecases/ObtenerUsuario.js");
 const { ObtenerUsuarios } = require("./usecases/ObtenerUsuarios.js");
 const { NumeroUsuarios } = require("./usecases/NumeroUsuarios.js");
 const { UsuarioActivo } = require("./usecases/UsuarioActivo.js");
 const { EliminarUsuario } = require("./usecases/EliminarUsuario.js");
+const { ServicioHash } = require("./servicios/ServicioHash.js");
 
 function Sistema(opciones) {
     opciones = opciones || {};
     let cad = opciones.cad;
+    let servicioHash = new ServicioHash(opciones.rondasHash);
 
-    let agregarUsuario = new AgregarUsuario(cad);
+    let registrarUsuario = new RegistrarUsuario(cad, servicioHash);
+    let iniciarSesion = new IniciarSesion(cad, servicioHash);
+    let obtenerUsuario = new ObtenerUsuario(cad);
     let obtenerUsuarios = new ObtenerUsuarios(cad);
     let numeroUsuarios = new NumeroUsuarios(cad);
     let usuarioActivo = new UsuarioActivo(cad);
     let eliminarUsuario = new EliminarUsuario(cad);
 
-    this.agregarUsuario = function (datos, callback) {
-        agregarUsuario.ejecutar(datos, callback);
+    this.registrarUsuario = function (datos, callback) {
+        registrarUsuario.ejecutar(datos, callback);
+    };
+
+    this.iniciarSesion = function (email, clave, callback) {
+        iniciarSesion.ejecutar(email, clave, callback);
+    };
+
+    this.obtenerUsuario = function (email, callback) {
+        obtenerUsuario.ejecutar(email, callback);
     };
 
     this.obtenerUsuarios = function (callback) {

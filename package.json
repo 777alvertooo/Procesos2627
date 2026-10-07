@@ -17,7 +17,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.22.3"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.22.3",
+    "express-session": "^1.19.0"
   },
   "devDependencies": {
     "jasmine-node": "^3.0.0"

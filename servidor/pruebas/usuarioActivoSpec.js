@@ -5,11 +5,11 @@ describe("usuarioActivo", function () {
     let sistema;
 
     beforeEach(function () {
-        sistema = new Sistema({ cad: new CADMemoria() });
+        sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
     });
 
     it("devuelve cierto si el usuario existe", function (done) {
-        sistema.agregarUsuario({ email: "pepe@test.com" }, function () {
+        sistema.registrarUsuario({ email: "pepe@test.com", password: "clave1234" }, function () {
             sistema.usuarioActivo("pepe@test.com", function (res) {
                 expect(res.activo).toBe(true);
                 done();
