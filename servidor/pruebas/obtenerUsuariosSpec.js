@@ -6,7 +6,7 @@ describe("obtenerUsuarios", function () {
     let sistema;
 
     beforeEach(function () {
-        sistema = new Sistema({ cad: new CADMemoria() });
+        sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
     });
 
     it("inicialmente devuelve una lista vacía", function (done) {
@@ -16,14 +16,15 @@ describe("obtenerUsuarios", function () {
         });
     });
 
-    it("devuelve la lista con email, nick y estado", function (done) {
-        sistema.agregarUsuario({ email: "pepe@test.com", nick: "pepe" }, function () {
-            sistema.agregarUsuario({ email: "luis@test.com" }, function () {
+    it("devuelve la lista con email, nick y estado, sin la contraseña", function (done) {
+        sistema.registrarUsuario({ email: "pepe@test.com", nick: "pepe", password: "clave1234" }, function () {
+            sistema.registrarUsuario({ email: "luis@test.com", password: "clave5678" }, function () {
                 sistema.obtenerUsuarios(function (res) {
                     expect(res.usuarios.length).toEqual(2);
                     expect(res.usuarios[0].email).toEqual("pepe@test.com");
                     expect(res.usuarios[0].nick).toEqual("pepe");
                     expect(res.usuarios[0].estado).toEqual(EstadoUsuario.ACTIVO);
+                    expect(res.usuarios[0].clave).toBeUndefined();
                     expect(res.usuarios[1].nick).toEqual("luis");
                     done();
                 });

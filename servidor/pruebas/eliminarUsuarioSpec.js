@@ -6,11 +6,11 @@ describe("eliminarUsuario", function () {
     let sistema;
 
     beforeEach(function () {
-        sistema = new Sistema({ cad: new CADMemoria() });
+        sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
     });
 
     it("elimina un usuario y deja de estar activo", function (done) {
-        sistema.agregarUsuario({ email: "pepe@test.com" }, function () {
+        sistema.registrarUsuario({ email: "pepe@test.com", password: "clave1234" }, function () {
             sistema.eliminarUsuario("pepe@test.com", function (res) {
                 expect(res.email).toEqual("pepe@test.com");
                 sistema.usuarioActivo("pepe@test.com", function (res) {
@@ -29,7 +29,7 @@ describe("eliminarUsuario", function () {
     });
 
     it("no se puede eliminar dos veces el mismo usuario", function (done) {
-        sistema.agregarUsuario({ email: "pepe@test.com" }, function () {
+        sistema.registrarUsuario({ email: "pepe@test.com", password: "clave1234" }, function () {
             sistema.eliminarUsuario("pepe@test.com", function () {
                 sistema.eliminarUsuario("pepe@test.com", function (res) {
                     expect(res.tipo).toEqual(TipoError.NO_ENCONTRADO);
