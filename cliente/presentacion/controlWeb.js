@@ -68,9 +68,11 @@ function ControlWeb(rest) {
         navegacion.mostrar(usuario, function () {
             cw.cerrarSesion();
         });
+        let esAdmin = usuario.rol === "admin";
         panelUsuario.mostrar(usuario, function () {
             cw.eliminarUsuario(usuario.email);
-        });
+        }, esAdmin);
+        if (!esAdmin) return;
         listaUsuarios.mostrar(function (email) {
             cw.comprobarActivo(email);
         });
