@@ -2,7 +2,7 @@
 
 Arquitectura base de una aplicación SaaS con gestión de usuarios (Sprint 1).
 
-- Aplicación desplegada: _pendiente de añadir la URL pública de Cloud Run_
+- Aplicación desplegada: `https://procesos2627-git-902626220875.europe-west1.run.app`
 
 ## Tecnologías
 
