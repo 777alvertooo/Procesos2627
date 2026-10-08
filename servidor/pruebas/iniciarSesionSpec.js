@@ -4,6 +4,7 @@ const { TipoError } = require("../logica/enums/TipoError.js");
 
 describe("iniciarSesion", function () {
     let sistema;
+    let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function (done) {
         sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
@@ -44,7 +45,7 @@ describe("iniciarSesion", function () {
     });
 
     it("un usuario eliminado no puede volver a iniciar sesión", function (done) {
-        sistema.eliminarUsuario("pepe@test.com", function () {
+        sistema.eliminarUsuario(admin, "pepe@test.com", function () {
             sistema.iniciarSesion("pepe@test.com", "clave1234", function (res) {
                 expect(res.tipo).toEqual(TipoError.PROHIBIDO);
                 done();
