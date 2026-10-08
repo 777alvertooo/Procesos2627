@@ -19,7 +19,7 @@ describe("usuarioActivo", function () {
     });
 
     it("devuelve falso si el usuario no existe", function (done) {
-        sistema.usuarioActivo("nadie@test.com", function (res) {
+        sistema.usuarioActivo(admin, "nadie@test.com", function (res) {
             expect(res.activo).toBe(false);
             done();
         });
