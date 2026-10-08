@@ -3,9 +3,14 @@ const { EstadoUsuario } = require("../enums/EstadoUsuario.js");
 const { TipoError } = require("../enums/TipoError.js");
 const { ValidadorEmail } = require("../validaciones/ValidadorEmail.js");
 
-function EliminarUsuario(cad) {
-    this.ejecutar = function (email, callback) {
+function EliminarUsuario(cad, autorizacion, log) {
+    this.ejecutar = function (solicitante, email, callback) {
         email = ValidadorEmail.normalizar(email);
+        let propio = !!solicitante && ValidadorEmail.normalizar(solicitante.email) === email;
+        if (!solicitante || (!autorizacion.esAdmin(solicitante) && !propio)) {
+            log.aviso("Acceso denegado a " + (solicitante ? solicitante.email : "anónimo") + " al intentar eliminar a " + email);
+            return callback(new ErrorSistema(TipoError.PROHIBIDO, "No tienes permisos para realizar esta acción"));
+        }
         cad.buscarUsuario({ email: email }, function (err, usuario) {
             if (err) return callback(ErrorSistema.interno(err));
             if (!usuario || usuario.estado === EstadoUsuario.ELIMINADO) {
@@ -15,6 +20,7 @@ function EliminarUsuario(cad) {
             usuario.fechaBaja = new Date();
             cad.actualizarUsuario(usuario, function (err) {
                 if (err) return callback(ErrorSistema.interno(err));
+                log.info("Usuario eliminado: " + email + " (por " + solicitante.email + ")");
                 callback({ email: email });
             });
         });
