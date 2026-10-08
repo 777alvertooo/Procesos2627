@@ -10,7 +10,9 @@ Arquitectura base de una aplicación SaaS con gestión de usuarios (Sprint 1).
 |---|---|
 | Node.js + npm | Permite usar JavaScript tanto en el cliente como en el servidor y gestionar dependencias de forma sencilla. |
 | Express | Framework HTTP minimalista con el que se define el API REST con un Router y un handler por endpoint. |
-| express-session | Gestiona la sesión con una cookie `httpOnly`, así el usuario no tiene que volver a autenticarse al recargar. |
+| express-session + connect-mongo | Gestiona la sesión con una cookie `httpOnly` y la guarda en MongoDB, así se mantiene entre recargas y reinicios. |
+| MongoDB (driver oficial) | Base de datos documental. En local y en Cloud Run se usa Atlas; la cadena de conexión va en variables de entorno. |
+| dotenv | Carga las variables de entorno desde `.env` en local, sin secretos en el código. |
 | bcryptjs | Hash de contraseñas con bcrypt en JavaScript puro, sin compilar módulos nativos en el despliegue. |
 | jQuery | Simplifica la manipulación del DOM y las peticiones AJAX del cliente. |
 | Bootstrap 4 + Popper.js | Diseño responsive mobile-first y componentes (alertas, modal) sin escribir CSS propio. |
@@ -33,13 +35,16 @@ servidor/
     modelo.js                         Sistema: punto de entrada de la capa lógica
     usecases/                         Un caso de uso por operación
     entities/                         Usuario
-    enums/                            EstadoUsuario, OrigenUsuario, TipoError
+    enums/                            EstadoUsuario, RolUsuario, OrigenUsuario, TipoError
     errores/                          ErrorSistema
+    autorizacion/                     Autorizacion (comprueba el rol en el servidor)
     validaciones/                     ValidadorEmail, ValidadorClave
     servicios/                        ServicioHash (bcrypt)
     mappers/                          UsuarioMapper (datos públicos del usuario)
   datos/                              Capa de acceso a datos
-    cadMemoria.js                     Implementación en memoria
+    cad.js                            Implementación con MongoDB
+    cadMemoria.js                     Implementación en memoria (pruebas y desarrollo sin MONGO_URI)
+  log/Log.js                          Registro de actividad
   pruebas/                            Pruebas unitarias de la capa lógica (un spec por caso de uso)
 cliente/
   index.html                          SPA
@@ -62,12 +67,14 @@ En el cliente, los componentes solo pintan HTML y avisan de los eventos; `contro
 | POST | `/iniciarSesion` | Público | Inicio de sesión local (`email`, `password`) |
 | GET | `/usuarioSesion` | Público | Usuario de la sesión actual o `null` |
 | POST | `/cerrarSesion` | Público | Cierra la sesión |
-| GET | `/obtenerUsuarios` | Con sesión | Lista de usuarios |
-| GET | `/numeroUsuarios` | Con sesión | Número de usuarios |
-| GET | `/usuarioActivo/:email` | Con sesión | Indica si el usuario está activo |
-| DELETE | `/eliminarUsuario/:email` | Con sesión | Elimina un usuario |
+| GET | `/obtenerUsuarios` | Administrador | Lista de usuarios (email, rol y estado) |
+| GET | `/numeroUsuarios` | Administrador | Número de usuarios |
+| GET | `/usuarioActivo/:email` | Administrador | Indica si el usuario está activo |
+| DELETE | `/eliminarUsuario/:email` | Administrador o el propio usuario | Elimina un usuario |
 
-Las rutas con sesión responden `401` si no hay una sesión válida. Si el usuario de la sesión ha sido eliminado, la sesión se invalida en la siguiente petición.
+Las rutas con sesión responden `401` si no hay una sesión válida. Si el usuario de la sesión ha sido eliminado, la sesión se invalida en la siguiente petición. Listar usuarios, contarlos y comprobar si uno está activo responden `403` si quien pide no es administrador. Un usuario normal solo puede eliminar su propia cuenta.
+
+El primer administrador es el email (o la lista separada por comas) de `ADMIN_EMAIL`. Al registrarse o al iniciar sesión recibe el rol `admin`. No hay contraseñas de administrador en el repositorio.
 
 ## Ejecutar en local
 
@@ -92,6 +99,10 @@ npm run testW     # Windows (PowerShell / cmd)
 | `PORT` | Puerto del servidor (opcional, por defecto 3000; Cloud Run lo define solo) |
 | `NODE_ENV` | `production` en el despliegue (la cookie de sesión solo viaja por HTTPS) |
 | `SESSION_SECRET` | Secreto para firmar la cookie de sesión (si falta se genera uno aleatorio al arrancar) |
+| `MONGO_URI` | Cadena de conexión de MongoDB |
+| `MONGO_DB` | Nombre de la base de datos |
+| `ADMIN_EMAIL` | Email (o lista separada por comas) con rol de administrador |
+| `LOG_FICHERO` | Ruta opcional del fichero de log (por defecto `logs/actividad.log`) |
 
 ## Flujo de trabajo y CI/CD
 
