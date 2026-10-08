@@ -2,7 +2,7 @@ const { RespuestaHttp } = require("../RespuestaHttp.js");
 
 function UsuarioActivoHandler(sistema) {
     this.manejar = function (request, response) {
-        sistema.usuarioActivo(request.params.email, function (resultado) {
+        sistema.usuarioActivo(request.usuario, request.params.email, function (resultado) {
             RespuestaHttp.enviar(response, resultado);
         });
     };

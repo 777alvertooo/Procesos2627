@@ -12,7 +12,7 @@ const { EliminarUsuarioHandler } = require("./handlers/EliminarUsuarioHandler.js
 const { NoEncontradoHandler } = require("./handlers/NoEncontradoHandler.js");
 const { ErrorPeticionHandler } = require("./handlers/ErrorPeticionHandler.js");
 
-function Rutas(sistema) {
+function Rutas(sistema, log) {
     let haIniciado = new HaIniciadoSesion(sistema).manejar;
     this.router = express.Router();
     this.router.use(express.json());

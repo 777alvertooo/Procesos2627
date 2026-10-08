@@ -3,7 +3,7 @@ const { GestorSesion } = require("../GestorSesion.js");
 
 function EliminarUsuarioHandler(sistema) {
     this.manejar = function (request, response) {
-        sistema.eliminarUsuario(request.params.email, function (resultado) {
+        sistema.eliminarUsuario(request.usuario, request.params.email, function (resultado) {
             if (resultado.error || resultado.email !== request.usuario.email) {
                 return RespuestaHttp.enviar(response, resultado);
             }

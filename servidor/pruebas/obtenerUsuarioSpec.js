@@ -4,6 +4,7 @@ const { TipoError } = require("../logica/enums/TipoError.js");
 
 describe("obtenerUsuario", function () {
     let sistema;
+    let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function (done) {
         sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
@@ -28,7 +29,7 @@ describe("obtenerUsuario", function () {
     });
 
     it("da error si el usuario ha sido eliminado", function (done) {
-        sistema.eliminarUsuario("pepe@test.com", function () {
+        sistema.eliminarUsuario(admin, "pepe@test.com", function () {
             sistema.obtenerUsuario("pepe@test.com", function (res) {
                 expect(res.tipo).toEqual(TipoError.CREDENCIALES);
                 done();

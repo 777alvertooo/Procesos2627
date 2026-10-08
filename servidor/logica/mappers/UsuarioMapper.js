@@ -5,6 +5,7 @@ const UsuarioMapper = {
         return {
             email: usuario.email,
             nick: usuario.nick,
+            rol: usuario.rol,
             origen: usuario.origen,
             estado: usuario.estado,
             activo: usuario.estado === EstadoUsuario.ACTIVO

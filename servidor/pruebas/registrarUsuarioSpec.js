@@ -4,6 +4,7 @@ const { TipoError } = require("../logica/enums/TipoError.js");
 
 describe("registrarUsuario", function () {
     let sistema, cad;
+    let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function () {
         cad = new CADMemoria();
@@ -13,7 +14,7 @@ describe("registrarUsuario", function () {
     it("registra un usuario nuevo", function (done) {
         sistema.registrarUsuario({ email: "pepe@test.com", nick: "pepe", password: "clave1234" }, function (res) {
             expect(res.email).toEqual("pepe@test.com");
-            sistema.numeroUsuarios(function (res) {
+            sistema.numeroUsuarios(admin, function (res) {
                 expect(res.num).toEqual(1);
                 done();
             });
@@ -33,7 +34,7 @@ describe("registrarUsuario", function () {
         sistema.registrarUsuario({ email: "pepe@test.com", password: "clave1234" }, function () {
             sistema.registrarUsuario({ email: "PEPE@test.com", password: "otraClave99" }, function (res) {
                 expect(res.tipo).toEqual(TipoError.CONFLICTO);
-                sistema.numeroUsuarios(function (res) {
+                sistema.numeroUsuarios(admin, function (res) {
                     expect(res.num).toEqual(1);
                     done();
                 });
@@ -51,7 +52,7 @@ describe("registrarUsuario", function () {
     it("rechaza una contraseña demasiado corta", function (done) {
         sistema.registrarUsuario({ email: "pepe@test.com", password: "corta" }, function (res) {
             expect(res.tipo).toEqual(TipoError.VALIDACION);
-            sistema.numeroUsuarios(function (res) {
+            sistema.numeroUsuarios(admin, function (res) {
                 expect(res.num).toEqual(0);
                 done();
             });
