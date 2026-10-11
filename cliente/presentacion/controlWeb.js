@@ -11,6 +11,7 @@ function ControlWeb(rest) {
     this.usuario = undefined;
 
     this.iniciar = function () {
+        this.mostrarAvisosUrl();
         rest.usuarioSesion(function (usuario) {
             if (usuario) {
                 cw.mostrarPanel(usuario);
@@ -21,6 +22,22 @@ function ControlWeb(rest) {
             mensajes.error(mensaje);
             cw.mostrarLogin();
         });
+    };
+
+    this.mostrarAvisosUrl = function () {
+        let params = new URLSearchParams(window.location.search);
+        if (params.get("confirmado") === "1") {
+            mensajes.exito("Cuenta confirmada. Ya puedes iniciar sesión.");
+        } else if (params.get("confirmado") === "0") {
+            mensajes.error("El enlace de confirmación no es válido o ya se ha usado.");
+        } else if (params.get("oauth") === "error") {
+            mensajes.error("No se pudo iniciar sesión con Google.");
+        } else if (params.get("oauth") === "no_configurado") {
+            mensajes.aviso("El acceso con Google no está configurado en el servidor.");
+        }
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
     };
 
     this.mostrarLogin = function () {
@@ -50,9 +67,9 @@ function ControlWeb(rest) {
                 return mensajes.aviso("Introduce un email y una contraseña de al menos 8 caracteres");
             }
             formularioRegistro.habilitar(false);
-            rest.registrarUsuario(nick, email, password, function () {
+            rest.registrarUsuario(nick, email, password, function (res) {
                 cw.mostrarLogin();
-                mensajes.exito("Cuenta creada. Ya puedes iniciar sesión.");
+                mensajes.exito((res && res.mensaje) || "Te hemos enviado un email de confirmación. Revisa tu bandeja.");
             }, function (mensaje) {
                 formularioRegistro.habilitar(true);
                 mensajes.error(mensaje);
