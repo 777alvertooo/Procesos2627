@@ -2,7 +2,10 @@ const express = require("express");
 const { HaIniciadoSesion } = require("./middlewares/HaIniciadoSesion.js");
 const { PaginaInicioHandler } = require("./handlers/PaginaInicioHandler.js");
 const { RegistrarUsuarioHandler } = require("./handlers/RegistrarUsuarioHandler.js");
+const { ConfirmarUsuarioHandler } = require("./handlers/ConfirmarUsuarioHandler.js");
 const { IniciarSesionHandler } = require("./handlers/IniciarSesionHandler.js");
+const { IniciarGoogleHandler } = require("./handlers/IniciarGoogleHandler.js");
+const { CallbackGoogleHandler } = require("./handlers/CallbackGoogleHandler.js");
 const { UsuarioSesionHandler } = require("./handlers/UsuarioSesionHandler.js");
 const { CerrarSesionHandler } = require("./handlers/CerrarSesionHandler.js");
 const { ObtenerUsuariosHandler } = require("./handlers/ObtenerUsuariosHandler.js");
@@ -12,14 +15,17 @@ const { EliminarUsuarioHandler } = require("./handlers/EliminarUsuarioHandler.js
 const { NoEncontradoHandler } = require("./handlers/NoEncontradoHandler.js");
 const { ErrorPeticionHandler } = require("./handlers/ErrorPeticionHandler.js");
 
-function Rutas(sistema, log) {
+function Rutas(sistema, log, clienteGoogle) {
     let haIniciado = new HaIniciadoSesion(sistema).manejar;
     this.router = express.Router();
     this.router.use(express.json());
 
     this.router.get("/", new PaginaInicioHandler().manejar);
     this.router.post("/registrarUsuario", new RegistrarUsuarioHandler(sistema).manejar);
+    this.router.get("/confirmarUsuario/:token", new ConfirmarUsuarioHandler(sistema, log).manejar);
     this.router.post("/iniciarSesion", new IniciarSesionHandler(sistema).manejar);
+    this.router.get("/auth/google", new IniciarGoogleHandler(clienteGoogle).manejar);
+    this.router.get("/auth/google/callback", new CallbackGoogleHandler(sistema, clienteGoogle, log).manejar);
     this.router.get("/usuarioSesion", new UsuarioSesionHandler(sistema).manejar);
     this.router.post("/cerrarSesion", new CerrarSesionHandler().manejar);
 

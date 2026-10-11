@@ -31,6 +31,10 @@ function IniciarSesion(cad, servicioHash, opciones) {
                     log.aviso("Login rechazado, cuenta eliminada: " + email);
                     return callback(new ErrorSistema(TipoError.PROHIBIDO, "Esta cuenta ha sido eliminada"));
                 }
+                if (usuario.estado === EstadoUsuario.PENDIENTE) {
+                    log.aviso("Login rechazado, email sin confirmar: " + email);
+                    return callback(new ErrorSistema(TipoError.PROHIBIDO, "Debes confirmar tu email antes de iniciar sesión"));
+                }
                 promoverSiAdmin(usuario, function (res) {
                     if (res.error) return callback(res);
                     log.info("Inicio de sesión: " + email);
