@@ -1,14 +1,13 @@
-const { Sistema } = require("../logica/modelo.js");
-const { CADMemoria } = require("../datos/cadMemoria.js");
 const { TipoError } = require("../logica/enums/TipoError.js");
+const { crearSistemaPrueba, registrarYConfirmar } = require("./ayudas.js");
 
 describe("iniciarSesion", function () {
     let sistema;
     let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function (done) {
-        sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
-        sistema.registrarUsuario({ email: "pepe@test.com", nick: "pepe", password: "clave1234" }, function () {
+        sistema = crearSistemaPrueba();
+        registrarYConfirmar(sistema, { email: "pepe@test.com", nick: "pepe", password: "clave1234" }, function () {
             done();
         });
     });
@@ -41,6 +40,15 @@ describe("iniciarSesion", function () {
         sistema.iniciarSesion("pepe@test.com", "", function (res) {
             expect(res.tipo).toEqual(TipoError.VALIDACION);
             done();
+        });
+    });
+
+    it("rechaza el login si el email no está confirmado", function (done) {
+        sistema.registrarUsuario({ email: "nuevo@test.com", password: "clave1234" }, function () {
+            sistema.iniciarSesion("nuevo@test.com", "clave1234", function (res) {
+                expect(res.tipo).toEqual(TipoError.PROHIBIDO);
+                done();
+            });
         });
     });
 

@@ -1,12 +1,11 @@
-const { Sistema } = require("../logica/modelo.js");
-const { CADMemoria } = require("../datos/cadMemoria.js");
+const { crearSistemaPrueba } = require("./ayudas.js");
 
 describe("numeroUsuarios", function () {
     let sistema;
     let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function () {
-        sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
+        sistema = crearSistemaPrueba();
     });
 
     it("inicialmente no hay usuarios", function (done) {

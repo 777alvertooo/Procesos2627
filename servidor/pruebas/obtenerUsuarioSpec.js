@@ -1,14 +1,13 @@
-const { Sistema } = require("../logica/modelo.js");
-const { CADMemoria } = require("../datos/cadMemoria.js");
 const { TipoError } = require("../logica/enums/TipoError.js");
+const { crearSistemaPrueba, registrarYConfirmar } = require("./ayudas.js");
 
 describe("obtenerUsuario", function () {
     let sistema;
     let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function (done) {
-        sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
-        sistema.registrarUsuario({ email: "pepe@test.com", password: "clave1234" }, function () {
+        sistema = crearSistemaPrueba();
+        registrarYConfirmar(sistema, { email: "pepe@test.com", password: "clave1234" }, function () {
             done();
         });
     });
@@ -31,6 +30,15 @@ describe("obtenerUsuario", function () {
     it("da error si el usuario ha sido eliminado", function (done) {
         sistema.eliminarUsuario(admin, "pepe@test.com", function () {
             sistema.obtenerUsuario("pepe@test.com", function (res) {
+                expect(res.tipo).toEqual(TipoError.CREDENCIALES);
+                done();
+            });
+        });
+    });
+
+    it("da error si el usuario aún no ha confirmado el email", function (done) {
+        sistema.registrarUsuario({ email: "nuevo@test.com", password: "clave1234" }, function () {
+            sistema.obtenerUsuario("nuevo@test.com", function (res) {
                 expect(res.tipo).toEqual(TipoError.CREDENCIALES);
                 done();
             });

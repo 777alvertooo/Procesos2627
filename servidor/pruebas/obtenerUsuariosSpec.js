@@ -1,13 +1,12 @@
-const { Sistema } = require("../logica/modelo.js");
-const { CADMemoria } = require("../datos/cadMemoria.js");
 const { EstadoUsuario } = require("../logica/enums/EstadoUsuario.js");
+const { crearSistemaPrueba } = require("./ayudas.js");
 
 describe("obtenerUsuarios", function () {
     let sistema;
     let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function () {
-        sistema = new Sistema({ cad: new CADMemoria(), rondasHash: 4 });
+        sistema = crearSistemaPrueba();
     });
 
     it("inicialmente devuelve una lista vacía", function (done) {
@@ -25,7 +24,7 @@ describe("obtenerUsuarios", function () {
                     expect(res.usuarios[0].email).toEqual("pepe@test.com");
                     expect(res.usuarios[0].nick).toEqual("pepe");
                     expect(res.usuarios[0].rol).toEqual("usuario");
-                    expect(res.usuarios[0].estado).toEqual(EstadoUsuario.ACTIVO);
+                    expect(res.usuarios[0].estado).toEqual(EstadoUsuario.PENDIENTE);
                     expect(res.usuarios[0].clave).toBeUndefined();
                     expect(res.usuarios[1].nick).toEqual("luis");
                     done();
