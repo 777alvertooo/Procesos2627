@@ -1,7 +1,6 @@
-const { Sistema } = require("../logica/modelo.js");
-const { CADMemoria } = require("../datos/cadMemoria.js");
 const { TipoError } = require("../logica/enums/TipoError.js");
 const { RolUsuario } = require("../logica/enums/RolUsuario.js");
+const { crearSistemaPrueba, registrarYConfirmar } = require("./ayudas.js");
 
 describe("roles", function () {
     let sistema;
@@ -9,14 +8,10 @@ describe("roles", function () {
     let pepe = { email: "pepe@test.com", rol: "usuario" };
 
     beforeEach(function (done) {
-        sistema = new Sistema({
-            cad: new CADMemoria(),
-            rondasHash: 4,
-            emailsAdmin: ["admin@test.com"]
-        });
-        sistema.registrarUsuario({ email: "pepe@test.com", password: "clave1234" }, function () {
-            sistema.registrarUsuario({ email: "luis@test.com", password: "clave5678" }, function () {
-                sistema.registrarUsuario({ email: "admin@test.com", password: "claveAdmin1" }, function () {
+        sistema = crearSistemaPrueba({ emailsAdmin: ["admin@test.com"] });
+        registrarYConfirmar(sistema, { email: "pepe@test.com", password: "clave1234" }, function () {
+            registrarYConfirmar(sistema, { email: "luis@test.com", password: "clave5678" }, function () {
+                registrarYConfirmar(sistema, { email: "admin@test.com", password: "claveAdmin1" }, function () {
                     done();
                 });
             });

@@ -8,7 +8,8 @@ function Usuario(datos) {
     this.clave = datos.clave;
     this.rol = datos.rol || RolUsuario.USUARIO;
     this.origen = datos.origen || OrigenUsuario.LOCAL;
-    this.estado = EstadoUsuario.ACTIVO;
+    this.estado = datos.estado || EstadoUsuario.ACTIVO;
+    this.tokenConfirmacion = datos.tokenConfirmacion;
     this.fechaAlta = new Date();
 }
 

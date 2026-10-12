@@ -14,6 +14,7 @@ Arquitectura base de una aplicación SaaS con gestión de usuarios (Sprint 1).
 | MongoDB (driver oficial) | Base de datos documental. En local y en Cloud Run se usa Atlas; la cadena de conexión va en variables de entorno. |
 | dotenv | Carga las variables de entorno desde `.env` en local, sin secretos en el código. |
 | bcryptjs | Hash de contraseñas con bcrypt en JavaScript puro, sin compilar módulos nativos en el despliegue. |
+| nodemailer | Envía el email de confirmación de cuenta por SMTP (Brevo u otro proveedor). |
 | jQuery | Simplifica la manipulación del DOM y las peticiones AJAX del cliente. |
 | Bootstrap 4 + Popper.js | Diseño responsive mobile-first y componentes (alertas, modal) sin escribir CSS propio. |
 | Jasmine (jasmine-node) | Framework de pruebas unitarias que se ejecuta en el servidor con un script de npm. |
@@ -39,7 +40,7 @@ servidor/
     errores/                          ErrorSistema
     autorizacion/                     Autorizacion (comprueba el rol en el servidor)
     validaciones/                     ValidadorEmail, ValidadorClave
-    servicios/                        ServicioHash (bcrypt)
+    servicios/                        ServicioHash, ServicioCorreo, ServicioToken, ClienteGoogle
     mappers/                          UsuarioMapper (datos públicos del usuario)
   datos/                              Capa de acceso a datos
     cad.js                            Implementación con MongoDB
@@ -63,8 +64,11 @@ En el cliente, los componentes solo pintan HTML y avisan de los eventos; `contro
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|---|---|
-| POST | `/registrarUsuario` | Público | Registro local (`email`, `password`, `nick`) |
-| POST | `/iniciarSesion` | Público | Inicio de sesión local (`email`, `password`) |
+| POST | `/registrarUsuario` | Público | Registro local (`email`, `password`, `nick`); deja la cuenta pendiente hasta confirmar el email |
+| GET | `/confirmarUsuario/:token` | Público | Activa la cuenta con el enlace del email |
+| POST | `/iniciarSesion` | Público | Inicio de sesión local (`email`, `password`); rechaza pendientes y eliminados |
+| GET | `/auth/google` | Público | Redirige a Google OAuth |
+| GET | `/auth/google/callback` | Público | Callback de Google; crea o activa la sesión |
 | GET | `/usuarioSesion` | Público | Usuario de la sesión actual o `null` |
 | POST | `/cerrarSesion` | Público | Cierra la sesión |
 | GET | `/obtenerUsuarios` | Administrador | Lista de usuarios (email, rol y estado) |
@@ -103,6 +107,14 @@ npm run testW     # Windows (PowerShell / cmd)
 | `MONGO_DB` | Nombre de la base de datos |
 | `ADMIN_EMAIL` | Email (o lista separada por comas) con rol de administrador |
 | `LOG_FICHERO` | Ruta opcional del fichero de log (por defecto `logs/actividad.log`) |
+| `URL_BASE` | URL pública sin barra final (local o Cloud Run); se usa en el email y en el callback de Google |
+| `GOOGLE_CLIENT_ID` | ID de cliente OAuth de Google |
+| `GOOGLE_CLIENT_SECRET` | Secreto del cliente OAuth de Google |
+| `SMTP_HOST` | Servidor SMTP (p. ej. `smtp-relay.brevo.com`) |
+| `SMTP_PORT` | Puerto SMTP (p. ej. `587`) |
+| `SMTP_USER` | Usuario SMTP |
+| `SMTP_PASS` | Clave SMTP |
+| `EMAIL_FROM` | Remitente de los emails de confirmación |
 
 ## Flujo de trabajo y CI/CD
 

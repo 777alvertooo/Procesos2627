@@ -1,19 +1,23 @@
-const { Sistema } = require("../logica/modelo.js");
-const { CADMemoria } = require("../datos/cadMemoria.js");
 const { TipoError } = require("../logica/enums/TipoError.js");
+const { EstadoUsuario } = require("../logica/enums/EstadoUsuario.js");
+const { crearSistemaPrueba } = require("./ayudas.js");
 
 describe("registrarUsuario", function () {
-    let sistema, cad;
+    let sistema, cad, correo;
     let admin = { email: "admin@test.com", rol: "admin" };
 
     beforeEach(function () {
-        cad = new CADMemoria();
-        sistema = new Sistema({ cad: cad, rondasHash: 4 });
+        sistema = crearSistemaPrueba();
+        cad = sistema._cadPrueba;
+        correo = sistema._correoPrueba;
     });
 
-    it("registra un usuario nuevo", function (done) {
+    it("registra un usuario nuevo en estado pendiente", function (done) {
         sistema.registrarUsuario({ email: "pepe@test.com", nick: "pepe", password: "clave1234" }, function (res) {
             expect(res.email).toEqual("pepe@test.com");
+            expect(res.pendiente).toBe(true);
+            expect(cad.usuarios["pepe@test.com"].estado).toEqual(EstadoUsuario.PENDIENTE);
+            expect(correo.enviados.length).toEqual(1);
             sistema.numeroUsuarios(admin, function (res) {
                 expect(res.num).toEqual(1);
                 done();
