@@ -21,8 +21,7 @@ function AutenticarGoogle(cad, opciones) {
         cad.buscarUsuario({ email: email }, function (err, usuario) {
             if (err) return callback(ErrorSistema.interno(err));
             if (usuario && usuario.estado === EstadoUsuario.ELIMINADO) {
-                log.aviso("Login Google rechazado, cuenta eliminada: " + email);
-                return callback(new ErrorSistema(TipoError.PROHIBIDO, "Esta cuenta ha sido eliminada"));
+                return recrearEliminado(usuario, perfil, callback);
             }
             if (usuario) {
                 return activarYPromover(usuario, perfil.nick, callback);
@@ -42,6 +41,26 @@ function AutenticarGoogle(cad, opciones) {
             });
         });
     };
+
+    function recrearEliminado(usuario, perfil, callback) {
+        usuario.nick = perfil.nick || usuario.nick || emailLocal(usuario.email);
+        usuario.clave = undefined;
+        usuario.rol = emailsAdmin.indexOf(usuario.email) !== -1 ? RolUsuario.ADMIN : RolUsuario.USUARIO;
+        usuario.origen = OrigenUsuario.GOOGLE;
+        usuario.estado = EstadoUsuario.ACTIVO;
+        usuario.tokenConfirmacion = undefined;
+        usuario.fechaBaja = undefined;
+        usuario.fechaAlta = new Date();
+        cad.actualizarUsuario(usuario, function (err) {
+            if (err) return callback(ErrorSistema.interno(err));
+            log.info("Cuenta eliminada reactivada con Google: " + usuario.email);
+            callback(UsuarioMapper.aPublico(usuario));
+        });
+    }
+
+    function emailLocal(email) {
+        return email.split("@")[0];
+    }
 
     function activarYPromover(usuario, nick, callback) {
         let cambio = false;

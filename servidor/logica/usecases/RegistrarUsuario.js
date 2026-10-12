@@ -24,7 +24,7 @@ function RegistrarUsuario(cad, servicioHash, servicioToken, servicioCorreo, opci
         }
         cad.buscarUsuario({ email: email }, function (err, existente) {
             if (err) return callback(ErrorSistema.interno(err));
-            if (existente) {
+            if (existente && existente.estado !== EstadoUsuario.ELIMINADO) {
                 log.aviso("Registro rechazado, email en uso: " + email);
                 return callback(new ErrorSistema(TipoError.CONFLICTO, "El email ya está registrado"));
             }
@@ -41,7 +41,8 @@ function RegistrarUsuario(cad, servicioHash, servicioToken, servicioCorreo, opci
                     estado: EstadoUsuario.PENDIENTE,
                     tokenConfirmacion: token
                 });
-                cad.insertarUsuario(usuario, function (err) {
+                let guardar = existente ? cad.actualizarUsuario.bind(cad) : cad.insertarUsuario.bind(cad);
+                guardar(usuario, function (err) {
                     if (err) return callback(ErrorSistema.interno(err));
                     let enlace = urlBase + "/confirmarUsuario/" + token;
                     let texto = "Hola " + usuario.nick + ",\n\n"

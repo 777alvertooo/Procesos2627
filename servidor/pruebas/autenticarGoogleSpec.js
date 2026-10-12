@@ -1,4 +1,3 @@
-const { TipoError } = require("../logica/enums/TipoError.js");
 const { EstadoUsuario } = require("../logica/enums/EstadoUsuario.js");
 const { OrigenUsuario } = require("../logica/enums/OrigenUsuario.js");
 const { RolUsuario } = require("../logica/enums/RolUsuario.js");
@@ -41,11 +40,13 @@ describe("autenticarGoogle", function () {
         });
     });
 
-    it("rechaza una cuenta eliminada", function (done) {
+    it("reactiva una cuenta eliminada al entrar con Google", function (done) {
         sistema.autenticarGoogle({ email: "pepe@gmail.com", nick: "Pepe" }, function () {
             sistema.eliminarUsuario(admin, "pepe@gmail.com", function () {
-                sistema.autenticarGoogle({ email: "pepe@gmail.com", nick: "Pepe" }, function (res) {
-                    expect(res.tipo).toEqual(TipoError.PROHIBIDO);
+                sistema.autenticarGoogle({ email: "pepe@gmail.com", nick: "PepeNuevo" }, function (res) {
+                    expect(res.error).toBeUndefined();
+                    expect(res.estado).toEqual(EstadoUsuario.ACTIVO);
+                    expect(res.nick).toEqual("PepeNuevo");
                     done();
                 });
             });
