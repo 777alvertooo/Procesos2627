@@ -46,6 +46,23 @@ describe("registrarUsuario", function () {
         });
     });
 
+    it("permite volver a registrar un email eliminado", function (done) {
+        sistema.registrarUsuario({ email: "pepe@test.com", nick: "pepe", password: "clave1234" }, function () {
+            let token = cad.usuarios["pepe@test.com"].tokenConfirmacion;
+            sistema.confirmarUsuario(token, function () {
+                sistema.eliminarUsuario(admin, "pepe@test.com", function () {
+                    sistema.registrarUsuario({ email: "pepe@test.com", nick: "pepe2", password: "nuevaClave9" }, function (res) {
+                        expect(res.error).toBeUndefined();
+                        expect(res.pendiente).toBe(true);
+                        expect(cad.usuarios["pepe@test.com"].estado).toEqual(EstadoUsuario.PENDIENTE);
+                        expect(cad.usuarios["pepe@test.com"].nick).toEqual("pepe2");
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
     it("rechaza un email no válido", function (done) {
         sistema.registrarUsuario({ email: "noesemail", password: "clave1234" }, function (res) {
             expect(res.tipo).toEqual(TipoError.VALIDACION);
