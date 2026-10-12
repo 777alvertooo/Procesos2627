@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient } = require("mongodb"); 
 
 function CAD() {
     this.cliente = undefined;
