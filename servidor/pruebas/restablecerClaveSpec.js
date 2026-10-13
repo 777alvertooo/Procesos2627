@@ -23,11 +23,20 @@ describe("restablecerClave", function () {
         });
     });
 
-    it("no revela si el email no existe", function (done) {
+    it("rechaza un email que no está registrado", function (done) {
         sistema.solicitarRestablecerClave("nadie@test.com", function (res) {
-            expect(res.mensaje).toEqual(MENSAJE_OK);
+            expect(res.tipo).toEqual(TipoError.NO_ENCONTRADO);
             expect(correo.enviados.length).toEqual(1);
             done();
+        });
+    });
+
+    it("rechaza una cuenta que solo usa Google", function (done) {
+        sistema.autenticarGoogle({ email: "pepe@gmail.com", nick: "Pepe" }, function () {
+            sistema.solicitarRestablecerClave("pepe@gmail.com", function (res) {
+                expect(res.tipo).toEqual(TipoError.PROHIBIDO);
+                done();
+            });
         });
     });
 
