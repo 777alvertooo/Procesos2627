@@ -79,4 +79,19 @@ describe("registrarUsuario", function () {
             });
         });
     });
+
+    it("rechaza si las contraseñas no coinciden", function (done) {
+        sistema.registrarUsuario({
+            email: "pepe@test.com",
+            password: "clave1234",
+            confirmarPassword: "otraClave9"
+        }, function (res) {
+            expect(res.tipo).toEqual(TipoError.VALIDACION);
+            expect(res.error).toEqual("Las contraseñas no coinciden");
+            sistema.numeroUsuarios(admin, function (res) {
+                expect(res.num).toEqual(0);
+                done();
+            });
+        });
+    });
 });

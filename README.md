@@ -69,6 +69,8 @@ En el cliente, los componentes solo pintan HTML y avisan de los eventos; `contro
 | POST | `/iniciarSesion` | Público | Inicio de sesión local (`email`, `password`); rechaza pendientes y eliminados |
 | GET | `/auth/google` | Público | Redirige a Google OAuth |
 | GET | `/auth/google/callback` | Público | Callback de Google; crea o activa la sesión |
+| POST | `/solicitarRestablecerClave` | Público | Envía un email con enlace para nueva contraseña (`email`) |
+| POST | `/restablecerClave` | Público | Cambia la contraseña con el token del email |
 | GET | `/usuarioSesion` | Público | Usuario de la sesión actual o `null` |
 | POST | `/cerrarSesion` | Público | Cierra la sesión |
 | GET | `/obtenerUsuarios` | Administrador | Lista de usuarios (email, rol y estado) |

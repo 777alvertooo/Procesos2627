@@ -19,12 +19,29 @@ function ClienteRest() {
         });
     };
 
-    this.registrarUsuario = function (nick, email, password, exito, fallo) {
-        this.peticion("POST", "/registrarUsuario", { nick: nick, email: email, password: password }, exito, fallo);
+    this.registrarUsuario = function (nick, email, password, confirmarPassword, exito, fallo) {
+        this.peticion("POST", "/registrarUsuario", {
+            nick: nick,
+            email: email,
+            password: password,
+            confirmarPassword: confirmarPassword
+        }, exito, fallo);
     };
 
     this.iniciarSesion = function (email, password, exito, fallo) {
         this.peticion("POST", "/iniciarSesion", { email: email, password: password }, exito, fallo);
+    };
+
+    this.solicitarRestablecerClave = function (email, exito, fallo) {
+        this.peticion("POST", "/solicitarRestablecerClave", { email: email }, exito, fallo);
+    };
+
+    this.restablecerClave = function (token, password, confirmarPassword, exito, fallo) {
+        this.peticion("POST", "/restablecerClave", {
+            token: token,
+            password: password,
+            confirmarPassword: confirmarPassword
+        }, exito, fallo);
     };
 
     this.usuarioSesion = function (exito, fallo) {

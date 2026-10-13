@@ -6,6 +6,8 @@ const { ConfirmarUsuarioHandler } = require("./handlers/ConfirmarUsuarioHandler.
 const { IniciarSesionHandler } = require("./handlers/IniciarSesionHandler.js");
 const { IniciarGoogleHandler } = require("./handlers/IniciarGoogleHandler.js");
 const { CallbackGoogleHandler } = require("./handlers/CallbackGoogleHandler.js");
+const { SolicitarRestablecerClaveHandler } = require("./handlers/SolicitarRestablecerClaveHandler.js");
+const { RestablecerClaveHandler } = require("./handlers/RestablecerClaveHandler.js");
 const { UsuarioSesionHandler } = require("./handlers/UsuarioSesionHandler.js");
 const { CerrarSesionHandler } = require("./handlers/CerrarSesionHandler.js");
 const { ObtenerUsuariosHandler } = require("./handlers/ObtenerUsuariosHandler.js");
@@ -26,6 +28,8 @@ function Rutas(sistema, log, clienteGoogle) {
     this.router.post("/iniciarSesion", new IniciarSesionHandler(sistema).manejar);
     this.router.get("/auth/google", new IniciarGoogleHandler(clienteGoogle).manejar);
     this.router.get("/auth/google/callback", new CallbackGoogleHandler(sistema, clienteGoogle, log).manejar);
+    this.router.post("/solicitarRestablecerClave", new SolicitarRestablecerClaveHandler(sistema).manejar);
+    this.router.post("/restablecerClave", new RestablecerClaveHandler(sistema).manejar);
     this.router.get("/usuarioSesion", new UsuarioSesionHandler(sistema).manejar);
     this.router.post("/cerrarSesion", new CerrarSesionHandler().manejar);
 

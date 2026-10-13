@@ -2,6 +2,8 @@ const { RegistrarUsuario } = require("./usecases/RegistrarUsuario.js");
 const { ConfirmarUsuario } = require("./usecases/ConfirmarUsuario.js");
 const { IniciarSesion } = require("./usecases/IniciarSesion.js");
 const { AutenticarGoogle } = require("./usecases/AutenticarGoogle.js");
+const { SolicitarRestablecerClave } = require("./usecases/SolicitarRestablecerClave.js");
+const { RestablecerClave } = require("./usecases/RestablecerClave.js");
 const { ObtenerUsuario } = require("./usecases/ObtenerUsuario.js");
 const { ObtenerUsuarios } = require("./usecases/ObtenerUsuarios.js");
 const { NumeroUsuarios } = require("./usecases/NumeroUsuarios.js");
@@ -34,6 +36,8 @@ function Sistema(opciones) {
     let confirmarUsuario = new ConfirmarUsuario(cad, opcionesCaso);
     let iniciarSesion = new IniciarSesion(cad, servicioHash, opcionesCaso);
     let autenticarGoogle = new AutenticarGoogle(cad, opcionesCaso);
+    let solicitarRestablecerClave = new SolicitarRestablecerClave(cad, servicioToken, servicioCorreo, opcionesCaso);
+    let restablecerClave = new RestablecerClave(cad, servicioHash, opcionesCaso);
     let obtenerUsuario = new ObtenerUsuario(cad);
     let obtenerUsuarios = new ObtenerUsuarios(cad, autorizacion);
     let numeroUsuarios = new NumeroUsuarios(cad, autorizacion);
@@ -54,6 +58,14 @@ function Sistema(opciones) {
 
     this.autenticarGoogle = function (perfil, callback) {
         autenticarGoogle.ejecutar(perfil, callback);
+    };
+
+    this.solicitarRestablecerClave = function (email, callback) {
+        solicitarRestablecerClave.ejecutar(email, callback);
+    };
+
+    this.restablecerClave = function (datos, callback) {
+        restablecerClave.ejecutar(datos, callback);
     };
 
     this.obtenerUsuario = function (email, callback) {
