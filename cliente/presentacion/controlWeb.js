@@ -4,14 +4,21 @@ function ControlWeb(rest) {
     let navegacion = new Navegacion("#navUsuario");
     let formularioLogin = new FormularioLogin("#au");
     let formularioRegistro = new FormularioRegistro("#au");
+    let formularioOlvido = new FormularioOlvido("#au");
+    let formularioRestablecer = new FormularioRestablecer("#au");
     let panelUsuario = new PanelUsuario("#au");
     let listaUsuarios = new ListaUsuarios("#panelUsuarios");
     let modal = new ModalConfirmacion("#modalConfirmar");
 
     this.usuario = undefined;
+    this.tokenRestablecer = undefined;
 
     this.iniciar = function () {
-        this.mostrarAvisosUrl();
+        this.leerParametrosUrl();
+        if (this.tokenRestablecer) {
+            navegacion.mostrar(undefined);
+            return this.mostrarRestablecer(this.tokenRestablecer);
+        }
         rest.usuarioSesion(function (usuario) {
             if (usuario) {
                 cw.mostrarPanel(usuario);
@@ -24,8 +31,9 @@ function ControlWeb(rest) {
         });
     };
 
-    this.mostrarAvisosUrl = function () {
+    this.leerParametrosUrl = function () {
         let params = new URLSearchParams(window.location.search);
+        this.tokenRestablecer = params.get("restablecer") || undefined;
         if (params.get("confirmado") === "1") {
             mensajes.exito("Cuenta confirmada. Ya puedes iniciar sesión.");
         } else if (params.get("confirmado") === "0") {
@@ -42,6 +50,7 @@ function ControlWeb(rest) {
 
     this.mostrarLogin = function () {
         this.usuario = undefined;
+        this.tokenRestablecer = undefined;
         navegacion.mostrar(undefined);
         formularioLogin.mostrar(function (email, password) {
             if (!email || !password) {
@@ -58,16 +67,22 @@ function ControlWeb(rest) {
         }, function () {
             mensajes.limpiar();
             cw.mostrarRegistro();
+        }, function () {
+            mensajes.limpiar();
+            cw.mostrarOlvido();
         });
     };
 
     this.mostrarRegistro = function () {
-        formularioRegistro.mostrar(function (nick, email, password) {
+        formularioRegistro.mostrar(function (nick, email, password, confirmarPassword) {
             if (!email || password.length < 8) {
                 return mensajes.aviso("Introduce un email y una contraseña de al menos 8 caracteres");
             }
+            if (password !== confirmarPassword) {
+                return mensajes.aviso("Las contraseñas no coinciden");
+            }
             formularioRegistro.habilitar(false);
-            rest.registrarUsuario(nick, email, password, function (res) {
+            rest.registrarUsuario(nick, email, password, confirmarPassword, function (res) {
                 cw.mostrarLogin();
                 mensajes.exito((res && res.mensaje) || "Te hemos enviado un email de confirmación. Revisa tu bandeja.");
             }, function (mensaje) {
@@ -75,6 +90,51 @@ function ControlWeb(rest) {
                 mensajes.error(mensaje);
             });
         }, function () {
+            mensajes.limpiar();
+            cw.mostrarLogin();
+        });
+    };
+
+    this.mostrarOlvido = function () {
+        navegacion.mostrar(undefined);
+        formularioOlvido.mostrar(function (email) {
+            if (!email) {
+                return mensajes.aviso("Introduce tu email");
+            }
+            formularioOlvido.habilitar(false);
+            rest.solicitarRestablecerClave(email, function (res) {
+                cw.mostrarLogin();
+                mensajes.exito((res && res.mensaje) || "Si el email está registrado, te hemos enviado instrucciones.");
+            }, function (mensaje) {
+                formularioOlvido.habilitar(true);
+                mensajes.error(mensaje);
+            });
+        }, function () {
+            mensajes.limpiar();
+            cw.mostrarLogin();
+        });
+    };
+
+    this.mostrarRestablecer = function (token) {
+        navegacion.mostrar(undefined);
+        formularioRestablecer.mostrar(function (password, confirmarPassword) {
+            if (!password || password.length < 8) {
+                return mensajes.aviso("La contraseña debe tener al menos 8 caracteres");
+            }
+            if (password !== confirmarPassword) {
+                return mensajes.aviso("Las contraseñas no coinciden");
+            }
+            formularioRestablecer.habilitar(false);
+            rest.restablecerClave(token, password, confirmarPassword, function (res) {
+                cw.tokenRestablecer = undefined;
+                cw.mostrarLogin();
+                mensajes.exito((res && res.mensaje) || "Contraseña actualizada. Ya puedes iniciar sesión.");
+            }, function (mensaje) {
+                formularioRestablecer.habilitar(true);
+                mensajes.error(mensaje);
+            });
+        }, function () {
+            cw.tokenRestablecer = undefined;
             mensajes.limpiar();
             cw.mostrarLogin();
         });

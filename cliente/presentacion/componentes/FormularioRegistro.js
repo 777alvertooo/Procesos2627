@@ -12,6 +12,8 @@ function FormularioRegistro(selector) {
         cadena = cadena + '<input type="email" class="form-control campo-gris" id="email" autocomplete="email" required></div>';
         cadena = cadena + '<div class="form-group"><label for="password">Contraseña (mínimo 8 caracteres):</label>';
         cadena = cadena + '<input type="password" class="form-control campo-gris" id="password" autocomplete="new-password" required></div>';
+        cadena = cadena + '<div class="form-group"><label for="confirmarPassword">Confirmar contraseña:</label>';
+        cadena = cadena + '<input type="password" class="form-control campo-gris" id="confirmarPassword" autocomplete="new-password" required></div>';
         cadena = cadena + '<div class="fila-acciones">';
         cadena = cadena + '<div class="bloque-registro"><p>¿Ya eres usuario?</p>';
         cadena = cadena + '<button type="button" id="btnIrLogin" class="btn btn-oliva">Iniciar sesion</button></div>';
@@ -24,7 +26,12 @@ function FormularioRegistro(selector) {
 
         $("#formRegistro").on("submit", function (evento) {
             evento.preventDefault();
-            alEnviar($("#nick").val().trim(), $("#email").val().trim(), $("#password").val());
+            alEnviar(
+                $("#nick").val().trim(),
+                $("#email").val().trim(),
+                $("#password").val(),
+                $("#confirmarPassword").val()
+            );
         });
         $("#btnIrLogin").on("click", function () {
             alIrALogin();

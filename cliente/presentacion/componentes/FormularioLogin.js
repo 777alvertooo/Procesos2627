@@ -1,7 +1,7 @@
 function FormularioLogin(selector) {
     let accesoRapido = new AccesoRapido();
 
-    this.mostrar = function (alEnviar, alIrARegistro) {
+    this.mostrar = function (alEnviar, alIrARegistro, alOlvidar) {
         let cadena = '<div id="mLogin" class="pantalla-auth">';
         cadena = cadena + avatarCuenta();
         cadena = cadena + '<h1 class="titulo-auth">Inicia sesión</h1>';
@@ -10,6 +10,7 @@ function FormularioLogin(selector) {
         cadena = cadena + '<input type="email" class="form-control campo-gris" id="email" autocomplete="email" required></div>';
         cadena = cadena + '<div class="form-group"><label for="password">Contraseña:</label>';
         cadena = cadena + '<input type="password" class="form-control campo-gris" id="password" autocomplete="current-password" required></div>';
+        cadena = cadena + '<p class="enlace-olvido"><button type="button" id="btnOlvidar" class="btn-enlace">¿Has olvidado tu contraseña?</button></p>';
         cadena = cadena + '<div class="fila-acciones">';
         cadena = cadena + '<div class="bloque-registro"><p>¿No eres usuario?</p>';
         cadena = cadena + '<button type="button" id="btnIrRegistro" class="btn btn-oliva">Registro</button></div>';
@@ -26,6 +27,9 @@ function FormularioLogin(selector) {
         });
         $("#btnIrRegistro").on("click", function () {
             alIrARegistro();
+        });
+        $("#btnOlvidar").on("click", function () {
+            alOlvidar();
         });
     };
 

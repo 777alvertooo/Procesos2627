@@ -15,11 +15,23 @@ function crearSistemaPrueba(opciones) {
     });
     sistema._cadPrueba = cad;
     sistema._correoPrueba = correo;
+    let registrarOriginal = sistema.registrarUsuario;
+    sistema.registrarUsuario = function (datos, callback) {
+        registrarOriginal(conConfirmacion(datos), callback);
+    };
     return sistema;
 }
 
+function conConfirmacion(datos) {
+    datos = Object.assign({}, datos);
+    if (datos.confirmarPassword === undefined) {
+        datos.confirmarPassword = datos.password;
+    }
+    return datos;
+}
+
 function registrarYConfirmar(sistema, datos, callback) {
-    sistema.registrarUsuario(datos, function (res) {
+    sistema.registrarUsuario(conConfirmacion(datos), function (res) {
         if (res.error) return callback(res);
         sistema._cadPrueba.buscarUsuario({ email: res.email }, function (err, usuario) {
             sistema.confirmarUsuario(usuario.tokenConfirmacion, function (confirmado) {
@@ -32,3 +44,4 @@ function registrarYConfirmar(sistema, datos, callback) {
 
 module.exports.crearSistemaPrueba = crearSistemaPrueba;
 module.exports.registrarYConfirmar = registrarYConfirmar;
+module.exports.conConfirmacion = conConfirmacion;

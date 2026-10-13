@@ -22,6 +22,9 @@ function RegistrarUsuario(cad, servicioHash, servicioToken, servicioCorreo, opci
         if (!ValidadorClave.esValida(datos.password)) {
             return callback(new ErrorSistema(TipoError.VALIDACION, "La contraseña debe tener al menos " + ValidadorClave.LONGITUD_MINIMA + " caracteres"));
         }
+        if (datos.confirmarPassword !== datos.password) {
+            return callback(new ErrorSistema(TipoError.VALIDACION, "Las contraseñas no coinciden"));
+        }
         cad.buscarUsuario({ email: email }, function (err, existente) {
             if (err) return callback(ErrorSistema.interno(err));
             if (existente && existente.estado !== EstadoUsuario.ELIMINADO) {

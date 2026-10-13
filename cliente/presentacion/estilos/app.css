@@ -103,12 +103,45 @@ body.sin-sesion .navbar-app {
     outline: none;
 }
 
+.texto-auth {
+    color: var(--texto-suave);
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.enlace-olvido {
+    text-align: right;
+    margin: -4px 0 8px;
+}
+
+.btn-enlace {
+    background: none;
+    border: none;
+    color: var(--oliva);
+    padding: 0;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn-enlace:hover {
+    color: #ddd68a;
+}
+
 .fila-acciones {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: end;
     margin-top: 22px;
     gap: 12px;
+}
+
+.fila-acciones-centrada {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .bloque-registro {
