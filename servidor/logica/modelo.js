@@ -9,6 +9,8 @@ const { ObtenerUsuarios } = require("./usecases/ObtenerUsuarios.js");
 const { NumeroUsuarios } = require("./usecases/NumeroUsuarios.js");
 const { UsuarioActivo } = require("./usecases/UsuarioActivo.js");
 const { EliminarUsuario } = require("./usecases/EliminarUsuario.js");
+const { ActualizarPerfil } = require("./usecases/ActualizarPerfil.js");
+const { ActualizarUsuario } = require("./usecases/ActualizarUsuario.js");
 const { ServicioHash } = require("./servicios/ServicioHash.js");
 const { ServicioToken } = require("./servicios/ServicioToken.js");
 const { ServicioCorreoSilencio } = require("./servicios/ServicioCorreo.js");
@@ -43,6 +45,8 @@ function Sistema(opciones) {
     let numeroUsuarios = new NumeroUsuarios(cad, autorizacion);
     let usuarioActivo = new UsuarioActivo(cad, autorizacion);
     let eliminarUsuario = new EliminarUsuario(cad, autorizacion, log);
+    let actualizarPerfil = new ActualizarPerfil(cad, servicioHash, opcionesCaso);
+    let actualizarUsuario = new ActualizarUsuario(cad, servicioHash, autorizacion, opcionesCaso);
 
     this.registrarUsuario = function (datos, callback) {
         registrarUsuario.ejecutar(datos, callback);
@@ -86,6 +90,14 @@ function Sistema(opciones) {
 
     this.eliminarUsuario = function (solicitante, email, callback) {
         eliminarUsuario.ejecutar(solicitante, email, callback);
+    };
+
+    this.actualizarPerfil = function (solicitante, datos, callback) {
+        actualizarPerfil.ejecutar(solicitante, datos, callback);
+    };
+
+    this.actualizarUsuario = function (solicitante, email, datos, callback) {
+        actualizarUsuario.ejecutar(solicitante, email, datos, callback);
     };
 }
 

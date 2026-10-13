@@ -8,7 +8,11 @@ function PanelUsuario(selector) {
         cadena = cadena + '<p class="card-text"><strong>Acceso:</strong> ' + Html.escapar(usuario.origen) + "</p>";
         cadena = cadena + '<button id="btnEliminarCuenta" class="btn btn-outline-danger btn-sm">Eliminar mi cuenta</button>';
         cadena = cadena + "</div></div></div>";
-        if (esAdmin) cadena = cadena + '<div id="panelUsuarios" class="col-12 col-lg-8"></div>';
+        if (esAdmin) {
+            cadena = cadena + '<div id="panelUsuarios" class="col-12 col-lg-8"></div>';
+        } else {
+            cadena = cadena + '<div id="panelDetalle" class="col-12 col-lg-8 mb-3"></div>';
+        }
         cadena = cadena + "</div>";
         $(selector).html(cadena);
 

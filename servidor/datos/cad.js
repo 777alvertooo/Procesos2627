@@ -28,8 +28,9 @@ function CAD() {
             .catch(callback);
     };
 
-    this.actualizarUsuario = function (usuario, callback) {
-        this.usuarios.replaceOne({ email: usuario.email }, limpiar(usuario))
+    this.actualizarUsuario = function (usuario, callback, emailAnterior) {
+        let filtro = { email: emailAnterior || usuario.email };
+        this.usuarios.replaceOne(filtro, limpiar(usuario))
             .then(function () { callback(); })
             .catch(callback);
     };

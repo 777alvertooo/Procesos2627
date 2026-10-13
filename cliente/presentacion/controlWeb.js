@@ -7,6 +7,7 @@ function ControlWeb(rest) {
     let formularioOlvido = new FormularioOlvido("#au");
     let formularioRestablecer = new FormularioRestablecer("#au");
     let panelUsuario = new PanelUsuario("#au");
+    let detallePerfil = new DetallePerfil("#panelDetalle");
     let listaUsuarios = new ListaUsuarios("#panelUsuarios");
     let modal = new ModalConfirmacion("#modalConfirmar");
 
@@ -149,11 +150,58 @@ function ControlWeb(rest) {
         panelUsuario.mostrar(usuario, function () {
             cw.eliminarUsuario(usuario.email);
         }, esAdmin);
-        if (!esAdmin) return;
+        if (!esAdmin) {
+            this.mostrarDetallePerfil();
+            return;
+        }
         listaUsuarios.mostrar(function (email) {
             cw.comprobarActivo(email);
         });
         this.cargarUsuarios();
+    };
+
+    this.mostrarDetallePerfil = function () {
+        detallePerfil.mostrar(this.usuario, function () {
+            cw.mostrarEdicionPerfil();
+        });
+    };
+
+    this.mostrarEdicionPerfil = function () {
+        detallePerfil.mostrarEdicion(this.usuario, function (datos) {
+            if (!datos.nick) {
+                return mensajes.aviso("El nick no puede estar vacío");
+            }
+            if (!datos.email) {
+                return mensajes.aviso("Introduce un email válido");
+            }
+            let cambiaClave = !!(datos.passwordActual || datos.passwordNueva || datos.confirmarPassword);
+            if (cambiaClave) {
+                if (!datos.passwordActual) {
+                    return mensajes.aviso("Introduce tu contraseña actual");
+                }
+                if (!datos.passwordNueva || datos.passwordNueva.length < 8) {
+                    return mensajes.aviso("La nueva contraseña debe tener al menos 8 caracteres");
+                }
+                if (datos.passwordNueva !== datos.confirmarPassword) {
+                    return mensajes.aviso("Las contraseñas no coinciden");
+                }
+            } else {
+                datos.passwordActual = undefined;
+                datos.passwordNueva = undefined;
+                datos.confirmarPassword = undefined;
+            }
+            detallePerfil.habilitar(false);
+            rest.actualizarPerfil(datos, function (usuario) {
+                mensajes.exito("Perfil actualizado");
+                cw.mostrarPanel(usuario);
+            }, function (mensaje, codigo) {
+                detallePerfil.habilitar(true);
+                cw.tratarError(mensaje, codigo);
+            });
+        }, function () {
+            mensajes.limpiar();
+            cw.mostrarDetallePerfil();
+        });
     };
 
     this.cargarUsuarios = function () {
@@ -167,9 +215,45 @@ function ControlWeb(rest) {
                 cw.comprobarActivo(email);
             }, function (email) {
                 cw.eliminarUsuario(email);
+            }, function (usuario) {
+                cw.editarUsuarioAdmin(usuario);
             });
         }, function (mensaje, codigo) {
             cw.tratarError(mensaje, codigo);
+        });
+    };
+
+    this.editarUsuarioAdmin = function (usuario) {
+        listaUsuarios.mostrarEdicion(usuario, function (datos) {
+            if (!datos.nick) {
+                return mensajes.aviso("El nick no puede estar vacío");
+            }
+            if (!datos.email) {
+                return mensajes.aviso("Introduce un email válido");
+            }
+            let cambiaClave = !!(datos.passwordNueva || datos.confirmarPassword);
+            if (cambiaClave) {
+                if (!datos.passwordNueva || datos.passwordNueva.length < 8) {
+                    return mensajes.aviso("La nueva contraseña debe tener al menos 8 caracteres");
+                }
+                if (datos.passwordNueva !== datos.confirmarPassword) {
+                    return mensajes.aviso("Las contraseñas no coinciden");
+                }
+            } else {
+                datos.passwordNueva = undefined;
+                datos.confirmarPassword = undefined;
+            }
+            listaUsuarios.habilitarEdicion(false);
+            rest.actualizarUsuario(usuario.email, datos, function () {
+                mensajes.exito("Usuario actualizado");
+                cw.cargarUsuarios();
+            }, function (mensaje, codigo) {
+                listaUsuarios.habilitarEdicion(true);
+                cw.tratarError(mensaje, codigo);
+            });
+        }, function () {
+            mensajes.limpiar();
+            cw.cargarUsuarios();
         });
     };
 
