@@ -3,7 +3,7 @@ const { EstadoUsuario } = require("../enums/EstadoUsuario.js");
 const { TipoError } = require("../enums/TipoError.js");
 const { ValidadorEmail } = require("../validaciones/ValidadorEmail.js");
 
-const MENSAJE_OK = "Si el email está registrado, te hemos enviado instrucciones para restablecer la contraseña.";
+const MENSAJE_OK = "Te hemos enviado un email con instrucciones para restablecer la contraseña.";
 
 function SolicitarRestablecerClave(cad, servicioToken, servicioCorreo, opciones) {
     opciones = opciones || {};
@@ -17,9 +17,13 @@ function SolicitarRestablecerClave(cad, servicioToken, servicioCorreo, opciones)
         }
         cad.buscarUsuario({ email: email }, function (err, usuario) {
             if (err) return callback(ErrorSistema.interno(err));
-            if (!usuario || usuario.estado === EstadoUsuario.ELIMINADO || !usuario.clave) {
-                log.aviso("Restablecer clave: sin envío para " + email);
-                return callback({ mensaje: MENSAJE_OK });
+            if (!usuario || usuario.estado === EstadoUsuario.ELIMINADO) {
+                log.aviso("Restablecer clave rechazado, email no registrado: " + email);
+                return callback(new ErrorSistema(TipoError.NO_ENCONTRADO, "No hay ninguna cuenta registrada con ese email"));
+            }
+            if (!usuario.clave) {
+                log.aviso("Restablecer clave rechazado, cuenta sin contraseña local: " + email);
+                return callback(new ErrorSistema(TipoError.PROHIBIDO, "Esta cuenta inicia sesión con Google y no tiene contraseña local"));
             }
             let token = servicioToken.generar();
             usuario.tokenRestablecer = token;
