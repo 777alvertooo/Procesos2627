@@ -77,6 +77,8 @@ En el cliente, los componentes solo pintan HTML y avisan de los eventos; `contro
 | GET | `/numeroUsuarios` | Administrador | Número de usuarios |
 | GET | `/usuarioActivo/:email` | Administrador | Indica si el usuario está activo |
 | DELETE | `/eliminarUsuario/:email` | Administrador o el propio usuario | Elimina un usuario |
+| PUT | `/actualizarPerfil` | Usuario autenticado | Actualiza nick y, opcionalmente, la contraseña |
+| PUT | `/actualizarUsuario/:email` | Administrador | Edita nick y email (y opcionalmente contraseña) de un usuario no admin |
 
 Las rutas con sesión responden `401` si no hay una sesión válida. Si el usuario de la sesión ha sido eliminado, la sesión se invalida en la siguiente petición. Listar usuarios, contarlos y comprobar si uno está activo responden `403` si quien pide no es administrador. Un usuario normal solo puede eliminar su propia cuenta.
 

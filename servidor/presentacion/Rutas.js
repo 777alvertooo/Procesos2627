@@ -14,6 +14,8 @@ const { ObtenerUsuariosHandler } = require("./handlers/ObtenerUsuariosHandler.js
 const { NumeroUsuariosHandler } = require("./handlers/NumeroUsuariosHandler.js");
 const { UsuarioActivoHandler } = require("./handlers/UsuarioActivoHandler.js");
 const { EliminarUsuarioHandler } = require("./handlers/EliminarUsuarioHandler.js");
+const { ActualizarPerfilHandler } = require("./handlers/ActualizarPerfilHandler.js");
+const { ActualizarUsuarioHandler } = require("./handlers/ActualizarUsuarioHandler.js");
 const { NoEncontradoHandler } = require("./handlers/NoEncontradoHandler.js");
 const { ErrorPeticionHandler } = require("./handlers/ErrorPeticionHandler.js");
 
@@ -37,6 +39,8 @@ function Rutas(sistema, log, clienteGoogle) {
     this.router.get("/numeroUsuarios", haIniciado, new NumeroUsuariosHandler(sistema).manejar);
     this.router.get("/usuarioActivo/:email", haIniciado, new UsuarioActivoHandler(sistema).manejar);
     this.router.delete("/eliminarUsuario/:email", haIniciado, new EliminarUsuarioHandler(sistema).manejar);
+    this.router.put("/actualizarPerfil", haIniciado, new ActualizarPerfilHandler(sistema).manejar);
+    this.router.put("/actualizarUsuario/:email", haIniciado, new ActualizarUsuarioHandler(sistema).manejar);
 
     this.router.use(new NoEncontradoHandler().manejar);
     this.router.use(new ErrorPeticionHandler().manejar);

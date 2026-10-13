@@ -73,4 +73,12 @@ function ClienteRest() {
     this.eliminarUsuario = function (email, exito, fallo) {
         this.peticion("DELETE", "/eliminarUsuario/" + encodeURIComponent(email), undefined, exito, fallo);
     };
+
+    this.actualizarPerfil = function (datos, exito, fallo) {
+        this.peticion("PUT", "/actualizarPerfil", datos, exito, fallo);
+    };
+
+    this.actualizarUsuario = function (email, datos, exito, fallo) {
+        this.peticion("PUT", "/actualizarUsuario/" + encodeURIComponent(email), datos, exito, fallo);
+    };
 }

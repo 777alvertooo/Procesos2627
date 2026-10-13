@@ -22,7 +22,11 @@ function CADMemoria() {
         callback();
     };
 
-    this.actualizarUsuario = function (usuario, callback) {
+    this.actualizarUsuario = function (usuario, callback, emailAnterior) {
+        let claveAnterior = emailAnterior || usuario.email;
+        if (claveAnterior !== usuario.email) {
+            delete this.usuarios[claveAnterior];
+        }
         this.usuarios[usuario.email] = Object.assign({}, usuario);
         callback();
     };

@@ -43,6 +43,6 @@ function FormularioRegistro(selector) {
     };
 
     function avatarCuenta() {
-        return '<div class="avatar-cuenta" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="12" fill="#5b3d9a"/><path d="M12 54c2-14 12-20 20-20s18 6 20 20" fill="#5b3d9a"/></svg></div>';
+        return '<div class="avatar-cuenta" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="12" fill="#111"/><path d="M12 54c2-14 12-20 20-20s18 6 20 20" fill="#111"/></svg></div>';
     }
 }
