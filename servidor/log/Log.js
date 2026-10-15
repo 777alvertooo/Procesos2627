@@ -20,6 +20,7 @@ function Log(fichero) {
         }
     };
 
+    
     this.info = function (mensaje) { this.escribir("INFO", mensaje); };
     this.aviso = function (mensaje) { this.escribir("AVISO", mensaje); };
     this.error = function (mensaje) { this.escribir("ERROR", mensaje); };
