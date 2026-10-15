@@ -16,6 +16,7 @@ const { UsuarioActivoHandler } = require("./handlers/UsuarioActivoHandler.js");
 const { EliminarUsuarioHandler } = require("./handlers/EliminarUsuarioHandler.js");
 const { ActualizarPerfilHandler } = require("./handlers/ActualizarPerfilHandler.js");
 const { ActualizarUsuarioHandler } = require("./handlers/ActualizarUsuarioHandler.js");
+const { BloqueoPruebaHandler } = require("./handlers/BloqueoPruebaHandler.js");
 const { NoEncontradoHandler } = require("./handlers/NoEncontradoHandler.js");
 const { ErrorPeticionHandler } = require("./handlers/ErrorPeticionHandler.js");
 
@@ -24,6 +25,7 @@ function Rutas(sistema, log, clienteGoogle) {
     this.router = express.Router();
     this.router.use(express.json());
 
+    this.router.post("/api/prueba/bloqueo", new BloqueoPruebaHandler().manejar);
     this.router.get("/", new PaginaInicioHandler().manejar);
     this.router.post("/registrarUsuario", new RegistrarUsuarioHandler(sistema).manejar);
     this.router.get("/confirmarUsuario/:token", new ConfirmarUsuarioHandler(sistema, log).manejar);
