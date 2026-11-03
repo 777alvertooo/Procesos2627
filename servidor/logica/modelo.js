@@ -22,6 +22,7 @@ const { ReaccionarComentario } = require("./usecases/ReaccionarComentario.js");
 const { CrearPelicula } = require("./usecases/CrearPelicula.js");
 const { ActualizarPelicula } = require("./usecases/ActualizarPelicula.js");
 const { EliminarPelicula } = require("./usecases/EliminarPelicula.js");
+const { SesionMatch } = require("./usecases/SesionMatch.js");
 const { ServicioHash } = require("./servicios/ServicioHash.js");
 const { ServicioToken } = require("./servicios/ServicioToken.js");
 const { ServicioCorreoSilencio } = require("./servicios/ServicioCorreo.js");
@@ -69,6 +70,10 @@ function Sistema(opciones) {
     let crearPelicula = new CrearPelicula(cad, autorizacion, log);
     let actualizarPelicula = new ActualizarPelicula(cad, autorizacion, log);
     let eliminarPelicula = new EliminarPelicula(cad, autorizacion, log);
+    let sesionMatch = new SesionMatch(cad, {
+        azar: opciones.azar,
+        generarCodigo: opciones.generarCodigo
+    });
 
     this.registrarUsuario = function (datos, callback) {
         registrarUsuario.ejecutar(datos, callback);
@@ -164,6 +169,30 @@ function Sistema(opciones) {
 
     this.eliminarPelicula = function (solicitante, id, callback) {
         eliminarPelicula.ejecutar(solicitante, id, callback);
+    };
+
+    this.crearSesionMatch = function (solicitante, datos, callback) {
+        sesionMatch.crear(solicitante, datos, callback);
+    };
+
+    this.unirseSesionMatch = function (solicitante, codigo, callback) {
+        sesionMatch.unirse(solicitante, codigo, callback);
+    };
+
+    this.obtenerSesionMatch = function (solicitante, codigo, callback) {
+        sesionMatch.obtener(solicitante, codigo, callback);
+    };
+
+    this.elegirMatch = function (solicitante, codigo, peliculaId, callback) {
+        sesionMatch.elegir(solicitante, codigo, peliculaId, callback);
+    };
+
+    this.reiniciarSesionMatch = function (solicitante, codigo, repetir, callback) {
+        sesionMatch.reiniciar(solicitante, codigo, repetir, callback);
+    };
+
+    this.cerrarSesionMatch = function (solicitante, codigo, callback) {
+        sesionMatch.cerrar(solicitante, codigo, callback);
     };
 }
 

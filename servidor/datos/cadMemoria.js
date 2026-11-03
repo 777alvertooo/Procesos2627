@@ -18,6 +18,7 @@ function CADMemoria() {
     this.valoraciones = [];
     this.respuestas = [];
     this.reacciones = [];
+    this.sesionesMatch = [];
 
     this.conectar = function (uri, nombreBD, callback) {
         callback();
@@ -192,11 +193,37 @@ function CADMemoria() {
         }).map(function (reaccion) { return Object.assign({}, reaccion); }));
     };
 
+    this.buscarSesionMatch = function (codigo, callback) {
+        let encontrada = this.sesionesMatch.find(function (sesion) { return sesion.codigo === codigo; });
+        callback(undefined, encontrada ? clonarSesion(encontrada) : undefined);
+    };
+
+    this.guardarSesionMatch = function (sesion, callback) {
+        let copia = clonarSesion(sesion);
+        let indice = this.sesionesMatch.findIndex(function (guardada) { return guardada.codigo === copia.codigo; });
+        if (indice === -1) this.sesionesMatch.push(copia);
+        else this.sesionesMatch[indice] = copia;
+        callback();
+    };
+
+    this.cerrarSesionesMatchDe = function (email, callback) {
+        this.sesionesMatch.forEach(function (sesion) {
+            if (sesion.estado !== "cerrada" && (sesion.anfitrionEmail === email || sesion.invitadoEmail === email)) {
+                sesion.estado = "cerrada";
+            }
+        });
+        callback();
+    };
+
     this.cerrar = function () {};
 }
 
 function copiar(dato) {
     return dato ? Object.assign({}, dato) : undefined;
+}
+
+function clonarSesion(sesion) {
+    return JSON.parse(JSON.stringify(sesion));
 }
 
 module.exports.CADMemoria = CADMemoria;

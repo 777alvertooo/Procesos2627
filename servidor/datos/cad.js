@@ -11,6 +11,7 @@ function CAD() {
     this.valoraciones = undefined;
     this.respuestas = undefined;
     this.reacciones = undefined;
+    this.sesionesMatch = undefined;
 
     this.conectar = function (uri, nombreBD, callback) {
         let cad = this;
@@ -24,6 +25,7 @@ function CAD() {
                 cad.valoraciones = db.collection("valoraciones");
                 cad.respuestas = db.collection("respuestas");
                 cad.reacciones = db.collection("reacciones");
+                cad.sesionesMatch = db.collection("sesionesMatch");
                 return cad.usuarios.createIndex({ email: 1 }, { unique: true });
             })
             .then(function () { return cad.peliculas.createIndex({ id: 1 }, { unique: true }); })
@@ -33,6 +35,7 @@ function CAD() {
                 return cad.valoraciones.dropIndex("email_1_peliculaId_1").catch(function () {});
             })
             .then(function () { return cad.valoraciones.createIndex({ email: 1, peliculaId: 1 }); })
+            .then(function () { return cad.sesionesMatch.createIndex({ codigo: 1 }, { unique: true }); })
             .then(function () { return sembrarPeliculas(cad.peliculas); })
             .then(function () { callback(); })
             .catch(callback);
@@ -198,6 +201,25 @@ function CAD() {
         this.reacciones.find({ comentarioId: { $in: comentarioIds } }, { projection: { _id: 0 } }).toArray()
             .then(function (lista) { callback(undefined, lista); })
             .catch(callback);
+    };
+
+    this.buscarSesionMatch = function (codigo, callback) {
+        this.sesionesMatch.findOne({ codigo: codigo }, { projection: { _id: 0 } })
+            .then(function (sesion) { callback(undefined, sesion || undefined); })
+            .catch(callback);
+    };
+
+    this.guardarSesionMatch = function (sesion, callback) {
+        this.sesionesMatch.replaceOne({ codigo: sesion.codigo }, limpiar(sesion), { upsert: true })
+            .then(function () { callback(); })
+            .catch(callback);
+    };
+
+    this.cerrarSesionesMatchDe = function (email, callback) {
+        this.sesionesMatch.updateMany(
+            { estado: { $ne: "cerrada" }, $or: [{ anfitrionEmail: email }, { invitadoEmail: email }] },
+            { $set: { estado: "cerrada" } }
+        ).then(function () { callback(); }).catch(callback);
     };
 
     this.cerrar = function () {
