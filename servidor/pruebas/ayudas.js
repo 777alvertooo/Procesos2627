@@ -13,7 +13,8 @@ function crearSistemaPrueba(opciones) {
         servicioCorreo: correo,
         urlBase: opciones.urlBase || "http://localhost:3000",
         azar: opciones.azar,
-        generarCodigo: opciones.generarCodigo
+        generarCodigo: opciones.generarCodigo,
+        ahora: opciones.ahora
     });
     sistema._cadPrueba = cad;
     sistema._correoPrueba = correo;

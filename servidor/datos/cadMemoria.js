@@ -152,6 +152,12 @@ function CADMemoria() {
         }).map(function (valoracion) { return Object.assign({}, valoracion); }));
     };
 
+    this.listarValoracionesDesde = function (desdeIso, callback) {
+        callback(undefined, this.valoraciones.filter(function (valoracion) {
+            return valoracion.fecha && valoracion.fecha >= desdeIso;
+        }).map(function (valoracion) { return Object.assign({}, valoracion); }));
+    };
+
     this.listarValoracionesUsuario = function (email, callback) {
         callback(undefined, this.valoraciones.filter(function (valoracion) {
             return valoracion.email === email;

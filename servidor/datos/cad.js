@@ -159,6 +159,12 @@ function CAD() {
             .catch(callback);
     };
 
+    this.listarValoracionesDesde = function (desdeIso, callback) {
+        this.valoraciones.find({ fecha: { $gte: desdeIso } }, { projection: { _id: 0, peliculaId: 1, puntuacion: 1, fecha: 1 } }).toArray()
+            .then(function (lista) { callback(undefined, lista); })
+            .catch(callback);
+    };
+
     this.listarValoracionesUsuario = function (email, callback) {
         this.valoraciones.find({ email: email }, { projection: { _id: 0 } }).toArray()
             .then(function (lista) { callback(undefined, lista); })

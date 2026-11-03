@@ -18,6 +18,7 @@ const { ActualizarPerfilHandler } = require("./handlers/ActualizarPerfilHandler.
 const { ActualizarUsuarioHandler } = require("./handlers/ActualizarUsuarioHandler.js");
 const { BloqueoPruebaHandler } = require("./handlers/BloqueoPruebaHandler.js");
 const { ListarPeliculasHandler } = require("./handlers/ListarPeliculasHandler.js");
+const { TopSemanalHandler } = require("./handlers/TopSemanalHandler.js");
 const { ObtenerPeliculaHandler } = require("./handlers/ObtenerPeliculaHandler.js");
 const { ListarPendientesHandler } = require("./handlers/ListarPendientesHandler.js");
 const { AnadirPendienteHandler } = require("./handlers/AnadirPendienteHandler.js");
@@ -57,6 +58,7 @@ function Rutas(sistema, log, clienteGoogle) {
     this.router.put("/actualizarUsuario/:email", haIniciado, new ActualizarUsuarioHandler(sistema).manejar);
 
     this.router.get("/obtenerPeliculas", haIniciado, new ListarPeliculasHandler(sistema).manejar);
+    this.router.get("/obtenerTopSemanal", haIniciado, new TopSemanalHandler(sistema).manejar);
     this.router.get("/obtenerPelicula/:id", haIniciado, new ObtenerPeliculaHandler(sistema).manejar);
     this.router.get("/obtenerPendientes", haIniciado, new ListarPendientesHandler(sistema).manejar);
     this.router.post("/anadirPendiente", haIniciado, new AnadirPendienteHandler(sistema).manejar);
