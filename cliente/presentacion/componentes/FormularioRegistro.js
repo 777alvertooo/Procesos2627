@@ -19,9 +19,8 @@ function FormularioRegistro(selector) {
         cadena = cadena + '<div class="fila-acciones">';
         cadena = cadena + '<div class="bloque-registro"><p>¿Ya eres usuario?</p>';
         cadena = cadena + '<button type="button" id="btnIrLogin" class="btn btn-oliva">Iniciar sesion</button></div>';
-        cadena = cadena + '<div class="bloque-principal">';
         cadena = cadena + '<button id="btnRegistro" type="submit" class="btn btn-oliva">Registro</button>';
-        cadena = cadena + "</div></div></form>";
+        cadena = cadena + "</div></form>";
         cadena = cadena + accesoRapido.cadena();
         cadena = cadena + "</div>";
         $(selector).html(cadena);
