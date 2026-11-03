@@ -52,6 +52,7 @@ function SesionMatch(cad, opciones) {
                             pareja: [],
                             elecciones: {},
                             usadas: [],
+                            reinicios: {},
                             matchId: null
                         };
                         cad.guardarSesionMatch(sesion, function (errGuardar) {
@@ -86,7 +87,7 @@ function SesionMatch(cad, opciones) {
                 cad.listarPeliculas(function (errLista, peliculas) {
                     if (errLista) return seguir(ErrorSistema.interno(errLista));
                     sesion.invitadoEmail = solicitante.email;
-                    let preparada = prepararRonda(sesion, peliculas, azar, false);
+                    let preparada = prepararRonda(sesion, peliculas, azar);
                     if (preparada.error) return seguir(new ErrorSistema(TipoError.VALIDACION, preparada.error));
                     cad.guardarSesionMatch(sesion, function (errGuardar) {
                         if (errGuardar) return seguir(ErrorSistema.interno(errGuardar));
@@ -160,15 +161,28 @@ function SesionMatch(cad, opciones) {
                 if (sesion.estado !== "agotada") {
                     return seguir(new ErrorSistema(TipoError.CONFLICTO, "Solo se puede volver a empezar cuando se acaban las rondas"));
                 }
+                if (!sesion.reinicios) sesion.reinicios = {};
+                sesion.reinicios[solicitante.email] = true;
+                let ambos = sesion.reinicios[sesion.anfitrionEmail] && sesion.reinicios[sesion.invitadoEmail];
+                if (!ambos) {
+                    return cad.guardarSesionMatch(sesion, function (errGuardar) {
+                        if (errGuardar) return seguir(ErrorSistema.interno(errGuardar));
+                        conPeliculas(cad, function (errLista, peliculas) {
+                            if (errLista) return seguir(errLista);
+                            seguir(vistaDe(sesion, solicitante.email, peliculas));
+                        });
+                    });
+                }
                 cad.listarPeliculas(function (errLista, peliculas) {
                     if (errLista) return seguir(ErrorSistema.interno(errLista));
-                    if (repetir) sesion.usadas = [];
+                    sesion.usadas = [];
+                    sesion.reinicios = {};
                     sesion.estado = "eligiendo";
                     sesion.ronda = 0;
                     sesion.elecciones = {};
                     sesion.matchId = null;
                     sesion.pareja = [];
-                    let preparada = prepararRonda(sesion, peliculas, azar, false);
+                    let preparada = prepararRonda(sesion, peliculas, azar);
                     if (preparada.error) return seguir(new ErrorSistema(TipoError.VALIDACION, preparada.error));
                     cad.guardarSesionMatch(sesion, function (errGuardar) {
                         if (errGuardar) return seguir(ErrorSistema.interno(errGuardar));
@@ -249,10 +263,13 @@ function barajar(lista, azar) {
     return copia;
 }
 
-function prepararRonda(sesion, peliculas, azar, permitirRepetir) {
-    if (permitirRepetir) sesion.usadas = [];
+function prepararRonda(sesion, peliculas, azar) {
     let pool = candidatas(peliculas, sesion.filtro, sesion.usadas);
-    if (pool.length < 2) return { error: "No quedan títulos nuevos. Puedes volver a empezar permitiendo que se repitan" };
+    if (pool.length < 2) {
+        sesion.usadas = [];
+        pool = candidatas(peliculas, sesion.filtro, sesion.usadas);
+    }
+    if (pool.length < 2) return { error: "No hay suficientes títulos con ese filtro" };
     let pareja = barajar(pool, azar).slice(0, 2).map(function (pelicula) { return pelicula.id; });
     sesion.pareja = pareja;
     sesion.usadas = sesion.usadas.concat(pareja);
@@ -277,7 +294,7 @@ function avanzarSiHayDos(sesion, peliculas, azar) {
         sesion.elecciones = {};
         return { ok: true };
     }
-    return prepararRonda(sesion, peliculas, azar, false);
+    return prepararRonda(sesion, peliculas, azar);
 }
 
 function vistaDe(sesion, email, peliculas) {
@@ -300,7 +317,9 @@ function vistaDe(sesion, email, peliculas) {
         miEleccion: sesion.elecciones[email] || null,
         opciones: opciones,
         match: match,
-        quedanNuevas: candidatas(peliculas, sesion.filtro, sesion.usadas).length >= 2
+        quedanNuevas: candidatas(peliculas, sesion.filtro, sesion.usadas).length >= 2,
+        yoReinicia: !!(sesion.reinicios && sesion.reinicios[email]),
+        rivalReinicia: !!(otro && sesion.reinicios && sesion.reinicios[otro])
     };
 }
 

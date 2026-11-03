@@ -95,7 +95,7 @@ describe("match", function () {
         });
     });
 
-    it("pasa de ronda si no coinciden y, al acabar, deja repetir o no los títulos", function (done) {
+    it("pasa de ronda si no coinciden y solo vuelve a elegir cuando los dos quieren", function (done) {
         entrar(sistema, "ana@test.com", "ana", function (ana) {
             entrar(sistema, "luis@test.com", "luis", function (luis) {
                 sistema.crearSesionMatch(ana, { medio: "pelicula", tipo: "cine" }, function (creada) {
@@ -108,16 +108,26 @@ describe("match", function () {
                             vistas.forEach(function (vista) {
                                 if (vista.opciones) vista.opciones.forEach(function (opcion) { usadas.push(opcion.id); });
                             });
-                            sistema.reiniciarSesionMatch(ana, creada.codigo, false, function (nueva) {
-                                expect(nueva.estado).toEqual("eligiendo");
-                                expect(nueva.ronda).toEqual(1);
-                                expect(usadas.indexOf(nueva.opciones[0].id)).toEqual(-1);
-                                expect(usadas.indexOf(nueva.opciones[1].id)).toEqual(-1);
-                                sistema.cerrarSesionMatch(luis, creada.codigo, function (cerrada) {
-                                    expect(cerrada.cerrada).toEqual(true);
-                                    sistema.obtenerSesionMatch(ana, creada.codigo, function (ausente) {
-                                        expect(ausente.tipo).toEqual(TipoError.NO_ENCONTRADO);
-                                        done();
+                            sistema.reiniciarSesionMatch(ana, creada.codigo, false, function (espera) {
+                                expect(espera.estado).toEqual("agotada");
+                                expect(espera.yoReinicia).toEqual(true);
+                                expect(espera.rivalReinicia).toEqual(false);
+                                sistema.obtenerSesionMatch(luis, creada.codigo, function (luisEspera) {
+                                    expect(luisEspera.estado).toEqual("agotada");
+                                    expect(luisEspera.yoReinicia).toEqual(false);
+                                    expect(luisEspera.rivalReinicia).toEqual(true);
+                                    sistema.reiniciarSesionMatch(luis, creada.codigo, false, function (nueva) {
+                                        expect(nueva.estado).toEqual("eligiendo");
+                                        expect(nueva.ronda).toEqual(1);
+                                        expect(nueva.opciones.length).toEqual(2);
+                                        expect(usadas.indexOf(nueva.opciones[0].id) !== -1 || usadas.indexOf(nueva.opciones[1].id) !== -1).toEqual(true);
+                                        sistema.cerrarSesionMatch(luis, creada.codigo, function (cerrada) {
+                                            expect(cerrada.cerrada).toEqual(true);
+                                            sistema.obtenerSesionMatch(ana, creada.codigo, function (ausente) {
+                                                expect(ausente.tipo).toEqual(TipoError.NO_ENCONTRADO);
+                                                done();
+                                            });
+                                        });
                                     });
                                 });
                             });
@@ -135,9 +145,12 @@ describe("match", function () {
                     sistema.unirseSesionMatch(luis, creada.codigo, function (primera) {
                         let ids = primera.opciones.map(function (opcion) { return opcion.id; });
                         jugarDistinto(sistema, ana, luis, creada.codigo, 10, [], function () {
-                            sistema.reiniciarSesionMatch(ana, creada.codigo, true, function (repetida) {
-                                expect(repetida.opciones.map(function (opcion) { return opcion.id; })).toEqual(ids);
-                                done();
+                            sistema.reiniciarSesionMatch(ana, creada.codigo, true, function (espera) {
+                                expect(espera.estado).toEqual("agotada");
+                                sistema.reiniciarSesionMatch(luis, creada.codigo, true, function (repetida) {
+                                    expect(repetida.opciones.map(function (opcion) { return opcion.id; })).toEqual(ids);
+                                    done();
+                                });
                             });
                         });
                     });

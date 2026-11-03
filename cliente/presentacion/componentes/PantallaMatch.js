@@ -17,7 +17,7 @@ function PantallaMatch(selector) {
             else if (vista.local === "unirse") pintarUnirse(selector, acciones);
             else pintarPartida(selector, vista, acciones);
         }
-        if (vista && (vista.estado === "esperando" || vista.estado === "eligiendo")) {
+        if (vista && (vista.estado === "esperando" || vista.estado === "eligiendo" || vista.estado === "agotada")) {
             temporizador = setTimeout(function () { acciones.alActualizar(); }, 1500);
         }
     };
@@ -33,7 +33,9 @@ function firmaDe(vista) {
         rival: vista.rivalListo,
         conectado: vista.rivalConectado,
         ids: (vista.opciones || []).map(function (opcion) { return opcion.id; }),
-        match: vista.match && vista.match.id
+        match: vista.match && vista.match.id,
+        yoReinicia: vista.yoReinicia,
+        rivalReinicia: vista.rivalReinicia
     });
 }
 
@@ -145,7 +147,7 @@ function pintarPartida(selector, vista, acciones) {
         acciones.alElegir($(this).attr("data-id"));
     });
     $("#btnReiniciarMatch").on("click", function () {
-        acciones.alReiniciar($("#repetirMatch").prop("checked"));
+        acciones.alReiniciar();
     });
     $("#btnFichaMatch").on("click", function () {
         acciones.alFicha($(this).attr("data-id"));
@@ -209,10 +211,14 @@ function matchHtml(vista) {
 
 function agotadaHtml(vista) {
     let cadena = "<h1>Sin coincidencia</h1>";
-    cadena = cadena + '<p class="texto-vista">Habéis hecho las 10 rondas sin elegir el mismo título. Podéis cerrar la sesión o volver a empezar.</p>';
-    cadena = cadena + '<label class="match-repetir"><input id="repetirMatch" type="checkbox"> Permitir que vuelvan a salir las que ya han aparecido</label>';
+    cadena = cadena + '<p class="texto-vista">Habéis hecho las 10 rondas sin elegir el mismo título. Para volver a elegir, los dos tenéis que pulsar volver a empezar.</p>';
+    if (vista.yoReinicia && !vista.rivalReinicia) {
+        cadena = cadena + '<p class="texto-vista">Esperando a que la otra persona también quiera volver a empezar.</p>';
+    } else if (vista.rivalReinicia && !vista.yoReinicia) {
+        cadena = cadena + '<p class="texto-vista">La otra persona quiere volver a empezar.</p>';
+    }
     cadena = cadena + '<div class="match-acciones">';
-    cadena = cadena + '<button type="button" id="btnReiniciarMatch" class="btn btn-oliva">Volver a empezar</button>';
+    if (!vista.yoReinicia) cadena = cadena + '<button type="button" id="btnReiniciarMatch" class="btn btn-oliva">Volver a empezar</button>';
     cadena = cadena + '<button type="button" id="btnCerrarMatch" class="btn btn-outline-oliva">Cerrar la partida</button>';
     cadena = cadena + "</div>";
     return cadena;

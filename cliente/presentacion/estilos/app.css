@@ -166,6 +166,17 @@ body.sin-sesion #au {
     margin-left: 0;
 }
 
+#formRegistro .fila-acciones {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+}
+
+#formRegistro #btnRegistro {
+    justify-self: center;
+    min-width: 220px;
+}
+
 .auth-cabecera .btn-volver {
     position: fixed;
     top: 14px;
@@ -299,6 +310,21 @@ body.sin-sesion #au {
 .fila-acciones-centrada .btn-oliva {
     width: min(100%, 520px);
     padding: 14px 36px;
+}
+
+#formEditarUsuario .fila-acciones-centrada,
+#formEditarPerfil .fila-acciones-centrada {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+#btnGuardarUsuarioAdmin,
+#btnGuardarPerfil {
+    width: auto;
+    min-width: 0;
+    padding: 6px 18px;
 }
 
 .bloque-registro,
@@ -1260,7 +1286,9 @@ body.sin-sesion #au {
     }
 
     #formLogin #btnLogin,
-    #formLogin .bloque-registro .btn-oliva {
+    #formLogin .bloque-registro .btn-oliva,
+    #formRegistro #btnRegistro,
+    #formRegistro .bloque-registro .btn-oliva {
         width: auto;
     }
 }

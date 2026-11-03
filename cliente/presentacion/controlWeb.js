@@ -376,6 +376,9 @@ function ControlWeb(rest) {
             if (datos.pelicula) {
                 cw.pestanaCatalogo = datos.pelicula.medio === "serie" ? "serie" : "pelicula";
             }
+            if (cw.origenFicha === "catalogo") {
+                cw.pintarNav(cw.pestanaCatalogo === "serie" ? "series" : "peliculas");
+            }
             ficha.mostrar(datos, {
                 esAdmin: cw.esAdmin(),
                 enfocarOpinion: cw.origenFicha === "lista",
@@ -586,7 +589,8 @@ function ControlWeb(rest) {
             },
             alFicha: function (id) {
                 pantallaMatch.detener();
-                cw.mostrarFicha(id, "match");
+                cw.pestanaCatalogo = "pelicula";
+                cw.mostrarFicha(id, "catalogo");
             }
         };
     }
