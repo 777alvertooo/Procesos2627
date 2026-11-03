@@ -81,4 +81,76 @@ function ClienteRest() {
     this.actualizarUsuario = function (email, datos, exito, fallo) {
         this.peticion("PUT", "/actualizarUsuario/" + encodeURIComponent(email), datos, exito, fallo);
     };
+
+    this.obtenerPeliculas = function (exito, fallo) {
+        this.peticion("GET", "/obtenerPeliculas", undefined, exito, fallo);
+    };
+
+    this.obtenerTopSemanal = function (exito, fallo) {
+        this.peticion("GET", "/obtenerTopSemanal", undefined, exito, fallo);
+    };
+
+    this.obtenerPelicula = function (id, exito, fallo) {
+        this.peticion("GET", "/obtenerPelicula/" + encodeURIComponent(id), undefined, exito, fallo);
+    };
+
+    this.obtenerPendientes = function (exito, fallo) {
+        this.peticion("GET", "/obtenerPendientes", undefined, exito, fallo);
+    };
+
+    this.anadirPendiente = function (id, exito, fallo) {
+        this.peticion("POST", "/anadirPendiente", { peliculaId: id }, exito, fallo);
+    };
+
+    this.quitarPendiente = function (id, exito, fallo) {
+        this.peticion("DELETE", "/quitarPendiente/" + encodeURIComponent(id), undefined, exito, fallo);
+    };
+
+    this.valorarPelicula = function (id, puntuacion, texto, exito, fallo) {
+        this.peticion("POST", "/valorarPelicula", { peliculaId: id, puntuacion: puntuacion, texto: texto }, exito, fallo);
+    };
+
+    this.responderComentario = function (valoracionId, texto, exito, fallo) {
+        this.peticion("POST", "/responderComentario", { valoracionId: valoracionId, texto: texto }, exito, fallo);
+    };
+
+    this.reaccionarComentario = function (comentarioId, tipo, exito, fallo) {
+        this.peticion("POST", "/reaccionarComentario", { comentarioId: comentarioId, tipo: tipo }, exito, fallo);
+    };
+
+    this.crearPelicula = function (datos, exito, fallo) {
+        this.peticion("POST", "/crearPelicula", datos, exito, fallo);
+    };
+
+    this.actualizarPelicula = function (id, datos, exito, fallo) {
+        this.peticion("PUT", "/actualizarPelicula/" + encodeURIComponent(id), datos, exito, fallo);
+    };
+
+    this.eliminarPelicula = function (id, exito, fallo) {
+        this.peticion("DELETE", "/eliminarPelicula/" + encodeURIComponent(id), undefined, exito, fallo);
+    };
+
+    this.crearSesionMatch = function (datos, exito, fallo) {
+        this.peticion("POST", "/crearSesionMatch", datos, exito, fallo);
+    };
+
+    this.unirseSesionMatch = function (codigo, exito, fallo) {
+        this.peticion("POST", "/unirseSesionMatch", { codigo: codigo }, exito, fallo);
+    };
+
+    this.obtenerSesionMatch = function (codigo, exito, fallo) {
+        this.peticion("GET", "/obtenerSesionMatch/" + encodeURIComponent(codigo), undefined, exito, fallo);
+    };
+
+    this.elegirMatch = function (codigo, peliculaId, exito, fallo) {
+        this.peticion("POST", "/elegirMatch", { codigo: codigo, peliculaId: peliculaId }, exito, fallo);
+    };
+
+    this.reiniciarSesionMatch = function (codigo, repetir, exito, fallo) {
+        this.peticion("POST", "/reiniciarSesionMatch", { codigo: codigo, repetir: repetir }, exito, fallo);
+    };
+
+    this.cerrarSesionMatch = function (codigo, exito, fallo) {
+        this.peticion("POST", "/cerrarSesionMatch", { codigo: codigo }, exito, fallo);
+    };
 }
