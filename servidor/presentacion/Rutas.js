@@ -17,6 +17,17 @@ const { EliminarUsuarioHandler } = require("./handlers/EliminarUsuarioHandler.js
 const { ActualizarPerfilHandler } = require("./handlers/ActualizarPerfilHandler.js");
 const { ActualizarUsuarioHandler } = require("./handlers/ActualizarUsuarioHandler.js");
 const { BloqueoPruebaHandler } = require("./handlers/BloqueoPruebaHandler.js");
+const { ListarPeliculasHandler } = require("./handlers/ListarPeliculasHandler.js");
+const { ObtenerPeliculaHandler } = require("./handlers/ObtenerPeliculaHandler.js");
+const { ListarPendientesHandler } = require("./handlers/ListarPendientesHandler.js");
+const { AnadirPendienteHandler } = require("./handlers/AnadirPendienteHandler.js");
+const { QuitarPendienteHandler } = require("./handlers/QuitarPendienteHandler.js");
+const { ValorarPeliculaHandler } = require("./handlers/ValorarPeliculaHandler.js");
+const { ResponderComentarioHandler } = require("./handlers/ResponderComentarioHandler.js");
+const { ReaccionarComentarioHandler } = require("./handlers/ReaccionarComentarioHandler.js");
+const { CrearPeliculaHandler } = require("./handlers/CrearPeliculaHandler.js");
+const { ActualizarPeliculaHandler } = require("./handlers/ActualizarPeliculaHandler.js");
+const { EliminarPeliculaHandler } = require("./handlers/EliminarPeliculaHandler.js");
 const { NoEncontradoHandler } = require("./handlers/NoEncontradoHandler.js");
 const { ErrorPeticionHandler } = require("./handlers/ErrorPeticionHandler.js");
 
@@ -43,6 +54,18 @@ function Rutas(sistema, log, clienteGoogle) {
     this.router.delete("/eliminarUsuario/:email", haIniciado, new EliminarUsuarioHandler(sistema).manejar);
     this.router.put("/actualizarPerfil", haIniciado, new ActualizarPerfilHandler(sistema).manejar);
     this.router.put("/actualizarUsuario/:email", haIniciado, new ActualizarUsuarioHandler(sistema).manejar);
+
+    this.router.get("/obtenerPeliculas", haIniciado, new ListarPeliculasHandler(sistema).manejar);
+    this.router.get("/obtenerPelicula/:id", haIniciado, new ObtenerPeliculaHandler(sistema).manejar);
+    this.router.get("/obtenerPendientes", haIniciado, new ListarPendientesHandler(sistema).manejar);
+    this.router.post("/anadirPendiente", haIniciado, new AnadirPendienteHandler(sistema).manejar);
+    this.router.delete("/quitarPendiente/:id", haIniciado, new QuitarPendienteHandler(sistema).manejar);
+    this.router.post("/valorarPelicula", haIniciado, new ValorarPeliculaHandler(sistema).manejar);
+    this.router.post("/responderComentario", haIniciado, new ResponderComentarioHandler(sistema).manejar);
+    this.router.post("/reaccionarComentario", haIniciado, new ReaccionarComentarioHandler(sistema).manejar);
+    this.router.post("/crearPelicula", haIniciado, new CrearPeliculaHandler(sistema).manejar);
+    this.router.put("/actualizarPelicula/:id", haIniciado, new ActualizarPeliculaHandler(sistema).manejar);
+    this.router.delete("/eliminarPelicula/:id", haIniciado, new EliminarPeliculaHandler(sistema).manejar);
 
     this.router.use(new NoEncontradoHandler().manejar);
     this.router.use(new ErrorPeticionHandler().manejar);
