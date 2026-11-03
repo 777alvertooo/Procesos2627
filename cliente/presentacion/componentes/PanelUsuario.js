@@ -1,12 +1,15 @@
 function PanelUsuario(selector) {
-    this.mostrar = function (usuario, alEliminarCuenta, esAdmin) {
+    this.mostrar = function (usuario, alEliminarCuenta, esAdmin, alCerrarSesion) {
         let cadena = '<div id="mPanel" class="row"><div class="col-12 col-lg-4 mb-3">';
         cadena = cadena + '<div class="card tarjeta"><div class="card-body">';
         cadena = cadena + '<h5 class="card-title">Hola, ' + Html.escapar(usuario.nick) + "</h5>";
         cadena = cadena + '<p class="card-text mb-1"><strong>Email:</strong> ' + Html.escapar(usuario.email) + "</p>";
         cadena = cadena + '<p class="card-text mb-1"><strong>Rol:</strong> ' + Html.escapar(usuario.rol) + "</p>";
         cadena = cadena + '<p class="card-text"><strong>Acceso:</strong> ' + Html.escapar(usuario.origen) + "</p>";
-        cadena = cadena + '<button id="btnEliminarCuenta" class="btn btn-outline-danger btn-sm">Eliminar mi cuenta</button>';
+        cadena = cadena + '<div class="acciones-cuenta">';
+        cadena = cadena + '<button id="btnSalir" type="button" class="btn btn-salir btn-sm">Cerrar sesión</button>';
+        cadena = cadena + '<button id="btnEliminarCuenta" type="button" class="btn btn-outline-danger btn-sm">Eliminar mi cuenta</button>';
+        cadena = cadena + "</div>";
         cadena = cadena + "</div></div></div>";
         if (esAdmin) {
             cadena = cadena + '<div id="panelUsuarios" class="col-12 col-lg-8"></div>';
@@ -18,6 +21,9 @@ function PanelUsuario(selector) {
 
         $("#btnEliminarCuenta").on("click", function () {
             alEliminarCuenta();
+        });
+        $("#btnSalir").on("click", function () {
+            alCerrarSesion();
         });
     };
 }

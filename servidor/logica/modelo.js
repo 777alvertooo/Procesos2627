@@ -11,6 +11,19 @@ const { UsuarioActivo } = require("./usecases/UsuarioActivo.js");
 const { EliminarUsuario } = require("./usecases/EliminarUsuario.js");
 const { ActualizarPerfil } = require("./usecases/ActualizarPerfil.js");
 const { ActualizarUsuario } = require("./usecases/ActualizarUsuario.js");
+const { ListarPeliculas } = require("./usecases/ListarPeliculas.js");
+const { ObtenerPelicula } = require("./usecases/ObtenerPelicula.js");
+const { ListarPendientes } = require("./usecases/ListarPendientes.js");
+const { AnadirPendiente } = require("./usecases/AnadirPendiente.js");
+const { QuitarPendiente } = require("./usecases/QuitarPendiente.js");
+const { ValorarPelicula } = require("./usecases/ValorarPelicula.js");
+const { ResponderComentario } = require("./usecases/ResponderComentario.js");
+const { ReaccionarComentario } = require("./usecases/ReaccionarComentario.js");
+const { CrearPelicula } = require("./usecases/CrearPelicula.js");
+const { ActualizarPelicula } = require("./usecases/ActualizarPelicula.js");
+const { EliminarPelicula } = require("./usecases/EliminarPelicula.js");
+const { SesionMatch } = require("./usecases/SesionMatch.js");
+const { TopSemanal } = require("./usecases/TopSemanal.js");
 const { ServicioHash } = require("./servicios/ServicioHash.js");
 const { ServicioToken } = require("./servicios/ServicioToken.js");
 const { ServicioCorreoSilencio } = require("./servicios/ServicioCorreo.js");
@@ -47,6 +60,22 @@ function Sistema(opciones) {
     let eliminarUsuario = new EliminarUsuario(cad, autorizacion, log);
     let actualizarPerfil = new ActualizarPerfil(cad, servicioHash, opcionesCaso);
     let actualizarUsuario = new ActualizarUsuario(cad, servicioHash, autorizacion, opcionesCaso);
+    let listarPeliculas = new ListarPeliculas(cad);
+    let obtenerPelicula = new ObtenerPelicula(cad);
+    let listarPendientes = new ListarPendientes(cad);
+    let anadirPendiente = new AnadirPendiente(cad);
+    let quitarPendiente = new QuitarPendiente(cad);
+    let valorarPelicula = new ValorarPelicula(cad, log);
+    let responderComentario = new ResponderComentario(cad, log);
+    let reaccionarComentario = new ReaccionarComentario(cad, log);
+    let crearPelicula = new CrearPelicula(cad, autorizacion, log);
+    let actualizarPelicula = new ActualizarPelicula(cad, autorizacion, log);
+    let eliminarPelicula = new EliminarPelicula(cad, autorizacion, log);
+    let sesionMatch = new SesionMatch(cad, {
+        azar: opciones.azar,
+        generarCodigo: opciones.generarCodigo
+    });
+    let topSemanal = new TopSemanal(cad, { ahora: opciones.ahora });
 
     this.registrarUsuario = function (datos, callback) {
         registrarUsuario.ejecutar(datos, callback);
@@ -98,6 +127,78 @@ function Sistema(opciones) {
 
     this.actualizarUsuario = function (solicitante, email, datos, callback) {
         actualizarUsuario.ejecutar(solicitante, email, datos, callback);
+    };
+
+    this.listarPeliculas = function (solicitante, callback) {
+        listarPeliculas.ejecutar(solicitante, callback);
+    };
+
+    this.topSemanal = function (solicitante, callback) {
+        topSemanal.ejecutar(solicitante, callback);
+    };
+
+    this.obtenerPelicula = function (solicitante, id, callback) {
+        obtenerPelicula.ejecutar(solicitante, id, callback);
+    };
+
+    this.listarPendientes = function (solicitante, callback) {
+        listarPendientes.ejecutar(solicitante, callback);
+    };
+
+    this.anadirPendiente = function (solicitante, peliculaId, callback) {
+        anadirPendiente.ejecutar(solicitante, peliculaId, callback);
+    };
+
+    this.quitarPendiente = function (solicitante, peliculaId, callback) {
+        quitarPendiente.ejecutar(solicitante, peliculaId, callback);
+    };
+
+    this.valorarPelicula = function (solicitante, datos, callback) {
+        valorarPelicula.ejecutar(solicitante, datos, callback);
+    };
+
+    this.responderComentario = function (solicitante, datos, callback) {
+        responderComentario.ejecutar(solicitante, datos, callback);
+    };
+
+    this.reaccionarComentario = function (solicitante, datos, callback) {
+        reaccionarComentario.ejecutar(solicitante, datos, callback);
+    };
+
+    this.crearPelicula = function (solicitante, datos, callback) {
+        crearPelicula.ejecutar(solicitante, datos, callback);
+    };
+
+    this.actualizarPelicula = function (solicitante, id, datos, callback) {
+        actualizarPelicula.ejecutar(solicitante, id, datos, callback);
+    };
+
+    this.eliminarPelicula = function (solicitante, id, callback) {
+        eliminarPelicula.ejecutar(solicitante, id, callback);
+    };
+
+    this.crearSesionMatch = function (solicitante, datos, callback) {
+        sesionMatch.crear(solicitante, datos, callback);
+    };
+
+    this.unirseSesionMatch = function (solicitante, codigo, callback) {
+        sesionMatch.unirse(solicitante, codigo, callback);
+    };
+
+    this.obtenerSesionMatch = function (solicitante, codigo, callback) {
+        sesionMatch.obtener(solicitante, codigo, callback);
+    };
+
+    this.elegirMatch = function (solicitante, codigo, peliculaId, callback) {
+        sesionMatch.elegir(solicitante, codigo, peliculaId, callback);
+    };
+
+    this.reiniciarSesionMatch = function (solicitante, codigo, repetir, callback) {
+        sesionMatch.reiniciar(solicitante, codigo, repetir, callback);
+    };
+
+    this.cerrarSesionMatch = function (solicitante, codigo, callback) {
+        sesionMatch.cerrar(solicitante, codigo, callback);
     };
 }
 

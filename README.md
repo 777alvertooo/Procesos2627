@@ -1,6 +1,6 @@
 # Proyecto de Procesos de Ingeniería del Software curso 26-27
 
-Arquitectura base de una aplicación SaaS con gestión de usuarios (Sprint 1).
+Arquitectura base de una aplicación SaaS con gestión de usuarios (Sprint 1) y, en el Sprint 2, cartelera de películas y series, lista de pendientes, valoraciones, top semanal y el juego Match.
 
 - Aplicación desplegada: (https://procesos2627-git-902626220875.europe-west1.run.app)
 
@@ -34,17 +34,20 @@ servidor/
     handlers/                         Un handler por endpoint
   logica/                             Capa lógica
     modelo.js                         Sistema: punto de entrada de la capa lógica
-    usecases/                         Un caso de uso por operación
+    usecases/                         Un caso de uso por operación (usuarios, catálogo, TopSemanal, SesionMatch)
     entities/                         Usuario
     enums/                            EstadoUsuario, RolUsuario, OrigenUsuario, TipoError
     errores/                          ErrorSistema
-    autorizacion/                     Autorizacion (comprueba el rol en el servidor)
+    autorizacion/                     Autorizacion, exigirSesion
     validaciones/                     ValidadorEmail, ValidadorClave
-    servicios/                        ServicioHash, ServicioCorreo, ServicioToken, ClienteGoogle
-    mappers/                          UsuarioMapper (datos públicos del usuario)
+    servicios/                        ServicioHash, ServicioCorreo, ServicioToken, ClienteGoogle, DatosPelicula, Identificador
+    mappers/                          UsuarioMapper, PeliculaMapper
   datos/                              Capa de acceso a datos
     cad.js                            Implementación con MongoDB
     cadMemoria.js                     Implementación en memoria (pruebas y desarrollo sin MONGO_URI)
+    catalogoPeliculas.js              Películas de arranque
+    catalogoSeries.js                 Series de arranque
+    catalogoAmpliacion.js             Ampliación del catálogo (películas y series)
   log/Log.js                          Registro de actividad
   pruebas/                            Pruebas unitarias de la capa lógica (un spec por caso de uso)
 cliente/
@@ -52,7 +55,7 @@ cliente/
   comunicacion/clienteRest.js         Cliente de comunicación con el API REST
   presentacion/                       Capa de presentación del cliente (GUI)
     controlWeb.js                     Coordina los componentes y usa ClienteRest
-    componentes/                      Un componente visual por fichero
+    componentes/                      Acceso, inicio, catálogo, ficha, pendientes, cuenta y Match
     utilidades/                       Html (escapado de texto)
 ```
 
@@ -79,10 +82,36 @@ En el cliente, los componentes solo pintan HTML y avisan de los eventos; `contro
 | DELETE | `/eliminarUsuario/:email` | Administrador o el propio usuario | Elimina un usuario |
 | PUT | `/actualizarPerfil` | Usuario autenticado | Actualiza nick y, opcionalmente, la contraseña |
 | PUT | `/actualizarUsuario/:email` | Administrador | Edita nick y email (y opcionalmente contraseña) de un usuario no admin |
+| GET | `/obtenerPeliculas` | Usuario autenticado | Catálogo de películas y series, pendientes aún no comentados e ids ya puntuados |
+| GET | `/obtenerTopSemanal` | Usuario autenticado | Top 5 de películas y top 5 de series de los últimos 7 días |
+| GET | `/obtenerPelicula/:id` | Usuario autenticado | Ficha con sinopsis, tráiler, nota media sobre 5, número de comentarios y el formulario si aún no ha puntuado |
+| GET | `/obtenerPendientes` | Usuario autenticado | Lista de títulos pendientes de ver |
+| POST | `/anadirPendiente` | Usuario autenticado | Añade un título a pendientes (`peliculaId`); no admite uno ya comentado |
+| DELETE | `/quitarPendiente/:id` | Usuario autenticado | Quita un título de pendientes |
+| POST | `/valorarPelicula` | Usuario autenticado | Puntuación de 1 a 5 y comentario; se puede repetir |
+| POST | `/responderComentario` | Usuario autenticado | Respuesta a un comentario; exige haber puntuado ese título |
+| POST | `/reaccionarComentario` | Usuario autenticado | Like o dislike; el mismo tipo otra vez lo retira. Exige haber puntuado |
+| POST | `/crearPelicula` | Administrador | Crea una película (cine o plataforma) o una serie |
+| PUT | `/actualizarPelicula/:id` | Administrador | Edita título, sinopsis, cartel, tráiler y dónde verla |
+| DELETE | `/eliminarPelicula/:id` | Administrador | Borra el título y sus pendientes, puntuaciones y respuestas |
+| POST | `/crearSesionMatch` | Usuario autenticado | Crea una sala de Match y devuelve el código |
+| POST | `/unirseSesionMatch` | Usuario autenticado | Entra en una sala con el código |
+| GET | `/obtenerSesionMatch/:codigo` | Usuario autenticado | Estado de la sala para quien participa |
+| POST | `/elegirMatch` | Usuario autenticado | Elige uno de los dos títulos de la ronda |
+| POST | `/reiniciarSesionMatch` | Usuario autenticado | Vuelve a empezar la partida |
+| POST | `/cerrarSesionMatch` | Usuario autenticado | Cierra la sala |
 
-Las rutas con sesión responden `401` si no hay una sesión válida. Si el usuario de la sesión ha sido eliminado, la sesión se invalida en la siguiente petición. Listar usuarios, contarlos y comprobar si uno está activo responden `403` si quien pide no es administrador. Un usuario normal solo puede eliminar su propia cuenta.
+Las rutas con sesión responden `401` si no hay una sesión válida. Si el usuario de la sesión ha sido eliminado, la sesión se invalida en la siguiente petición. Listar usuarios, contarlos, comprobar si uno está activo y crear, editar o borrar títulos responden `403` si quien pide no es administrador. Un usuario normal solo puede eliminar su propia cuenta.
 
 El primer administrador es el email (o la lista separada por comas) de `ADMIN_EMAIL`. Al registrarse o al iniciar sesión recibe el rol `admin`. No hay contraseñas de administrador en el repositorio.
+
+## Catálogo, inicio y Match
+
+Tras iniciar sesión se abre Inicio. Muestra el top 5 de películas y el top 5 de series de los últimos 7 días: primero por nota media, luego por número de votos y, si no hay suficientes valoraciones en la semana, completa hasta cinco con el resto del catálogo. Películas y Series comparten búsqueda; en Películas hay filtros Todas, En cines y En plataforma. El botón con el nombre abre la cuenta (el administrador ve la gestión de usuarios y el resto su perfil). Cerrar sesión está en esa pantalla.
+
+El catálogo de arranque tiene 180 películas (30 en cines y 150 en plataforma) y 150 series, repartidas entre Netflix, Prime Video, Disney+, Max y Filmin. Pendientes, ficha, puntuación, respuestas y reacciones valen igual para películas y series. Like, dislike y respuesta piden haber puntuado ese título.
+
+En Match, quien crea la sala elige película o serie. Si es película, elige cine o plataforma; en cine no se pide nada más y en plataforma se elige una (o «da igual»). En series se elige la plataforma directamente. Hacen falta al menos dos títulos con ese filtro. La sala devuelve un código de 6 caracteres para que entre la otra persona. Cada ronda muestra dos títulos y los dos tienen que elegir. Hay 10 rondas; si coinciden, se muestra el título elegido. Crear una sala cierra las otras salas abiertas de esa persona.
 
 ## Ejecutar en local
 

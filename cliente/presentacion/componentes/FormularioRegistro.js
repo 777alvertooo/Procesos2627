@@ -3,23 +3,25 @@ function FormularioRegistro(selector) {
 
     this.mostrar = function (alEnviar, alIrALogin) {
         let cadena = '<div id="mRegistro" class="pantalla-auth">';
+        cadena = cadena + '<div class="auth-cabecera">';
         cadena = cadena + avatarCuenta();
         cadena = cadena + '<h1 class="titulo-auth">Registro</h1>';
+        cadena = cadena + "</div>";
         cadena = cadena + '<form id="formRegistro" novalidate>';
-        cadena = cadena + '<div class="form-group"><label for="nick">Nick:</label>';
+        cadena = cadena + '<div class="form-group"><label for="nick">Nick</label>';
         cadena = cadena + '<input type="text" class="form-control campo-gris" id="nick" autocomplete="nickname"></div>';
-        cadena = cadena + '<div class="form-group"><label for="email">Email:</label>';
+        cadena = cadena + '<div class="form-group"><label for="email">Email</label>';
         cadena = cadena + '<input type="email" class="form-control campo-gris" id="email" autocomplete="email" required></div>';
-        cadena = cadena + '<div class="form-group"><label for="password">Contraseña (mínimo 8 caracteres):</label>';
+        cadena = cadena + '<div class="form-group"><label for="password">Contraseña (mínimo 8 caracteres)</label>';
         cadena = cadena + '<input type="password" class="form-control campo-gris" id="password" autocomplete="new-password" required></div>';
-        cadena = cadena + '<div class="form-group"><label for="confirmarPassword">Confirmar contraseña:</label>';
+        cadena = cadena + '<div class="form-group"><label for="confirmarPassword">Confirmar contraseña</label>';
         cadena = cadena + '<input type="password" class="form-control campo-gris" id="confirmarPassword" autocomplete="new-password" required></div>';
         cadena = cadena + '<div class="fila-acciones">';
         cadena = cadena + '<div class="bloque-registro"><p>¿Ya eres usuario?</p>';
         cadena = cadena + '<button type="button" id="btnIrLogin" class="btn btn-oliva">Iniciar sesion</button></div>';
+        cadena = cadena + '<div class="bloque-principal">';
         cadena = cadena + '<button id="btnRegistro" type="submit" class="btn btn-oliva">Registro</button>';
-        cadena = cadena + '<div class="hueco-acciones"></div>';
-        cadena = cadena + "</div></form>";
+        cadena = cadena + "</div></div></form>";
         cadena = cadena + accesoRapido.cadena();
         cadena = cadena + "</div>";
         $(selector).html(cadena);

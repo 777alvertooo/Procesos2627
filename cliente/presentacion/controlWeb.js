@@ -9,10 +9,18 @@ function ControlWeb(rest) {
     let panelUsuario = new PanelUsuario("#au");
     let detallePerfil = new DetallePerfil("#panelDetalle");
     let listaUsuarios = new ListaUsuarios("#panelUsuarios");
+    let catalogo = new CatalogoPeliculas("#au");
+    let ficha = new FichaPelicula("#au");
+    let formularioPelicula = new FormularioPelicula("#au");
+    let listaPendientes = new ListaPendientes("#au");
+    let pantallaMatch = new PantallaMatch("#au");
+    let pantallaInicio = new PantallaInicio("#au");
     let modal = new ModalConfirmacion("#modalConfirmar");
 
     this.usuario = undefined;
     this.tokenRestablecer = undefined;
+    this.pestanaCatalogo = "pelicula";
+    this.codigoMatch = "";
 
     this.iniciar = function () {
         this.leerParametrosUrl();
@@ -22,7 +30,7 @@ function ControlWeb(rest) {
         }
         rest.usuarioSesion(function (usuario) {
             if (usuario) {
-                cw.mostrarPanel(usuario);
+                cw.mostrarInicio(usuario);
             } else {
                 cw.mostrarLogin();
             }
@@ -52,6 +60,7 @@ function ControlWeb(rest) {
     this.mostrarLogin = function () {
         this.usuario = undefined;
         this.tokenRestablecer = undefined;
+        vistaAncha(false);
         navegacion.mostrar(undefined);
         formularioLogin.mostrar(function (email, password) {
             if (!email || !password) {
@@ -60,7 +69,7 @@ function ControlWeb(rest) {
             formularioLogin.habilitar(false);
             rest.iniciarSesion(email, password, function (usuario) {
                 mensajes.limpiar();
-                cw.mostrarPanel(usuario);
+                cw.mostrarInicio(usuario);
             }, function (mensaje) {
                 formularioLogin.habilitar(true);
                 mensajes.error(mensaje);
@@ -143,13 +152,14 @@ function ControlWeb(rest) {
 
     this.mostrarPanel = function (usuario) {
         this.usuario = usuario;
-        navegacion.mostrar(usuario, function () {
-            cw.cerrarSesion();
-        });
+        vistaAncha(false);
+        this.pintarNav("cuenta");
         let esAdmin = usuario.rol === "admin";
         panelUsuario.mostrar(usuario, function () {
             cw.eliminarUsuario(usuario.email);
-        }, esAdmin);
+        }, esAdmin, function () {
+            cw.cerrarSesion();
+        });
         if (!esAdmin) {
             this.mostrarDetallePerfil();
             return;
@@ -289,7 +299,301 @@ function ControlWeb(rest) {
         });
     };
 
+    this.pintarNav = function (vista) {
+        navegacion.mostrar(this.usuario, {
+            vista: vista,
+            alInicio: function () {
+                mensajes.limpiar();
+                pantallaMatch.detener();
+                cw.mostrarInicio();
+            },
+            alPeliculas: function () {
+                mensajes.limpiar();
+                pantallaMatch.detener();
+                cw.mostrarCatalogo(undefined, "pelicula");
+            },
+            alSeries: function () {
+                mensajes.limpiar();
+                pantallaMatch.detener();
+                cw.mostrarCatalogo(undefined, "serie");
+            },
+            alMatch: function () {
+                mensajes.limpiar();
+                cw.mostrarMatch();
+            },
+            alLista: function () {
+                mensajes.limpiar();
+                pantallaMatch.detener();
+                cw.mostrarPendientes();
+            },
+            alCuenta: function () {
+                mensajes.limpiar();
+                pantallaMatch.detener();
+                cw.mostrarPanel(cw.usuario);
+            }
+        });
+    };
+
+    this.mostrarCatalogo = function (usuario, pestana) {
+        if (usuario) this.usuario = usuario;
+        this.pestanaCatalogo = pestana === "serie" ? "serie" : "pelicula";
+        vistaAncha(true);
+        this.pintarNav(this.pestanaCatalogo === "serie" ? "series" : "peliculas");
+        rest.obtenerPeliculas(function (datos) {
+            datos.esAdmin = cw.esAdmin();
+            datos.pestana = cw.pestanaCatalogo;
+            catalogo.mostrar(datos, function (id) {
+                cw.mostrarFicha(id, "catalogo");
+            }, function (id, enLista) {
+                cw.alternarPendiente(id, enLista, "catalogo");
+            }, function () {
+                cw.mostrarFormularioPelicula(null, catalogo.pestana());
+            });
+        }, function (mensaje, codigo) {
+            cw.tratarError(mensaje, codigo);
+        });
+    };
+
+    this.mostrarPendientes = function () {
+        vistaAncha(true);
+        this.pintarNav("lista");
+        rest.obtenerPendientes(function (datos) {
+            listaPendientes.mostrar(datos.pendientes || [], function (id) {
+                cw.mostrarFicha(id, "lista");
+            }, function (id) {
+                cw.alternarPendiente(id, true, "lista");
+            });
+        }, function (mensaje, codigo) {
+            cw.tratarError(mensaje, codigo);
+        });
+    };
+
+    this.mostrarFicha = function (id, origen) {
+        this.origenFicha = origen || "catalogo";
+        vistaAncha(true);
+        this.pintarNav(vistaFicha(this));
+        rest.obtenerPelicula(id, function (datos) {
+            if (datos.pelicula) {
+                cw.pestanaCatalogo = datos.pelicula.medio === "serie" ? "serie" : "pelicula";
+            }
+            ficha.mostrar(datos, {
+                esAdmin: cw.esAdmin(),
+                enfocarOpinion: cw.origenFicha === "lista",
+                alEditar: function () {
+                    cw.mostrarFormularioPelicula(id);
+                },
+                alBorrar: function (peliculaId, titulo) {
+                    cw.eliminarPelicula(peliculaId, titulo);
+                },
+                alVolver: function () {
+                    mensajes.limpiar();
+                    if (cw.origenFicha === "lista") cw.mostrarPendientes();
+                    else if (cw.origenFicha === "match") cw.mostrarMatch();
+                    else if (cw.origenFicha === "inicio") cw.mostrarInicio();
+                    else cw.mostrarCatalogo(undefined, cw.pestanaCatalogo);
+                },
+                alAlternarLista: function (peliculaId, enLista) {
+                    cw.alternarPendiente(peliculaId, enLista, "ficha");
+                },
+                alValorar: function (puntuacion, texto) {
+                    if (puntuacion < 1 || puntuacion > 5) return mensajes.aviso("Elige una puntuación del 1 al 5");
+                    if (!texto || !String(texto).trim()) return mensajes.aviso("Escribe un comentario");
+                    ficha.habilitarValoracion(false);
+                    rest.valorarPelicula(id, puntuacion, texto, function (respuesta) {
+                        let textoExito = "Puntuación publicada.";
+                        if (respuesta && respuesta.quitadaDePendientes) textoExito = textoExito + " La hemos quitado de tu lista.";
+                        mensajes.exito(textoExito);
+                        cw.mostrarFicha(id, cw.origenFicha);
+                    }, function (mensaje, codigo) {
+                        ficha.habilitarValoracion(true);
+                        cw.tratarError(mensaje, codigo);
+                    });
+                },
+                alReaccionar: function (comentarioId, tipo) {
+                    rest.reaccionarComentario(comentarioId, tipo, function () {
+                        cw.mostrarFicha(id, cw.origenFicha);
+                    }, function (mensaje, codigo) {
+                        cw.tratarError(mensaje, codigo);
+                    });
+                },
+                alResponder: function (valoracionId, texto) {
+                    if (!texto || !String(texto).trim()) return mensajes.aviso("Escribe una respuesta");
+                    rest.responderComentario(valoracionId, texto, function () {
+                        mensajes.exito("Respuesta publicada");
+                        cw.mostrarFicha(id, cw.origenFicha);
+                    }, function (mensaje, codigo) {
+                        cw.tratarError(mensaje, codigo);
+                    });
+                }
+            });
+        }, function (mensaje, codigo) {
+            cw.tratarError(mensaje, codigo);
+            if (codigo !== 401) cw.mostrarCatalogo(undefined, catalogo.pestana());
+        });
+    };
+
+    this.esAdmin = function () {
+        return !!(this.usuario && this.usuario.rol === "admin");
+    };
+
+    this.mostrarFormularioPelicula = function (id, medio) {
+        if (!this.esAdmin()) return this.mostrarCatalogo(undefined, this.pestanaCatalogo);
+        vistaAncha(true);
+        this.pintarNav(this.pestanaCatalogo === "serie" ? "series" : "peliculas");
+        let pintar = function (pelicula) {
+            formularioPelicula.mostrar(pelicula, function (datos) {
+                formularioPelicula.habilitar(false);
+                let hecho = function (respuesta) {
+                    let esSerie = datos.medio === "serie";
+                    let textoExito = id
+                        ? (esSerie ? "Serie actualizada" : "Película actualizada")
+                        : (esSerie ? "Serie creada" : "Película creada");
+                    mensajes.exito(textoExito);
+                    cw.mostrarFicha((respuesta && respuesta.id) || id, "catalogo");
+                };
+                let fallo = function (mensaje, codigo) {
+                    formularioPelicula.habilitar(true);
+                    cw.tratarError(mensaje, codigo);
+                };
+                if (id) rest.actualizarPelicula(id, datos, hecho, fallo);
+                else rest.crearPelicula(datos, hecho, fallo);
+            }, function () {
+                mensajes.limpiar();
+                if (id) cw.mostrarFicha(id, "catalogo");
+                else cw.mostrarCatalogo(undefined, medio === "serie" ? "serie" : "pelicula");
+            });
+        };
+        if (!id) return pintar(medio === "serie" ? { medio: "serie", tipo: "plataforma" } : null);
+        rest.obtenerPelicula(id, function (datos) {
+            pintar(datos.pelicula);
+        }, function (mensaje, codigo) {
+            cw.tratarError(mensaje, codigo);
+            cw.mostrarCatalogo(undefined, cw.pestanaCatalogo);
+        });
+    };
+
+    this.mostrarInicio = function (usuario) {
+        if (usuario) this.usuario = usuario;
+        vistaAncha(true);
+        this.pintarNav("inicio");
+        rest.obtenerTopSemanal(function (datos) {
+            pantallaInicio.mostrar(datos, function (id) {
+                cw.mostrarFicha(id, "inicio");
+            });
+        }, function (mensaje, codigo) {
+            cw.tratarError(mensaje, codigo);
+        });
+    };
+
+    this.eliminarPelicula = function (id, titulo) {
+        modal.preguntar("¿Seguro que quieres borrar " + titulo + "?", function () {
+            rest.eliminarPelicula(id, function () {
+                mensajes.exito("Película borrada");
+                cw.mostrarCatalogo(undefined, cw.pestanaCatalogo);
+            }, function (mensaje, codigo) {
+                cw.tratarError(mensaje, codigo);
+            });
+        });
+    };
+
+    this.alternarPendiente = function (id, enLista, origen) {
+        let accion = enLista ? rest.quitarPendiente.bind(rest) : rest.anadirPendiente.bind(rest);
+        accion(id, function () {
+            mensajes.exito(enLista ? "Quitada de tu lista" : "Añadida a pendientes");
+            if (origen === "catalogo") catalogo.marcar(id, !enLista);
+            else if (origen === "ficha") cw.mostrarFicha(id, cw.origenFicha);
+            else cw.mostrarPendientes();
+        }, function (mensaje, codigo) {
+            cw.tratarError(mensaje, codigo);
+        });
+    };
+
+    this.mostrarMatch = function (silencioso) {
+        if (!silencioso) {
+            vistaAncha(true);
+            this.pintarNav("match");
+        }
+        let acciones = accionesMatch();
+        if (!this.codigoMatch) return pantallaMatch.mostrar(null, acciones);
+        rest.obtenerSesionMatch(this.codigoMatch, function (vista) {
+            if (vista.estado === "cerrada") {
+                cw.codigoMatch = "";
+                return pantallaMatch.mostrar(null, acciones);
+            }
+            pantallaMatch.mostrar(vista, acciones);
+        }, function (mensaje, codigo) {
+            if (codigo === 404) {
+                cw.codigoMatch = "";
+                pantallaMatch.mostrar(null, acciones);
+                return;
+            }
+            cw.tratarError(mensaje, codigo);
+        });
+    };
+
+    function accionesMatch() {
+        return {
+            alCrear: function () {
+                pantallaMatch.mostrar({ local: "crear" }, accionesMatch());
+            },
+            alUnirse: function () {
+                pantallaMatch.mostrar({ local: "unirse" }, accionesMatch());
+            },
+            alMenu: function () {
+                pantallaMatch.mostrar(null, accionesMatch());
+            },
+            alConfirmarCrear: function (datos) {
+                rest.crearSesionMatch(datos, function (vista) {
+                    cw.codigoMatch = vista.codigo;
+                    pantallaMatch.mostrar(vista, accionesMatch());
+                }, function (mensaje, codigo) {
+                    cw.tratarError(mensaje, codigo);
+                });
+            },
+            alConfirmarUnirse: function (codigo) {
+                rest.unirseSesionMatch(codigo, function (vista) {
+                    cw.codigoMatch = vista.codigo;
+                    pantallaMatch.mostrar(vista, accionesMatch());
+                }, function (mensaje, codigo) {
+                    cw.tratarError(mensaje, codigo);
+                });
+            },
+            alActualizar: function () {
+                if (!cw.codigoMatch) return;
+                cw.mostrarMatch(true);
+            },
+            alElegir: function (peliculaId) {
+                rest.elegirMatch(cw.codigoMatch, peliculaId, function (vista) {
+                    pantallaMatch.mostrar(vista, accionesMatch());
+                }, function (mensaje, codigo) {
+                    cw.tratarError(mensaje, codigo);
+                });
+            },
+            alReiniciar: function (repetir) {
+                rest.reiniciarSesionMatch(cw.codigoMatch, repetir, function (vista) {
+                    pantallaMatch.mostrar(vista, accionesMatch());
+                }, function (mensaje, codigo) {
+                    cw.tratarError(mensaje, codigo);
+                });
+            },
+            alCerrar: function () {
+                rest.cerrarSesionMatch(cw.codigoMatch, function () {
+                    cw.codigoMatch = "";
+                    pantallaMatch.mostrar(null, accionesMatch());
+                }, function (mensaje, codigo) {
+                    cw.tratarError(mensaje, codigo);
+                });
+            },
+            alFicha: function (id) {
+                pantallaMatch.detener();
+                cw.mostrarFicha(id, "match");
+            }
+        };
+    }
+
     this.cerrarSesion = function () {
+        pantallaMatch.detener();
+        this.codigoMatch = "";
         rest.cerrarSesion(function () {
             cw.mostrarLogin();
             mensajes.info("Has cerrado la sesión");
@@ -304,4 +608,15 @@ function ControlWeb(rest) {
         }
         mensajes.error(mensaje);
     };
+}
+
+function vistaFicha(cw) {
+    if (cw.origenFicha === "lista") return "lista";
+    if (cw.origenFicha === "match") return "match";
+    if (cw.origenFicha === "inicio") return "inicio";
+    return cw.pestanaCatalogo === "serie" ? "series" : "peliculas";
+}
+
+function vistaAncha(activa) {
+    $(".contenedor-app").toggleClass("contenedor-ancho", !!activa);
 }

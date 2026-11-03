@@ -11,7 +11,10 @@ function crearSistemaPrueba(opciones) {
         rondasHash: opciones.rondasHash || 4,
         emailsAdmin: opciones.emailsAdmin || [],
         servicioCorreo: correo,
-        urlBase: opciones.urlBase || "http://localhost:3000"
+        urlBase: opciones.urlBase || "http://localhost:3000",
+        azar: opciones.azar,
+        generarCodigo: opciones.generarCodigo,
+        ahora: opciones.ahora
     });
     sistema._cadPrueba = cad;
     sistema._correoPrueba = correo;
