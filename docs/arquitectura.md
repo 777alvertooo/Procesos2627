@@ -59,5 +59,16 @@ Tabla alineada con el [README](../README.md#endpoints). Quién puede: según có
 | PUT | `/actualizarPerfil` | Sesión (usuario autenticado) |
 | PUT | `/actualizarUsuario/:email` | Sesión + administrador |
 | POST | `/api/prueba/bloqueo` | Público (endpoint de prueba técnica) |
+| GET | `/obtenerPeliculas` | Sesión (cualquier rol) |
+| GET | `/obtenerPelicula/:id` | Sesión (cualquier rol). Comentarios y media visibles; puntuar sigue disponible |
+| GET | `/obtenerPendientes` | Sesión (cualquier rol) |
+| POST | `/anadirPendiente` | Sesión (cualquier rol) |
+| DELETE | `/quitarPendiente/:id` | Sesión (cualquier rol) |
+| POST | `/valorarPelicula` | Sesión (cualquier rol) |
+| POST | `/responderComentario` | Sesión (cualquier rol) y haber puntuado esa película |
+| POST | `/reaccionarComentario` | Sesión (cualquier rol) y haber puntuado esa película |
+| POST | `/crearPelicula` | Sesión + administrador |
+| PUT | `/actualizarPelicula/:id` | Sesión + administrador |
+| DELETE | `/eliminarPelicula/:id` | Sesión + administrador |
 
 Sin sesión válida en rutas con `HaIniciadoSesion`: HTTP 401. Sin rol admin donde se exige: HTTP 403 (`Autorizacion` / casos de uso).

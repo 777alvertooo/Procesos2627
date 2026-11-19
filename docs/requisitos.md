@@ -37,4 +37,5 @@ Evidencias en rutas del repo; pruebas: `npm run testW` → **57** tests, **111**
 | PRO-02 | Integración continua | hecho | `.github/workflows/ci.yml` (`npm test` en PR y push a `main`); historial `gh run list` |
 | PRO-03 | Despliegue continuo | hecho | `.github/workflows/despliegue.yml` en cada push a `main` |
 
-Los parciales/pendientes se listan en [sprint-2.md](sprint-2.md).
+Los parciales/pendientes del Sprint 1 se listan en [sprint-2.md](sprint-2.md).
+La cartelera (CAT-01…CAT-05) está en ese mismo archivo, no en esta tabla.

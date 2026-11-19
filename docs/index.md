@@ -14,6 +14,6 @@ Visión general del producto y cómo ejecutarlo: [README](../README.md).
 | [decisiones.md](decisiones.md) | Decisiones de diseño (D-01…) |
 | [procesos.md](procesos.md) | GitHub Flow, CI y despliegue continuo |
 | [sprint-1.md](sprint-1.md) | Hitos del Sprint 1 y retrospectiva |
-| [sprint-2.md](sprint-2.md) | Arrastre hacia Sprint 2 |
+| [sprint-2.md](sprint-2.md) | Cartelera del Sprint 2 y arrastre de PRO-01 |
 
 No hay otros documentos previos en `docs/`.

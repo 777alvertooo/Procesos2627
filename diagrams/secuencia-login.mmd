@@ -1,0 +1,35 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant C as Cliente<br/>(FormularioLogin,<br/>ControlWeb, ClienteRest)
+    participant H as IniciarSesionHandler
+    participant S as Sistema
+    participant IS as IniciarSesion
+    participant CAD as Cad
+    participant SH as ServicioHash
+    participant GS as GestorSesion
+
+    U->>C: email + password
+    C->>C: Validación básica en cliente
+    C->>H: POST /iniciarSesion
+    H->>S: iniciarSesion(email, password)
+    S->>IS: ejecutar(email, password)
+
+    IS->>CAD: buscarUsuario(email)
+    CAD-->>IS: usuario / null
+    IS->>SH: comparar(password, hash)
+    SH-->>IS: coincide / no
+
+    alt Credenciales incorrectas, pendiente o eliminado
+        IS-->>S: ErrorSistema
+        S-->>H: error
+        H-->>C: HTTP 401/403
+        C-->>U: Mensaje de error
+    else Login correcto
+        IS-->>S: usuario público
+        S-->>H: resultado OK
+        H->>GS: abrir(request, email)
+        GS-->>H: sesión creada
+        H-->>C: HTTP 200 + usuario
+        C-->>U: Vista autenticada
+    end

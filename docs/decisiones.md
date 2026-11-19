@@ -66,3 +66,21 @@ timestamp: 2026-10-28
 - **Qué se decidió:** Workflow `despliegue.yml` en cada push a `main`; imagen vía Dockerfile Node 22.
 - **Por qué:** README: Cloud Run con capa gratuita y URL pública; workflow en el repo.
 - **Estado:** vigente.
+
+## D-11 — Comentarios y nota media visibles antes de puntuar
+
+- **Qué se decidió:** Cualquier usuario con sesión ve en la ficha la nota media sobre 5, el número de comentarios y el texto de cada uno. El formulario de puntuación está siempre encima de los comentarios y se puede volver a enviar. Like, dislike y respuesta siguen exigiendo haber puntuado esa película al menos una vez.
+- **Por qué:** La cartelera enseña la opinión de los demás y, a la vez, deja dejar la propia. Admin y usuario usan las mismas reglas (`ObtenerPelicula`).
+- **Estado:** vigente.
+
+## D-12 — Catálogo inicial sembrado en la capa de datos
+
+- **Qué se decidió:** El catálogo de arranque vive en `servidor/datos/catalogoPeliculas.js`. Mongo inserta cada título solo si ese id todavía no existe. Si ya existe, solo actualiza la sinopsis. La memoria de pruebas carga la lista al crear el CAD.
+- **Por qué:** La cartelera necesita póster, sinopsis, dónde verla y tráiler. No reescribir el resto evita pisar una edición de título, cartel o cines hecha por un admin. La sinopsis sí se refresca cuando el catálogo de arranque la amplía.
+- **Estado:** vigente.
+
+## D-13 — Alta, edición y borrado de películas solo para admin
+
+- **Qué se decidió:** Crear, editar y borrar una película exige sesión de administrador. Borrar también quita pendientes, puntuaciones, respuestas y reacciones de esa película.
+- **Por qué:** El catálogo deja de ser solo de lectura y el usuario normal no debe cambiar la cartelera.
+- **Estado:** vigente.

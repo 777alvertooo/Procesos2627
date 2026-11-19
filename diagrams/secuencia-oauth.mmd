@@ -1,0 +1,46 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant C as Cliente<br/>(SPA / Navegador)
+    participant IG as IniciarGoogleHandler
+    participant CG as ClienteGoogle
+    participant G as Google OAuth
+    participant CB as CallbackGoogleHandler
+    participant S as Sistema
+    participant AG as AutenticarGoogle
+    participant CAD as Cad
+    participant GS as GestorSesion
+
+    U->>C: Clic en "Entrar con Google"
+    C->>IG: GET /auth/google
+    IG->>CG: urlAutorizacion()
+    CG-->>IG: URL de Google
+    IG-->>C: redirect a Google
+    C->>G: Autorizar la aplicación
+    U->>G: Elige cuenta / consiente
+    G->>CB: GET /auth/google/callback?code=...
+    CB->>CG: obtenerPerfil(code)
+    CG->>G: token + userinfo
+    G-->>CG: email, nick
+    CG-->>CB: perfil
+    CB->>S: autenticarGoogle(perfil)
+    S->>AG: ejecutar(perfil)
+
+    AG->>CAD: buscarUsuario(email)
+    CAD-->>AG: existente / null
+
+    alt Usuario nuevo
+        Note over AG: new Usuario<br/>estado = ACTIVO<br/>origen = GOOGLE
+        AG->>CAD: insertarUsuario(usuario)
+        CAD-->>AG: ok
+    else Usuario existente
+        AG->>CAD: actualizarUsuario (activo)
+        CAD-->>AG: ok
+    end
+
+    AG-->>S: usuario público
+    S-->>CB: resultado OK
+    CB->>GS: abrir(request, email)
+    GS-->>CB: sesión creada
+    CB-->>C: redirect /
+    C-->>U: Vista autenticada
