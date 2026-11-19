@@ -1,0 +1,33 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant Mail as Correo
+    participant C as Cliente<br/>(Navegador, ControlWeb,<br/>Mensajes)
+    participant H as ConfirmarUsuarioHandler
+    participant S as Sistema
+    participant CU as ConfirmarUsuario
+    participant CAD as Cad
+
+    U->>Mail: Abre el email de confirmación
+    U->>C: Clic en /confirmarUsuario/:token
+    C->>H: GET /confirmarUsuario/:token
+    H->>S: confirmarUsuario(token)
+    S->>CU: ejecutar(token)
+
+    CU->>CAD: buscarUsuario({tokenConfirmacion})
+    CAD-->>CU: usuario / null
+
+    alt Token inválido o ya usado
+        CU-->>S: ErrorSistema
+        S-->>H: error
+        H-->>C: redirect /?confirmado=0
+        C-->>U: Confirmación fallida
+    else Usuario pendiente
+        Note over CU: estado = ACTIVO<br/>borra el token
+        CU->>CAD: actualizarUsuario(usuario)
+        CAD-->>CU: ok
+        CU-->>S: ok
+        S-->>H: resultado OK
+        H-->>C: redirect /?confirmado=1
+        C-->>U: "Cuenta confirmada"
+    end

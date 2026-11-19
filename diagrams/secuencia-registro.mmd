@@ -1,0 +1,43 @@
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant C as Cliente<br/>(FormularioRegistro,<br/>ControlWeb, ClienteRest)
+    participant H as RegistrarUsuarioHandler
+    participant S as Sistema
+    participant RU as RegistrarUsuario
+    participant CAD as Cad
+    participant Serv as Servicios<br/>(Hash, Token, Correo)
+    participant SMTP as SMTP / Brevo
+
+    U->>C: nick, email, password
+    C->>C: Validación básica en cliente
+    C->>H: POST /registrarUsuario
+    H->>S: registrarUsuario(datos)
+    S->>RU: ejecutar(datos)
+
+    RU->>RU: Validar email y contraseña
+    RU->>CAD: buscarUsuario(email)
+    CAD-->>RU: existente / null
+
+    alt Email ya registrado
+        RU-->>S: ErrorSistema (conflicto)
+        S-->>H: error
+        H-->>C: HTTP 409
+        C-->>U: Mensaje de error
+    else Email libre
+        RU->>Serv: cifrar(password)
+        Serv-->>RU: hash
+        RU->>Serv: generar token
+        Serv-->>RU: tokenConfirmacion
+        Note over RU: new Usuario<br/>estado = PENDIENTE
+        RU->>CAD: insertarUsuario(usuario)
+        CAD-->>RU: ok
+        RU->>Serv: enviar correo de confirmación
+        Serv->>SMTP: sendMail(enlace)
+        SMTP-->>Serv: ok
+        Serv-->>RU: ok
+        RU-->>S: pendiente = true
+        S-->>H: resultado OK
+        H-->>C: HTTP 200
+        C-->>U: "Revisa tu email"
+    end
