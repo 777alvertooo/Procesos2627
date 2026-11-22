@@ -1,8 +1,11 @@
 function FormularioLogin(selector) {
     let accesoRapido = new AccesoRapido();
+    let fondoCine = new FondoCine();
 
     this.mostrar = function (alEnviar, alIrARegistro, alOlvidar) {
-        let cadena = '<div id="mLogin" class="pantalla-auth">';
+        let cadena = '<div id="mLogin" class="pantalla-auth pantalla-login">';
+        cadena = cadena + fondoCine.cadena();
+        cadena = cadena + '<div class="tarjeta-login">';
         cadena = cadena + '<div class="auth-cabecera">';
         cadena = cadena + avatarCuenta();
         cadena = cadena + '<h1 class="titulo-auth">Iniciar sesión</h1>';
@@ -12,16 +15,15 @@ function FormularioLogin(selector) {
         cadena = cadena + '<input type="email" class="form-control campo-gris" id="email" autocomplete="email" required></div>';
         cadena = cadena + '<div class="form-group"><label for="password">Contraseña</label>';
         cadena = cadena + '<input type="password" class="form-control campo-gris" id="password" autocomplete="current-password" required></div>';
-        cadena = cadena + '<div class="fila-acciones">';
-        cadena = cadena + '<div class="bloque-registro"><p>¿No eres usuario?</p>';
-        cadena = cadena + '<button type="button" id="btnIrRegistro" class="btn btn-oliva">Registro</button></div>';
-        cadena = cadena + '<button id="btnLogin" type="submit" class="btn btn-oliva">Iniciar sesion</button>';
-        cadena = cadena + '<div class="bloque-principal">';
-        cadena = cadena + '<p><button type="button" id="btnOlvidar" class="btn-enlace">¿Has olvidado tu contraseña?</button></p>';
-        cadena = cadena + "</div></div></form>";
+        cadena = cadena + '<p class="enlace-olvido-login"><button type="button" id="btnOlvidar" class="btn-enlace">¿Has olvidado tu contraseña?</button></p>';
+        cadena = cadena + '<button id="btnLogin" type="submit" class="btn btn-oliva btn-login-principal">Iniciar sesión</button>';
+        cadena = cadena + '<p class="bloque-registro-login">¿No eres usuario? ';
+        cadena = cadena + '<button type="button" id="btnIrRegistro" class="btn-enlace">Regístrate</button></p>';
+        cadena = cadena + "</form>";
         cadena = cadena + accesoRapido.cadena();
-        cadena = cadena + "</div>";
+        cadena = cadena + "</div></div>";
         $(selector).html(cadena);
+        fondoCine.activar();
 
         $("#formLogin").on("submit", function (evento) {
             evento.preventDefault();
