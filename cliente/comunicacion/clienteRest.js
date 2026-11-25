@@ -82,8 +82,21 @@ function ClienteRest() {
         this.peticion("PUT", "/actualizarUsuario/" + encodeURIComponent(email), datos, exito, fallo);
     };
 
-    this.obtenerPeliculas = function (exito, fallo) {
-        this.peticion("GET", "/obtenerPeliculas", undefined, exito, fallo);
+    // filtros (opcional): { plataforma, genero, valoracionMinima }.
+    this.obtenerPeliculas = function (filtros, exito, fallo) {
+        if (typeof filtros === "function") {
+            fallo = exito;
+            exito = filtros;
+            filtros = undefined;
+        }
+        let consulta = [];
+        Object.keys(filtros || {}).forEach(function (clave) {
+            if (filtros[clave] !== undefined && filtros[clave] !== "") {
+                consulta.push(encodeURIComponent(clave) + "=" + encodeURIComponent(filtros[clave]));
+            }
+        });
+        let url = "/obtenerPeliculas" + (consulta.length ? "?" + consulta.join("&") : "");
+        this.peticion("GET", url, undefined, exito, fallo);
     };
 
     this.obtenerTopSemanal = function (exito, fallo) {

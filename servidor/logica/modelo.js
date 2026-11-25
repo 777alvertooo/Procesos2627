@@ -129,8 +129,8 @@ function Sistema(opciones) {
         actualizarUsuario.ejecutar(solicitante, email, datos, callback);
     };
 
-    this.listarPeliculas = function (solicitante, callback) {
-        listarPeliculas.ejecutar(solicitante, callback);
+    this.listarPeliculas = function (solicitante, filtros, callback) {
+        listarPeliculas.ejecutar(solicitante, filtros, callback);
     };
 
     this.topSemanal = function (solicitante, callback) {

@@ -17,6 +17,8 @@ function ActualizarPelicula(cad, autorizacion, log) {
             let pelicula = preparado.pelicula;
             pelicula.id = id;
             pelicula.orden = existente.orden;
+            // Si el formulario no envía géneros, se conservan los que tenía.
+            if (!datos || datos.generos === undefined) pelicula.generos = (existente.generos || []).slice();
             cad.actualizarPelicula(pelicula, function (err) {
                 if (err) return callback(ErrorSistema.interno(err));
                 if (log) log.info("Película editada por " + solicitante.email + ": " + id);
