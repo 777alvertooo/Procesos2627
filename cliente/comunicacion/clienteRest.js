@@ -166,4 +166,8 @@ function ClienteRest() {
     this.cerrarSesionMatch = function (codigo, exito, fallo) {
         this.peticion("POST", "/cerrarSesionMatch", { codigo: codigo }, exito, fallo);
     };
+
+    this.obtenerHistorialMatch = function (exito, fallo) {
+        this.peticion("GET", "/obtenerHistorialMatch", undefined, exito, fallo);
+    };
 }

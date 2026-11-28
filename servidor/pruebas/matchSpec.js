@@ -158,6 +158,59 @@ describe("match", function () {
             });
         });
     });
+
+    it("guarda el historial al hacer match y lo lista por usuario", function (done) {
+        entrar(sistema, "ana@test.com", "ana", function (ana) {
+            entrar(sistema, "luis@test.com", "luis", function (luis) {
+                sistema.crearSesionMatch(ana, { medio: "pelicula", tipo: "plataforma", plataforma: "Filmin" }, function (creada) {
+                    sistema.unirseSesionMatch(luis, creada.codigo, function (unida) {
+                        let elegida = unida.opciones[0].id;
+                        sistema.elegirMatch(ana, creada.codigo, elegida, function () {
+                            sistema.elegirMatch(luis, creada.codigo, elegida, function (match) {
+                                expect(match.estado).toEqual("match");
+                                sistema.listarHistorialMatch(ana, function (historialAna) {
+                                    expect(historialAna.partidas.length).toEqual(1);
+                                    expect(historialAna.partidas[0].resultado).toEqual("match");
+                                    expect(historialAna.partidas[0].rivalNick).toEqual("luis");
+                                    expect(historialAna.partidas[0].match.id).toEqual(elegida);
+                                    expect(historialAna.partidas[0].rondas.length).toEqual(1);
+                                    expect(historialAna.partidas[0].rondas[0].coincide).toEqual(true);
+                                    expect(historialAna.partidas[0].rondas[0].miEleccion.id).toEqual(elegida);
+                                    sistema.listarHistorialMatch(luis, function (historialLuis) {
+                                        expect(historialLuis.partidas.length).toEqual(1);
+                                        expect(historialLuis.partidas[0].rivalNick).toEqual("ana");
+                                        expect(historialLuis.partidas[0].rondas[0].miEleccion.id).toEqual(elegida);
+                                        done();
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+
+    it("guarda el historial al agotar las rondas", function (done) {
+        entrar(sistema, "ana@test.com", "ana", function (ana) {
+            entrar(sistema, "luis@test.com", "luis", function (luis) {
+                sistema.crearSesionMatch(ana, { medio: "pelicula", tipo: "cine" }, function (creada) {
+                    sistema.unirseSesionMatch(luis, creada.codigo, function () {
+                        jugarDistinto(sistema, ana, luis, creada.codigo, 10, [], function () {
+                            sistema.listarHistorialMatch(ana, function (historial) {
+                                expect(historial.partidas.length).toEqual(1);
+                                expect(historial.partidas[0].resultado).toEqual("agotada");
+                                expect(historial.partidas[0].match).toEqual(null);
+                                expect(historial.partidas[0].rondas.length).toEqual(10);
+                                expect(historial.partidas[0].rondas.every(function (ronda) { return !ronda.coincide; })).toEqual(true);
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 });
 
 function jugarDistinto(sistema, ana, luis, codigo, restantes, vistas, callback) {

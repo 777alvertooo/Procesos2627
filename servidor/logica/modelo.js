@@ -23,6 +23,7 @@ const { CrearPelicula } = require("./usecases/CrearPelicula.js");
 const { ActualizarPelicula } = require("./usecases/ActualizarPelicula.js");
 const { EliminarPelicula } = require("./usecases/EliminarPelicula.js");
 const { SesionMatch } = require("./usecases/SesionMatch.js");
+const { ListarHistorialMatch } = require("./usecases/ListarHistorialMatch.js");
 const { TopSemanal } = require("./usecases/TopSemanal.js");
 const { ServicioHash } = require("./servicios/ServicioHash.js");
 const { ServicioToken } = require("./servicios/ServicioToken.js");
@@ -75,6 +76,7 @@ function Sistema(opciones) {
         azar: opciones.azar,
         generarCodigo: opciones.generarCodigo
     });
+    let listarHistorialMatch = new ListarHistorialMatch(cad);
     let topSemanal = new TopSemanal(cad, { ahora: opciones.ahora });
 
     this.registrarUsuario = function (datos, callback) {
@@ -199,6 +201,10 @@ function Sistema(opciones) {
 
     this.cerrarSesionMatch = function (solicitante, codigo, callback) {
         sesionMatch.cerrar(solicitante, codigo, callback);
+    };
+
+    this.listarHistorialMatch = function (solicitante, callback) {
+        listarHistorialMatch.ejecutar(solicitante, callback);
     };
 }
 

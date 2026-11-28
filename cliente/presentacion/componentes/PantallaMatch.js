@@ -15,6 +15,7 @@ function PantallaMatch(selector) {
             if (!vista) pintarMenu(selector, acciones);
             else if (vista.local === "crear") pintarCrear(selector, acciones);
             else if (vista.local === "unirse") pintarUnirse(selector, acciones);
+            else if (vista.local === "historial") pintarHistorial(selector, vista, acciones);
             else pintarPartida(selector, vista, acciones);
         }
         if (vista && (vista.estado === "esperando" || vista.estado === "eligiendo" || vista.estado === "agotada")) {
@@ -25,6 +26,9 @@ function PantallaMatch(selector) {
 
 function firmaDe(vista) {
     if (!vista) return "menu";
+    if (vista.local === "historial") {
+        return "historial:" + JSON.stringify((vista.partidas || []).map(function (partida) { return partida.id; }));
+    }
     if (vista.local) return vista.local;
     return JSON.stringify({
         estado: vista.estado,
@@ -46,10 +50,74 @@ function pintarMenu(selector, acciones) {
     cadena = cadena + '<div class="match-acciones">';
     cadena = cadena + '<button type="button" id="btnCrearMatch" class="btn btn-oliva">Crear sesión</button>';
     cadena = cadena + '<button type="button" id="btnUnirseMatch" class="btn btn-outline-oliva">Unirse a una sesión</button>';
+    cadena = cadena + '<button type="button" id="btnHistorialMatch" class="btn btn-outline-oliva">Historial</button>';
     cadena = cadena + "</div></section>";
     $(selector).html(cadena);
     $("#btnCrearMatch").on("click", acciones.alCrear);
     $("#btnUnirseMatch").on("click", acciones.alUnirse);
+    $("#btnHistorialMatch").on("click", acciones.alHistorial);
+}
+
+function pintarHistorial(selector, vista, acciones) {
+    let partidas = vista.partidas || [];
+    let cadena = '<section class="match-panel">';
+    cadena = cadena + flechaVolver("btnVolverMatch");
+    cadena = cadena + "<h1>Historial</h1>";
+    if (!partidas.length) {
+        cadena = cadena + '<p class="texto-vista">Todavía no tienes partidas guardadas.</p>';
+    } else {
+        cadena = cadena + '<ul class="lista-historial-match">';
+        partidas.forEach(function (partida) {
+            cadena = cadena + '<li class="partida-historial">';
+            cadena = cadena + '<button type="button" class="partida-historial-cabecera" data-id="' + Html.escapar(partida.id) + '" aria-expanded="false">';
+            cadena = cadena + '<span class="partida-historial-titulo">' + Html.escapar(textoResultadoHistorial(partida)) + "</span>";
+            cadena = cadena + '<span class="partida-historial-meta">con ' + Html.escapar(partida.rivalNick || "alguien") + " · " + Html.escapar(fechaCorta(partida.fecha)) + "</span>";
+            cadena = cadena + "</button>";
+            cadena = cadena + '<div class="partida-historial-detalle d-none" id="detalle-' + Html.escapar(partida.id) + '">';
+            cadena = cadena + '<p class="texto-vista">' + Html.escapar(textoFiltro(partida.filtro)) + " · código " + Html.escapar(partida.codigo) + "</p>";
+            if (partida.match) {
+                cadena = cadena + '<p class="texto-vista">Match: ' + Html.escapar(partida.match.titulo) + "</p>";
+            }
+            cadena = cadena + '<ul class="lista-rondas-historial">';
+            (partida.rondas || []).forEach(function (ronda) {
+                cadena = cadena + "<li>";
+                cadena = cadena + "<strong>Ronda " + ronda.numero + "</strong>: tú " + Html.escapar((ronda.miEleccion && ronda.miEleccion.titulo) || "-");
+                cadena = cadena + " · rival " + Html.escapar((ronda.rivalEleccion && ronda.rivalEleccion.titulo) || "-");
+                if (ronda.coincide) cadena = cadena + " · coincidencia";
+                cadena = cadena + "</li>";
+            });
+            cadena = cadena + "</ul></div></li>";
+        });
+        cadena = cadena + "</ul>";
+    }
+    cadena = cadena + "</section>";
+    $(selector).html(cadena);
+    $("#btnVolverMatch").on("click", acciones.alMenu);
+    $(".partida-historial-cabecera").on("click", function () {
+        let id = $(this).attr("data-id");
+        let detalle = $("#detalle-" + id);
+        let abierto = !detalle.hasClass("d-none");
+        detalle.toggleClass("d-none", abierto);
+        $(this).attr("aria-expanded", abierto ? "false" : "true");
+    });
+}
+
+function textoResultadoHistorial(partida) {
+    if (partida.resultado === "match" && partida.match) return "Match · " + partida.match.titulo;
+    if (partida.resultado === "agotada") return "Sin coincidencia";
+    if (partida.resultado === "cerrada") return "Sesión cerrada";
+    return "Partida";
+}
+
+function fechaCorta(fechaIso) {
+    if (!fechaIso) return "";
+    let fecha = new Date(fechaIso);
+    if (isNaN(fecha.getTime())) return String(fechaIso);
+    let dia = String(fecha.getDate()).padStart(2, "0");
+    let mes = String(fecha.getMonth() + 1).padStart(2, "0");
+    let hora = String(fecha.getHours()).padStart(2, "0");
+    let minuto = String(fecha.getMinutes()).padStart(2, "0");
+    return dia + "/" + mes + " " + hora + ":" + minuto;
 }
 
 function pintarCrear(selector, acciones) {

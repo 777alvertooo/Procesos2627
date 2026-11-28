@@ -52,9 +52,18 @@ function CerrarSesionMatchHandler(sistema) {
     };
 }
 
+function ListarHistorialMatchHandler(sistema) {
+    this.manejar = function (request, response) {
+        sistema.listarHistorialMatch(request.usuario, function (resultado) {
+            RespuestaHttp.enviar(response, resultado);
+        });
+    };
+}
+
 module.exports.CrearSesionMatchHandler = CrearSesionMatchHandler;
 module.exports.UnirseSesionMatchHandler = UnirseSesionMatchHandler;
 module.exports.ObtenerSesionMatchHandler = ObtenerSesionMatchHandler;
 module.exports.ElegirMatchHandler = ElegirMatchHandler;
 module.exports.ReiniciarSesionMatchHandler = ReiniciarSesionMatchHandler;
 module.exports.CerrarSesionMatchHandler = CerrarSesionMatchHandler;
+module.exports.ListarHistorialMatchHandler = ListarHistorialMatchHandler;

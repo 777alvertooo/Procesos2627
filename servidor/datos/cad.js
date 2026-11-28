@@ -13,6 +13,7 @@ function CAD() {
     this.respuestas = undefined;
     this.reacciones = undefined;
     this.sesionesMatch = undefined;
+    this.historialMatch = undefined;
 
     this.conectar = function (uri, nombreBD, callback) {
         let cad = this;
@@ -27,6 +28,7 @@ function CAD() {
                 cad.respuestas = db.collection("respuestas");
                 cad.reacciones = db.collection("reacciones");
                 cad.sesionesMatch = db.collection("sesionesMatch");
+                cad.historialMatch = db.collection("historialMatch");
                 return cad.usuarios.createIndex({ email: 1 }, { unique: true });
             })
             .then(function () { return cad.peliculas.createIndex({ id: 1 }, { unique: true }); })
@@ -37,6 +39,9 @@ function CAD() {
             })
             .then(function () { return cad.valoraciones.createIndex({ email: 1, peliculaId: 1 }); })
             .then(function () { return cad.sesionesMatch.createIndex({ codigo: 1 }, { unique: true }); })
+            .then(function () { return cad.historialMatch.createIndex({ id: 1 }, { unique: true }); })
+            .then(function () { return cad.historialMatch.createIndex({ anfitrionEmail: 1, fecha: -1 }); })
+            .then(function () { return cad.historialMatch.createIndex({ invitadoEmail: 1, fecha: -1 }); })
             .then(function () { return sembrarPeliculas(cad.peliculas); })
             .then(function () { callback(); })
             .catch(callback);
@@ -239,6 +244,21 @@ function CAD() {
             { estado: { $ne: "cerrada" }, $or: [{ anfitrionEmail: email }, { invitadoEmail: email }] },
             { $set: { estado: "cerrada" } }
         ).then(function () { callback(); }).catch(callback);
+    };
+
+    this.insertarHistorialMatch = function (partida, callback) {
+        this.historialMatch.insertOne(limpiar(partida))
+            .then(function () { callback(); })
+            .catch(callback);
+    };
+
+    this.listarHistorialMatch = function (email, callback) {
+        this.historialMatch.find(
+            { $or: [{ anfitrionEmail: email }, { invitadoEmail: email }] },
+            { projection: { _id: 0 } }
+        ).sort({ fecha: -1 }).toArray()
+            .then(function (lista) { callback(undefined, lista); })
+            .catch(callback);
     };
 
     this.cerrar = function () {

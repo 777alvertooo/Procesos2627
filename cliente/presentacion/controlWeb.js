@@ -550,6 +550,13 @@ function ControlWeb(rest) {
             alMenu: function () {
                 pantallaMatch.mostrar(null, accionesMatch());
             },
+            alHistorial: function () {
+                rest.obtenerHistorialMatch(function (datos) {
+                    pantallaMatch.mostrar({ local: "historial", partidas: datos.partidas || [] }, accionesMatch());
+                }, function (mensaje, codigo) {
+                    cw.tratarError(mensaje, codigo);
+                });
+            },
             alConfirmarCrear: function (datos) {
                 rest.crearSesionMatch(datos, function (vista) {
                     cw.codigoMatch = vista.codigo;

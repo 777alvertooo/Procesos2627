@@ -1366,6 +1366,55 @@ body.sin-sesion #au {
     margin-top: 16px;
 }
 
+.lista-historial-match {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.partida-historial {
+    border: 1px solid rgba(74, 92, 48, 0.25);
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.partida-historial-cabecera {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    padding: 12px 14px;
+    cursor: pointer;
+    display: grid;
+    gap: 4px;
+}
+
+.partida-historial-titulo {
+    font-weight: 600;
+    color: #3d4a28;
+}
+
+.partida-historial-meta,
+.lista-rondas-historial {
+    color: #5a6548;
+    font-size: 0.95rem;
+}
+
+.partida-historial-detalle {
+    padding: 0 14px 14px;
+}
+
+.lista-rondas-historial {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+}
+
 @media (max-width: 800px) {
     .fila-top {
         grid-template-columns: repeat(2, minmax(0, 1fr));
