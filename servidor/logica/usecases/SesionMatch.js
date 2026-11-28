@@ -2,6 +2,7 @@ const { ErrorSistema } = require("../errores/ErrorSistema.js");
 const { TipoError } = require("../enums/TipoError.js");
 const { exigirSesion } = require("../autorizacion/exigirSesion.js");
 const { PeliculaMapper } = require("../mappers/PeliculaMapper.js");
+const { identificador } = require("../servicios/Identificador.js");
 
 const PLATAFORMAS = ["Netflix", "Prime Video", "Disney+", "Max", "Filmin"];
 const ALFABETO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -53,7 +54,9 @@ function SesionMatch(cad, opciones) {
                             elecciones: {},
                             usadas: [],
                             reinicios: {},
-                            matchId: null
+                            matchId: null,
+                            historialRondas: [],
+                            historialGuardado: false
                         };
                         cad.guardarSesionMatch(sesion, function (errGuardar) {
                             if (errGuardar) return seguir(ErrorSistema.interno(errGuardar));
@@ -141,7 +144,11 @@ function SesionMatch(cad, opciones) {
                     if (avanzado.error) return seguir(new ErrorSistema(TipoError.VALIDACION, avanzado.error));
                     cad.guardarSesionMatch(sesion, function (errGuardar) {
                         if (errGuardar) return seguir(ErrorSistema.interno(errGuardar));
-                        seguir(vistaDe(sesion, solicitante.email, peliculas));
+                        if (!avanzado.guardarHistorial) return seguir(vistaDe(sesion, solicitante.email, peliculas));
+                        persistirHistorial(cad, sesion, peliculas, avanzado.resultado, function (errHist) {
+                            if (errHist) return seguir(errHist);
+                            seguir(vistaDe(sesion, solicitante.email, peliculas));
+                        });
                     });
                 });
             });
@@ -182,6 +189,8 @@ function SesionMatch(cad, opciones) {
                     sesion.elecciones = {};
                     sesion.matchId = null;
                     sesion.pareja = [];
+                    sesion.historialRondas = [];
+                    sesion.historialGuardado = false;
                     let preparada = prepararRonda(sesion, peliculas, azar);
                     if (preparada.error) return seguir(new ErrorSistema(TipoError.VALIDACION, preparada.error));
                     cad.guardarSesionMatch(sesion, function (errGuardar) {
@@ -204,9 +213,15 @@ function SesionMatch(cad, opciones) {
                     return seguir(new ErrorSistema(TipoError.NO_ENCONTRADO, "No existe esa sesión"));
                 }
                 sesion.estado = "cerrada";
-                cad.guardarSesionMatch(sesion, function (errGuardar) {
-                    if (errGuardar) return seguir(ErrorSistema.interno(errGuardar));
-                    seguir({ cerrada: true, codigo: sesion.codigo });
+                cad.listarPeliculas(function (errLista, peliculas) {
+                    if (errLista) return seguir(ErrorSistema.interno(errLista));
+                    persistirHistorial(cad, sesion, peliculas || [], "cerrada", function (errHist) {
+                        if (errHist) return seguir(errHist);
+                        cad.guardarSesionMatch(sesion, function (errGuardar) {
+                            if (errGuardar) return seguir(ErrorSistema.interno(errGuardar));
+                            seguir({ cerrada: true, codigo: sesion.codigo });
+                        });
+                    });
                 });
             });
         }, callback);
@@ -284,17 +299,82 @@ function avanzarSiHayDos(sesion, peliculas, azar) {
     let anfitrion = sesion.elecciones[sesion.anfitrionEmail];
     let invitado = sesion.elecciones[sesion.invitadoEmail];
     if (!anfitrion || !invitado) return { ok: true };
+    registrarRonda(sesion, anfitrion, invitado);
     if (anfitrion === invitado) {
         sesion.estado = "match";
         sesion.matchId = anfitrion;
-        return { ok: true };
+        return { ok: true, guardarHistorial: true, resultado: "match" };
     }
     if (sesion.ronda >= RONDAS) {
         sesion.estado = "agotada";
         sesion.elecciones = {};
-        return { ok: true };
+        return { ok: true, guardarHistorial: true, resultado: "agotada" };
     }
     return prepararRonda(sesion, peliculas, azar);
+}
+
+function registrarRonda(sesion, eleccionAnfitrion, eleccionInvitado) {
+    if (!sesion.historialRondas) sesion.historialRondas = [];
+    sesion.historialRondas.push({
+        numero: sesion.ronda,
+        opciones: (sesion.pareja || []).slice(),
+        eleccionAnfitrion: eleccionAnfitrion,
+        eleccionInvitado: eleccionInvitado,
+        coincide: eleccionAnfitrion === eleccionInvitado
+    });
+}
+
+function persistirHistorial(cad, sesion, peliculas, resultado, callback) {
+    if (sesion.historialGuardado) return callback();
+    if (!sesion.invitadoEmail || !(sesion.historialRondas && sesion.historialRondas.length)) return callback();
+    let porId = {};
+    (peliculas || []).forEach(function (pelicula) { porId[pelicula.id] = pelicula; });
+    function tituloDe(id) {
+        return porId[id] ? porId[id].titulo : id;
+    }
+    cad.buscarUsuario({ email: sesion.anfitrionEmail }, function (errA, anfitrion) {
+        if (errA) return callback(ErrorSistema.interno(errA));
+        cad.buscarUsuario({ email: sesion.invitadoEmail }, function (errI, invitado) {
+            if (errI) return callback(ErrorSistema.interno(errI));
+            let partida = {
+                id: identificador("hm"),
+                codigo: sesion.codigo,
+                fecha: new Date().toISOString(),
+                anfitrionEmail: sesion.anfitrionEmail,
+                invitadoEmail: sesion.invitadoEmail,
+                anfitrionNick: nickDe(anfitrion, sesion.anfitrionEmail),
+                invitadoNick: nickDe(invitado, sesion.invitadoEmail),
+                filtro: Object.assign({}, sesion.filtro || {}),
+                resultado: resultado,
+                matchId: sesion.matchId || null,
+                matchTitulo: sesion.matchId ? tituloDe(sesion.matchId) : null,
+                rondas: sesion.historialRondas.map(function (ronda) {
+                    return {
+                        numero: ronda.numero,
+                        opciones: (ronda.opciones || []).map(function (id) {
+                            return { id: id, titulo: tituloDe(id) };
+                        }),
+                        eleccionAnfitrion: { id: ronda.eleccionAnfitrion, titulo: tituloDe(ronda.eleccionAnfitrion) },
+                        eleccionInvitado: { id: ronda.eleccionInvitado, titulo: tituloDe(ronda.eleccionInvitado) },
+                        coincide: !!ronda.coincide
+                    };
+                })
+            };
+            cad.insertarHistorialMatch(partida, function (err) {
+                if (err) return callback(ErrorSistema.interno(err));
+                sesion.historialGuardado = true;
+                cad.guardarSesionMatch(sesion, function (errGuardar) {
+                    if (errGuardar) return callback(ErrorSistema.interno(errGuardar));
+                    callback();
+                });
+            });
+        });
+    });
+}
+
+function nickDe(usuario, email) {
+    if (usuario && usuario.nick) return usuario.nick;
+    return String(email || "").split("@")[0] || "usuario";
 }
 
 function vistaDe(sesion, email, peliculas) {

@@ -29,7 +29,7 @@ const { ReaccionarComentarioHandler } = require("./handlers/ReaccionarComentario
 const { CrearPeliculaHandler } = require("./handlers/CrearPeliculaHandler.js");
 const { ActualizarPeliculaHandler } = require("./handlers/ActualizarPeliculaHandler.js");
 const { EliminarPeliculaHandler } = require("./handlers/EliminarPeliculaHandler.js");
-const { CrearSesionMatchHandler, UnirseSesionMatchHandler, ObtenerSesionMatchHandler, ElegirMatchHandler, ReiniciarSesionMatchHandler, CerrarSesionMatchHandler } = require("./handlers/SesionMatchHandler.js");
+const { CrearSesionMatchHandler, UnirseSesionMatchHandler, ObtenerSesionMatchHandler, ElegirMatchHandler, ReiniciarSesionMatchHandler, CerrarSesionMatchHandler, ListarHistorialMatchHandler } = require("./handlers/SesionMatchHandler.js");
 const { NoEncontradoHandler } = require("./handlers/NoEncontradoHandler.js");
 const { ErrorPeticionHandler } = require("./handlers/ErrorPeticionHandler.js");
 
@@ -76,6 +76,7 @@ function Rutas(sistema, log, clienteGoogle) {
     this.router.post("/elegirMatch", haIniciado, new ElegirMatchHandler(sistema).manejar);
     this.router.post("/reiniciarSesionMatch", haIniciado, new ReiniciarSesionMatchHandler(sistema).manejar);
     this.router.post("/cerrarSesionMatch", haIniciado, new CerrarSesionMatchHandler(sistema).manejar);
+    this.router.get("/obtenerHistorialMatch", haIniciado, new ListarHistorialMatchHandler(sistema).manejar);
 
     this.router.use(new NoEncontradoHandler().manejar);
     this.router.use(new ErrorPeticionHandler().manejar);

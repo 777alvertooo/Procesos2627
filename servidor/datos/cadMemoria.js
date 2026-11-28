@@ -21,6 +21,7 @@ function CADMemoria() {
     this.respuestas = [];
     this.reacciones = [];
     this.sesionesMatch = [];
+    this.historialMatch = [];
 
     this.conectar = function (uri, nombreBD, callback) {
         callback();
@@ -237,6 +238,23 @@ function CADMemoria() {
             }
         });
         callback();
+    };
+
+    this.insertarHistorialMatch = function (partida, callback) {
+        this.historialMatch.push(JSON.parse(JSON.stringify(partida)));
+        callback();
+    };
+
+    this.listarHistorialMatch = function (email, callback) {
+        let lista = this.historialMatch.filter(function (partida) {
+            return partida.anfitrionEmail === email || partida.invitadoEmail === email;
+        }).map(function (partida) {
+            return JSON.parse(JSON.stringify(partida));
+        });
+        lista.sort(function (a, b) {
+            return String(b.fecha || "").localeCompare(String(a.fecha || ""));
+        });
+        callback(undefined, lista);
     };
 
     this.cerrar = function () {};
