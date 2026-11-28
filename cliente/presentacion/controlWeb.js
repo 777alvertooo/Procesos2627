@@ -28,8 +28,13 @@ function ControlWeb(rest) {
             navegacion.mostrar(undefined);
             return this.mostrarRestablecer(this.tokenRestablecer);
         }
+        let fichaPendiente = RutaVista.leerFicha(window.location.hash);
         rest.usuarioSesion(function (usuario) {
             if (usuario) {
+                if (fichaPendiente) {
+                    cw.usuario = usuario;
+                    return cw.mostrarFicha(fichaPendiente, "catalogo");
+                }
                 cw.mostrarInicio(usuario);
             } else {
                 cw.mostrarLogin();
@@ -52,14 +57,15 @@ function ControlWeb(rest) {
         } else if (params.get("oauth") === "no_configurado") {
             mensajes.aviso("El acceso con Google no está configurado en el servidor.");
         }
-        if (window.history && window.history.replaceState) {
-            window.history.replaceState({}, document.title, window.location.pathname);
+        if (window.history && window.history.replaceState && window.location.search) {
+            window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
         }
     };
 
     this.mostrarLogin = function () {
         this.usuario = undefined;
         this.tokenRestablecer = undefined;
+        RutaVista.limpiarFicha();
         vistaAncha(false);
         navegacion.mostrar(undefined);
         formularioLogin.mostrar(function (email, password) {
@@ -152,6 +158,7 @@ function ControlWeb(rest) {
 
     this.mostrarPanel = function (usuario) {
         this.usuario = usuario;
+        RutaVista.limpiarFicha();
         vistaAncha(false);
         this.pintarNav("cuenta");
         let esAdmin = usuario.rol === "admin";
@@ -337,6 +344,7 @@ function ControlWeb(rest) {
     this.mostrarCatalogo = function (usuario, pestana) {
         if (usuario) this.usuario = usuario;
         this.pestanaCatalogo = pestana === "serie" ? "serie" : "pelicula";
+        RutaVista.limpiarFicha();
         vistaAncha(true);
         this.pintarNav(this.pestanaCatalogo === "serie" ? "series" : "peliculas");
         rest.obtenerPeliculas(catalogo.filtrosActivos(), function (datos) {
@@ -360,6 +368,7 @@ function ControlWeb(rest) {
     };
 
     this.mostrarPendientes = function () {
+        RutaVista.limpiarFicha();
         vistaAncha(true);
         this.pintarNav("lista");
         rest.obtenerPendientes(function (datos) {
@@ -375,6 +384,7 @@ function ControlWeb(rest) {
 
     this.mostrarFicha = function (id, origen) {
         this.origenFicha = origen || "catalogo";
+        RutaVista.marcarFicha(id);
         vistaAncha(true);
         this.pintarNav(vistaFicha(this));
         rest.obtenerPelicula(id, function (datos) {
@@ -435,6 +445,7 @@ function ControlWeb(rest) {
                 }
             });
         }, function (mensaje, codigo) {
+            RutaVista.limpiarFicha();
             cw.tratarError(mensaje, codigo);
             if (codigo !== 401) cw.mostrarCatalogo(undefined, catalogo.pestana());
         });
@@ -446,6 +457,7 @@ function ControlWeb(rest) {
 
     this.mostrarFormularioPelicula = function (id, medio) {
         if (!this.esAdmin()) return this.mostrarCatalogo(undefined, this.pestanaCatalogo);
+        RutaVista.limpiarFicha();
         vistaAncha(true);
         this.pintarNav(this.pestanaCatalogo === "serie" ? "series" : "peliculas");
         let pintar = function (pelicula) {
@@ -482,6 +494,7 @@ function ControlWeb(rest) {
 
     this.mostrarInicio = function (usuario) {
         if (usuario) this.usuario = usuario;
+        RutaVista.limpiarFicha();
         vistaAncha(true);
         this.pintarNav("inicio");
         rest.obtenerTopSemanal(function (datos) {
@@ -518,6 +531,7 @@ function ControlWeb(rest) {
 
     this.mostrarMatch = function (silencioso) {
         if (!silencioso) {
+            RutaVista.limpiarFicha();
             vistaAncha(true);
             this.pintarNav("match");
         }
