@@ -1,12 +1,14 @@
 const { CATALOGO_PELICULAS } = require("./catalogoPeliculas.js");
 const { CATALOGO_SERIES } = require("./catalogoSeries.js");
 const { CATALOGO_PELICULAS_EXTRA, CATALOGO_SERIES_EXTRA } = require("./catalogoAmpliacion.js");
+const { generosDe } = require("./generosCatalogo.js");
 
 function CADMemoria() {
     this.usuarios = {};
     this.peliculas = CATALOGO_PELICULAS.concat(CATALOGO_SERIES, CATALOGO_PELICULAS_EXTRA, CATALOGO_SERIES_EXTRA).map(function (pelicula) {
         let copia = Object.assign({}, pelicula);
         copia.cines = (pelicula.cines || []).slice();
+        copia.generos = pelicula.generos ? pelicula.generos.slice() : generosDe(pelicula.id);
         if (pelicula.temporadas) {
             copia.temporadas = pelicula.temporadas.map(function (temporada) {
                 return { numero: temporada.numero, capitulos: temporada.capitulos };
@@ -72,6 +74,7 @@ function CADMemoria() {
         }
         let copia = Object.assign({}, pelicula);
         copia.cines = (pelicula.cines || []).slice();
+        copia.generos = (pelicula.generos || []).slice();
         this.peliculas.push(copia);
         callback();
     };
@@ -84,6 +87,7 @@ function CADMemoria() {
         if (indice < 0) return callback(new Error("Película ausente"));
         let copia = Object.assign({}, pelicula);
         copia.cines = (pelicula.cines || []).slice();
+        copia.generos = (pelicula.generos || []).slice();
         copia.orden = this.peliculas[indice].orden;
         this.peliculas[indice] = copia;
         callback();
@@ -150,6 +154,20 @@ function CADMemoria() {
         callback(undefined, this.valoraciones.filter(function (valoracion) {
             return valoracion.peliculaId === peliculaId;
         }).map(function (valoracion) { return Object.assign({}, valoracion); }));
+    };
+
+    this.mediasValoracion = function (callback) {
+        let acumulado = {};
+        this.valoraciones.forEach(function (valoracion) {
+            let puntos = Number(valoracion.puntuacion);
+            if (!valoracion.peliculaId || !puntos) return;
+            if (!acumulado[valoracion.peliculaId]) acumulado[valoracion.peliculaId] = { suma: 0, cuenta: 0 };
+            acumulado[valoracion.peliculaId].suma = acumulado[valoracion.peliculaId].suma + puntos;
+            acumulado[valoracion.peliculaId].cuenta = acumulado[valoracion.peliculaId].cuenta + 1;
+        });
+        callback(undefined, Object.keys(acumulado).map(function (id) {
+            return { peliculaId: id, suma: acumulado[id].suma, cuenta: acumulado[id].cuenta };
+        }));
     };
 
     this.listarValoracionesDesde = function (desdeIso, callback) {

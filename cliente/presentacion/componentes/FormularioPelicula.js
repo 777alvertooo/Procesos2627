@@ -1,5 +1,6 @@
 function FormularioPelicula(selector) {
-    this.mostrar = function (pelicula, alGuardar, alCancelar) {
+    this.mostrar = function (pelicula, alGuardar, alCancelar, generos) {
+        generos = generos || [];
         let nueva = !pelicula || !pelicula.id;
         let tipo = pelicula && pelicula.tipo === "plataforma" ? "plataforma" : "cine";
         let medio = pelicula && pelicula.medio === "serie" ? "serie" : "pelicula";
@@ -28,6 +29,7 @@ function FormularioPelicula(selector) {
         cadena = cadena + '<div class="form-group" id="grupoTemporadas"><label for="temporadasPelicula">Capítulos por temporada</label>';
         cadena = cadena + '<textarea id="temporadasPelicula" class="form-control campo-gris campo-area" placeholder="Un número por línea, en orden de temporada">';
         cadena = cadena + Html.escapar(temporadasTexto(pelicula)) + "</textarea></div>";
+        cadena = cadena + grupoGeneros(generos, pelicula && pelicula.generos ? pelicula.generos : []);
         cadena = cadena + campo("cartelPelicula", "Enlace del cartel", "url", pelicula ? pelicula.cartel : "");
         cadena = cadena + campo("trailerPelicula", "Tráiler de YouTube", "text", pelicula ? pelicula.trailerUrl : "");
         cadena = cadena + '<div class="ficha-acciones">';
@@ -53,6 +55,21 @@ function FormularioPelicula(selector) {
     };
 }
 
+// Casillas de géneros (máximo 3). Si no hay lista, no se muestran y al
+// guardar no se envían, así que el servidor conserva los que ya tuviera.
+function grupoGeneros(generos, marcados) {
+    if (!generos.length) return "";
+    let cadena = '<fieldset class="form-group grupo-generos"><legend>Géneros <small>(hasta 3)</small></legend>';
+    generos.forEach(function (genero, posicion) {
+        let id = "generoPelicula" + posicion;
+        cadena = cadena + '<label class="casilla-genero" for="' + id + '">';
+        cadena = cadena + '<input type="checkbox" id="' + id + '" class="genero-pelicula" value="' + Html.escapar(genero) + '"';
+        cadena = cadena + (marcados.indexOf(genero) !== -1 ? " checked" : "") + "> " + Html.escapar(genero) + "</label>";
+    });
+    cadena = cadena + "</fieldset>";
+    return cadena;
+}
+
 function campo(id, etiqueta, tipo, valor) {
     let cadena = '<div class="form-group"><label for="' + id + '">' + Html.escapar(etiqueta) + "</label>";
     cadena = cadena + '<input type="' + tipo + '" id="' + id + '" class="form-control campo-gris" value="' + Html.escapar(valor || "") + '" required>';
@@ -71,7 +88,7 @@ function plataformaTexto(pelicula) {
 }
 
 function leerFormulario() {
-    return {
+    let datos = {
         titulo: $("#tituloPelicula").val(),
         sinopsis: $("#sinopsisPelicula").val(),
         medio: $("#medioPelicula").val(),
@@ -82,6 +99,10 @@ function leerFormulario() {
         cartel: $("#cartelPelicula").val(),
         trailer: $("#trailerPelicula").val()
     };
+    if ($(".genero-pelicula").length) {
+        datos.generos = $(".genero-pelicula:checked").map(function () { return $(this).val(); }).get();
+    }
+    return datos;
 }
 
 function tituloFormulario(nueva, medio) {

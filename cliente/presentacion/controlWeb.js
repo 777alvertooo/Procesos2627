@@ -339,7 +339,7 @@ function ControlWeb(rest) {
         this.pestanaCatalogo = pestana === "serie" ? "serie" : "pelicula";
         vistaAncha(true);
         this.pintarNav(this.pestanaCatalogo === "serie" ? "series" : "peliculas");
-        rest.obtenerPeliculas(function (datos) {
+        rest.obtenerPeliculas(catalogo.filtrosActivos(), function (datos) {
             datos.esAdmin = cw.esAdmin();
             datos.pestana = cw.pestanaCatalogo;
             catalogo.mostrar(datos, function (id) {
@@ -348,6 +348,11 @@ function ControlWeb(rest) {
                 cw.alternarPendiente(id, enLista, "catalogo");
             }, function () {
                 cw.mostrarFormularioPelicula(null, catalogo.pestana());
+            }, function (filtros, alCargar) {
+                rest.obtenerPeliculas(filtros, alCargar, function (mensaje, codigo) {
+                    alCargar();
+                    cw.tratarError(mensaje, codigo);
+                });
             });
         }, function (mensaje, codigo) {
             cw.tratarError(mensaje, codigo);
@@ -464,7 +469,7 @@ function ControlWeb(rest) {
                 mensajes.limpiar();
                 if (id) cw.mostrarFicha(id, "catalogo");
                 else cw.mostrarCatalogo(undefined, medio === "serie" ? "serie" : "pelicula");
-            });
+            }, catalogo.generosDisponibles());
         };
         if (!id) return pintar(medio === "serie" ? { medio: "serie", tipo: "plataforma" } : null);
         rest.obtenerPelicula(id, function (datos) {

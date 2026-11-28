@@ -82,7 +82,7 @@ En el cliente, los componentes solo pintan HTML y avisan de los eventos; `contro
 | DELETE | `/eliminarUsuario/:email` | Administrador o el propio usuario | Elimina un usuario |
 | PUT | `/actualizarPerfil` | Usuario autenticado | Actualiza nick y, opcionalmente, la contraseña |
 | PUT | `/actualizarUsuario/:email` | Administrador | Edita nick y email (y opcionalmente contraseña) de un usuario no admin |
-| GET | `/obtenerPeliculas` | Usuario autenticado | Catálogo de películas y series, pendientes aún no comentados e ids ya puntuados |
+| GET | `/obtenerPeliculas` | Usuario autenticado | Catálogo de películas y series, pendientes aún no comentados e ids ya puntuados. Filtros opcionales y combinables en la query: `plataforma`, `genero` y `valoracionMinima` (1 a 5) |
 | GET | `/obtenerTopSemanal` | Usuario autenticado | Top 5 de películas y top 5 de series de los últimos 7 días |
 | GET | `/obtenerPelicula/:id` | Usuario autenticado | Ficha con sinopsis, tráiler, nota media sobre 5, número de comentarios y el formulario si aún no ha puntuado |
 | GET | `/obtenerPendientes` | Usuario autenticado | Lista de títulos pendientes de ver |
@@ -107,7 +107,7 @@ El primer administrador es el email (o la lista separada por comas) de `ADMIN_EM
 
 ## Catálogo, inicio y Match
 
-Tras iniciar sesión se abre Inicio. Muestra el top 5 de películas y el top 5 de series de los últimos 7 días: primero por nota media, luego por número de votos y, si no hay suficientes valoraciones en la semana, completa hasta cinco con el resto del catálogo. Películas y Series comparten búsqueda; en Películas hay filtros Todas, En cines y En plataforma. El botón con el nombre abre la cuenta (el administrador ve la gestión de usuarios y el resto su perfil). Cerrar sesión está en esa pantalla.
+Tras iniciar sesión se abre Inicio. Muestra el top 5 de películas y el top 5 de series de los últimos 7 días: primero por nota media, luego por número de votos y, si no hay suficientes valoraciones en la semana, completa hasta cinco con el resto del catálogo. Películas y Series comparten búsqueda; en Películas hay filtros Todas, En cines y En plataforma. Además, los filtros combinados permiten elegir a la vez plataforma, género y valoración media mínima; se suman a la búsqueda por texto, muestran cuántos títulos quedan y se conservan al volver al catálogo. Cada título tiene de uno a tres géneros (`servidor/datos/generosCatalogo.js` para el catálogo inicial) y el administrador los elige al crear o editar. El botón con el nombre abre la cuenta (el administrador ve la gestión de usuarios y el resto su perfil). Cerrar sesión está en esa pantalla.
 
 El catálogo de arranque tiene 180 películas (30 en cines y 150 en plataforma) y 150 series, repartidas entre Netflix, Prime Video, Disney+, Max y Filmin. Pendientes, ficha, puntuación, respuestas y reacciones valen igual para películas y series. Like, dislike y respuesta piden haber puntuado ese título.
 

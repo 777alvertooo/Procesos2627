@@ -2,6 +2,7 @@ const { MongoClient } = require("mongodb");
 const { CATALOGO_PELICULAS } = require("./catalogoPeliculas.js");
 const { CATALOGO_SERIES } = require("./catalogoSeries.js");
 const { CATALOGO_PELICULAS_EXTRA, CATALOGO_SERIES_EXTRA } = require("./catalogoAmpliacion.js");
+const { generosDe } = require("./generosCatalogo.js");
 
 function CAD() {
     this.cliente = undefined;
@@ -159,6 +160,18 @@ function CAD() {
             .catch(callback);
     };
 
+    this.mediasValoracion = function (callback) {
+        this.valoraciones.aggregate([
+            { $group: { _id: "$peliculaId", suma: { $sum: "$puntuacion" }, cuenta: { $sum: 1 } } }
+        ]).toArray()
+            .then(function (lista) {
+                callback(undefined, lista.map(function (fila) {
+                    return { peliculaId: fila._id, suma: fila.suma, cuenta: fila.cuenta };
+                }));
+            })
+            .catch(callback);
+    };
+
     this.listarValoracionesDesde = function (desdeIso, callback) {
         this.valoraciones.find({ fecha: { $gte: desdeIso } }, { projection: { _id: 0, peliculaId: 1, puntuacion: 1, fecha: 1 } }).toArray()
             .then(function (lista) { callback(undefined, lista); })
@@ -251,7 +264,14 @@ function sembrarPeliculas(coleccion) {
                 { id: copia.id },
                 { $setOnInsert: copia, $set: cambios },
                 { upsert: true }
-            );
+            ).then(function () {
+                // Los títulos sembrados antes de existir los géneros los reciben
+                // una sola vez; si un administrador los cambia después, se respetan.
+                return coleccion.updateOne(
+                    { id: copia.id, generos: { $exists: false } },
+                    { $set: { generos: generosDe(copia.id) } }
+                );
+            });
         });
     });
     return cadena;

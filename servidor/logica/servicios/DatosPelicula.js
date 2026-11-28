@@ -1,5 +1,8 @@
 const { ErrorSistema } = require("../errores/ErrorSistema.js");
 const { TipoError } = require("../enums/TipoError.js");
+const { GENEROS_PELICULA } = require("../enums/GeneroPelicula.js");
+
+const MAX_GENEROS = 3;
 
 function prepararPelicula(datos) {
     datos = datos || {};
@@ -38,6 +41,8 @@ function prepararPelicula(datos) {
         if (leidas.error) return leidas;
         temporadas = leidas.temporadas;
     }
+    let generos = listaGeneros(datos.generos);
+    if (generos.error) return generos;
     return {
         pelicula: {
             titulo: titulo,
@@ -48,7 +53,8 @@ function prepararPelicula(datos) {
             trailerId: trailerId,
             cines: cines,
             dondeVer: dondeVer,
-            temporadas: temporadas
+            temporadas: temporadas,
+            generos: generos.generos
         }
     };
 }
@@ -88,6 +94,23 @@ function listaTemporadas(valor) {
     }
     if (temporadas.length > 40) return fallo("No puedes indicar más de 40 temporadas");
     return { temporadas: temporadas };
+}
+
+// Los géneros son opcionales: hasta MAX_GENEROS de la lista GENEROS_PELICULA.
+function listaGeneros(valor) {
+    if (valor === undefined || valor === null || valor === "") return { generos: [] };
+    let partes = Array.isArray(valor) ? valor : String(valor).split(",");
+    let generos = [];
+    let i;
+    for (i = 0; i < partes.length; i++) {
+        let nombre = texto(partes[i]);
+        if (!nombre) continue;
+        let conocido = GENEROS_PELICULA.find(function (genero) { return normalizar(genero) === normalizar(nombre); });
+        if (!conocido) return fallo("El género «" + nombre + "» no existe");
+        if (generos.indexOf(conocido) === -1) generos.push(conocido);
+    }
+    if (generos.length > MAX_GENEROS) return fallo("Elige como máximo " + MAX_GENEROS + " géneros");
+    return { generos: generos };
 }
 
 function capituloValido(valor) {

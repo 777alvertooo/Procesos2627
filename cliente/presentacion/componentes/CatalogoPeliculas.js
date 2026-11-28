@@ -7,13 +7,28 @@ function CatalogoPeliculas(selector) {
     let filtro = "todas";
     let consulta = "";
     let pestana = "pelicula";
+    // Filtros que resuelve el servidor; se conservan al volver al catálogo.
+    let filtrosServidor = {};
+    let opciones = { plataformas: [], generos: [] };
+    let alFiltrar = null;
 
-    this.mostrar = function (datos, abrir, marcar, crear) {
+    this.generosDisponibles = function () {
+        return (opciones.generos || []).slice();
+    };
+
+    this.filtrosActivos = function () {
+        return Object.assign({}, filtrosServidor);
+    };
+
+    this.mostrar = function (datos, abrir, marcar, crear, filtrar) {
         peliculas = datos.peliculas || [];
         pendientes = datos.idsPendientes || [];
         vistas = datos.idsVistas || [];
         alAbrir = abrir;
         alMarcar = marcar;
+        alFiltrar = filtrar || null;
+        opciones = datos.opcionesFiltro || opciones;
+        filtrosServidor = Object.assign({}, datos.filtros || {});
         filtro = "todas";
         consulta = "";
         pestana = datos.pestana === "serie" ? "serie" : "pelicula";
@@ -31,14 +46,17 @@ function CatalogoPeliculas(selector) {
             cadena = cadena + '<button type="button" id="btnNuevaPelicula" class="btn btn-oliva btn-sm">Nueva película</button>';
         }
         cadena = cadena + "</div></div>";
+        cadena = cadena + filtrosCombinados(opciones, filtrosServidor);
         cadena = cadena + '<div id="rejillaCatalogo"></div>';
         cadena = cadena + "</div>";
         $(selector).html(cadena);
         aplicarPestana();
+        actualizarQuitar();
         pintarFilas();
 
         $(selector).find("#buscarPelicula").on("input", function () {
             consulta = $(this).val();
+            actualizarQuitar();
             pintarFilas();
         });
         $(selector).find(".filtro-catalogo").on("click", function () {
@@ -50,7 +68,48 @@ function CatalogoPeliculas(selector) {
         $(selector).find("#btnNuevaPelicula").on("click", function () {
             if (crear) crear();
         });
+        $(selector).find(".selector-filtro").on("change", function () {
+            filtrosServidor = leerFiltros();
+            pedirFiltrado();
+        });
+        $(selector).find("#btnQuitarFiltros").on("click", function () {
+            $(selector).find(".selector-filtro").val("");
+            $(selector).find("#buscarPelicula").val("");
+            consulta = "";
+            filtrosServidor = {};
+            pedirFiltrado();
+        });
     };
+
+    function leerFiltros() {
+        let filtros = {};
+        let plataforma = $(selector).find("#filtroPlataforma").val();
+        let genero = $(selector).find("#filtroGenero").val();
+        let valoracion = $(selector).find("#filtroValoracion").val();
+        if (plataforma) filtros.plataforma = plataforma;
+        if (genero) filtros.genero = genero;
+        if (valoracion) filtros.valoracionMinima = valoracion;
+        return filtros;
+    }
+
+    function pedirFiltrado() {
+        actualizarQuitar();
+        if (!alFiltrar) return pintarFilas();
+        $(selector).find(".selector-filtro").prop("disabled", true);
+        alFiltrar(filtrosServidor, function (datos) {
+            $(selector).find(".selector-filtro").prop("disabled", false);
+            if (!datos || !datos.peliculas) return;
+            peliculas = datos.peliculas;
+            pendientes = datos.idsPendientes || [];
+            vistas = datos.idsVistas || [];
+            pintarFilas();
+        });
+    }
+
+    function actualizarQuitar() {
+        let hay = Object.keys(filtrosServidor).length > 0 || !!consulta;
+        $(selector).find("#btnQuitarFiltros").prop("hidden", !hay);
+    }
 
     this.marcar = function (id, enLista) {
         let boton = $(selector).find('.marca-lista[data-id="' + id + '"]');
@@ -85,10 +144,14 @@ function CatalogoPeliculas(selector) {
             return normalizar(pelicula.titulo).indexOf(texto) !== -1;
         });
         let cadena = "";
+        let resumen = visibles.length + (pestana === "serie"
+            ? (visibles.length === 1 ? " serie" : " series")
+            : (visibles.length === 1 ? " película" : " películas"));
+        $(selector).find("#resultadoFiltros").text(resumen);
         if (!visibles.length) {
             cadena = '<p class="texto-vista">' + (pestana === "serie"
-                ? "Ninguna serie coincide con la búsqueda."
-                : "Ninguna película coincide con la búsqueda.") + "</p>";
+                ? "Ninguna serie coincide con la búsqueda y los filtros."
+                : "Ninguna película coincide con la búsqueda y los filtros.") + "</p>";
         } else if (pestana === "serie" || filtro === "plataforma") {
             cadena = gruposPlataforma(visibles, pendientes, vistas);
         } else if (filtro === "cine") {
@@ -109,6 +172,33 @@ function CatalogoPeliculas(selector) {
             alMarcar($(this).attr("data-id"), $(this).attr("data-en-lista") === "si");
         });
     }
+}
+
+function filtrosCombinados(opciones, activos) {
+    let cadena = '<div class="filtros-combinados" role="group" aria-label="Filtros combinados">';
+    cadena = cadena + selectorFiltro("filtroPlataforma", "Plataforma", "Todas las plataformas",
+        (opciones.plataformas || []).map(function (nombre) { return { valor: nombre, texto: nombre }; }), activos.plataforma);
+    cadena = cadena + selectorFiltro("filtroGenero", "Género", "Todos los géneros",
+        (opciones.generos || []).map(function (nombre) { return { valor: nombre, texto: nombre }; }), activos.genero);
+    cadena = cadena + selectorFiltro("filtroValoracion", "Valoración", "Cualquier valoración",
+        [4, 3, 2, 1].map(function (nota) { return { valor: String(nota), texto: nota + " ★ o más" }; }),
+        activos.valoracionMinima !== undefined ? String(activos.valoracionMinima) : "");
+    cadena = cadena + '<button type="button" id="btnQuitarFiltros" class="boton-quitar-filtros" hidden>Quitar filtros</button>';
+    cadena = cadena + '<span id="resultadoFiltros" class="resultado-filtros" aria-live="polite"></span>';
+    cadena = cadena + "</div>";
+    return cadena;
+}
+
+function selectorFiltro(id, etiqueta, todos, valores, activo) {
+    let cadena = '<label class="campo-filtro" for="' + id + '"><span>' + Html.escapar(etiqueta) + "</span>";
+    cadena = cadena + '<select id="' + id + '" class="selector-filtro">';
+    cadena = cadena + '<option value="">' + Html.escapar(todos) + "</option>";
+    valores.forEach(function (opcion) {
+        cadena = cadena + '<option value="' + Html.escapar(opcion.valor) + '"' + (opcion.valor === activo ? " selected" : "") + ">";
+        cadena = cadena + Html.escapar(opcion.texto) + "</option>";
+    });
+    cadena = cadena + "</select></label>";
+    return cadena;
 }
 
 function botonFiltro(valor, etiqueta, activo) {
@@ -161,6 +251,10 @@ function fila(titulo, peliculas, pendientes, vistas) {
         cadena = cadena + '<img src="' + Html.escapar(pelicula.cartel) + '" alt="Cartel de ' + Html.escapar(pelicula.titulo) + '">';
         cadena = cadena + "</button>";
         cadena = cadena + '<p class="cartel-titulo">' + Html.escapar(pelicula.titulo) + "</p>";
+        if (pelicula.valoracionMedia) {
+            cadena = cadena + '<p class="cartel-nota" aria-label="Valoración media ' + pelicula.valoracionMedia + ' de 5">';
+            cadena = cadena + "★ " + String(pelicula.valoracionMedia).replace(".", ",") + "</p>";
+        }
         cadena = cadena + "</article>";
     });
     cadena = cadena + "</div></section>";
