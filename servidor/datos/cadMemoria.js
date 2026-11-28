@@ -47,6 +47,7 @@ function CADMemoria() {
         let claveAnterior = emailAnterior || usuario.email;
         if (claveAnterior !== usuario.email) {
             delete this.usuarios[claveAnterior];
+            migrarEmailRelacionado(this, claveAnterior, usuario.email);
         }
         this.usuarios[usuario.email] = Object.assign({}, usuario);
         callback();
@@ -248,6 +249,25 @@ function copiar(dato) {
 
 function clonarSesion(sesion) {
     return JSON.parse(JSON.stringify(sesion));
+}
+
+function migrarEmailRelacionado(cad, emailAnterior, emailNuevo) {
+    cad.pendientes.forEach(function (marca) {
+        if (marca.email === emailAnterior) marca.email = emailNuevo;
+    });
+    cad.valoraciones.forEach(function (valoracion) {
+        if (valoracion.email === emailAnterior) valoracion.email = emailNuevo;
+    });
+    cad.respuestas.forEach(function (respuesta) {
+        if (respuesta.email === emailAnterior) respuesta.email = emailNuevo;
+    });
+    cad.reacciones.forEach(function (reaccion) {
+        if (reaccion.email === emailAnterior) reaccion.email = emailNuevo;
+    });
+    cad.sesionesMatch.forEach(function (sesion) {
+        if (sesion.anfitrionEmail === emailAnterior) sesion.anfitrionEmail = emailNuevo;
+        if (sesion.invitadoEmail === emailAnterior) sesion.invitadoEmail = emailNuevo;
+    });
 }
 
 module.exports.CADMemoria = CADMemoria;

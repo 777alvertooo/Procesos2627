@@ -55,8 +55,20 @@ function CAD() {
     };
 
     this.actualizarUsuario = function (usuario, callback, emailAnterior) {
-        let filtro = { email: emailAnterior || usuario.email };
-        this.usuarios.replaceOne(filtro, limpiar(usuario))
+        let cad = this;
+        let anterior = emailAnterior || usuario.email;
+        this.usuarios.replaceOne({ email: anterior }, limpiar(usuario))
+            .then(function () {
+                if (anterior === usuario.email) return;
+                return Promise.all([
+                    cad.pendientes.updateMany({ email: anterior }, { $set: { email: usuario.email } }),
+                    cad.valoraciones.updateMany({ email: anterior }, { $set: { email: usuario.email } }),
+                    cad.respuestas.updateMany({ email: anterior }, { $set: { email: usuario.email } }),
+                    cad.reacciones.updateMany({ email: anterior }, { $set: { email: usuario.email } }),
+                    cad.sesionesMatch.updateMany({ anfitrionEmail: anterior }, { $set: { anfitrionEmail: usuario.email } }),
+                    cad.sesionesMatch.updateMany({ invitadoEmail: anterior }, { $set: { invitadoEmail: usuario.email } })
+                ]);
+            })
             .then(function () { callback(); })
             .catch(callback);
     };
