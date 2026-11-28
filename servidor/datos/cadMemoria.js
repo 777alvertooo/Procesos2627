@@ -7,6 +7,7 @@ function CADMemoria() {
     this.peliculas = CATALOGO_PELICULAS.concat(CATALOGO_SERIES, CATALOGO_PELICULAS_EXTRA, CATALOGO_SERIES_EXTRA).map(function (pelicula) {
         let copia = Object.assign({}, pelicula);
         copia.cines = (pelicula.cines || []).slice();
+        copia.generos = (pelicula.generos || []).slice();
         if (pelicula.temporadas) {
             copia.temporadas = pelicula.temporadas.map(function (temporada) {
                 return { numero: temporada.numero, capitulos: temporada.capitulos };
@@ -72,6 +73,7 @@ function CADMemoria() {
         }
         let copia = Object.assign({}, pelicula);
         copia.cines = (pelicula.cines || []).slice();
+        copia.generos = (pelicula.generos || []).slice();
         this.peliculas.push(copia);
         callback();
     };
@@ -84,6 +86,7 @@ function CADMemoria() {
         if (indice < 0) return callback(new Error("Película ausente"));
         let copia = Object.assign({}, pelicula);
         copia.cines = (pelicula.cines || []).slice();
+        copia.generos = (pelicula.generos || []).slice();
         copia.orden = this.peliculas[indice].orden;
         this.peliculas[indice] = copia;
         callback();

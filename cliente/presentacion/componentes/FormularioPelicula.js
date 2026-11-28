@@ -28,6 +28,9 @@ function FormularioPelicula(selector) {
         cadena = cadena + '<div class="form-group" id="grupoTemporadas"><label for="temporadasPelicula">Capítulos por temporada</label>';
         cadena = cadena + '<textarea id="temporadasPelicula" class="form-control campo-gris campo-area" placeholder="Un número por línea, en orden de temporada">';
         cadena = cadena + Html.escapar(temporadasTexto(pelicula)) + "</textarea></div>";
+        cadena = cadena + '<div class="form-group"><label for="generosPelicula">Géneros</label>';
+        cadena = cadena + '<textarea id="generosPelicula" class="form-control campo-gris campo-area" placeholder="Uno por línea, por ejemplo Drama o Comedia">';
+        cadena = cadena + Html.escapar(generosTexto(pelicula)) + "</textarea></div>";
         cadena = cadena + campo("cartelPelicula", "Enlace del cartel", "url", pelicula ? pelicula.cartel : "");
         cadena = cadena + campo("trailerPelicula", "Tráiler de YouTube", "text", pelicula ? pelicula.trailerUrl : "");
         cadena = cadena + '<div class="ficha-acciones">';
@@ -79,9 +82,15 @@ function leerFormulario() {
         cines: $("#cinesPelicula").val(),
         dondeVer: $("#plataformaPelicula").val(),
         temporadas: $("#temporadasPelicula").val(),
+        generos: $("#generosPelicula").val(),
         cartel: $("#cartelPelicula").val(),
         trailer: $("#trailerPelicula").val()
     };
+}
+
+function generosTexto(pelicula) {
+    if (!pelicula || !pelicula.generos) return "";
+    return pelicula.generos.join("\n");
 }
 
 function tituloFormulario(nueva, medio) {

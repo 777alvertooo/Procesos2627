@@ -7,6 +7,7 @@ const PeliculaMapper = {
             cartel: pelicula.cartel,
             dondeVer: pelicula.dondeVer,
             cines: (pelicula.cines || []).slice(),
+            generos: (pelicula.generos || []).slice(),
             tipo: pelicula.tipo,
             medio: pelicula.medio === "serie" ? "serie" : "pelicula",
             temporadas: (pelicula.temporadas || []).map(function (temporada) {

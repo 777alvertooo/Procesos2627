@@ -38,6 +38,8 @@ function prepararPelicula(datos) {
         if (leidas.error) return leidas;
         temporadas = leidas.temporadas;
     }
+    let generos = listaGeneros(datos.generos);
+    if (generos.error) return generos;
     return {
         pelicula: {
             titulo: titulo,
@@ -48,7 +50,8 @@ function prepararPelicula(datos) {
             trailerId: trailerId,
             cines: cines,
             dondeVer: dondeVer,
-            temporadas: temporadas
+            temporadas: temporadas,
+            generos: generos.generos
         }
     };
 }
@@ -106,6 +109,22 @@ function listaCines(valor) {
         lista.push(cine);
     });
     return lista;
+}
+
+function listaGeneros(valor) {
+    let partes = Array.isArray(valor) ? valor : String(valor || "").split(/[\n,]/);
+    let vistos = {};
+    let lista = [];
+    partes.forEach(function (parte) {
+        let genero = texto(parte);
+        let clave = normalizar(genero);
+        if (!genero || vistos[clave]) return;
+        if (genero.length > 40) return;
+        vistos[clave] = true;
+        lista.push(genero);
+    });
+    if (lista.length > 8) return fallo("No puedes indicar más de 8 géneros");
+    return { generos: lista };
 }
 
 function extraerTrailer(valor) {

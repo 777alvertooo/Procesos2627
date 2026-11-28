@@ -1,6 +1,7 @@
 const CATALOGO_SERIES = [
     {
         id: "stranger-things",
+        generos: ["Ciencia ficción", "Terror", "Drama"],
         orden: 101,
         tipo: "plataforma",
         medio: "serie",
@@ -14,6 +15,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "the-witcher",
+        generos: ["Fantasía", "Acción", "Aventura"],
         orden: 102,
         tipo: "plataforma",
         medio: "serie",
@@ -27,6 +29,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "dark",
+        generos: ["Ciencia ficción", "Thriller", "Drama"],
         orden: 103,
         tipo: "plataforma",
         medio: "serie",
@@ -40,6 +43,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "wednesday",
+        generos: ["Comedia", "Fantasía", "Crimen"],
         orden: 104,
         tipo: "plataforma",
         medio: "serie",
@@ -53,6 +57,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "la-casa-de-papel",
+        generos: ["Drama"],
         orden: 105,
         tipo: "plataforma",
         medio: "serie",
@@ -66,6 +71,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "el-juego-del-calamar",
+        generos: ["Drama"],
         orden: 106,
         tipo: "plataforma",
         medio: "serie",
@@ -79,6 +85,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "the-crown",
+        generos: ["Drama", "Historia"],
         orden: 107,
         tipo: "plataforma",
         medio: "serie",
@@ -92,6 +99,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "black-mirror",
+        generos: ["Drama"],
         orden: 108,
         tipo: "plataforma",
         medio: "serie",
@@ -105,6 +113,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "bridgerton",
+        generos: ["Drama", "Romance"],
         orden: 109,
         tipo: "plataforma",
         medio: "serie",
@@ -118,6 +127,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "the-boys",
+        generos: ["Drama"],
         orden: 110,
         tipo: "plataforma",
         medio: "serie",
@@ -131,6 +141,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "los-anillos-de-poder",
+        generos: ["Fantasía"],
         orden: 111,
         tipo: "plataforma",
         medio: "serie",
@@ -144,6 +155,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "fallout",
+        generos: ["Acción"],
         orden: 112,
         tipo: "plataforma",
         medio: "serie",
@@ -157,6 +169,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "the-mandalorian",
+        generos: ["Drama"],
         orden: 113,
         tipo: "plataforma",
         medio: "serie",
@@ -170,6 +183,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "andor",
+        generos: ["Drama"],
         orden: 114,
         tipo: "plataforma",
         medio: "serie",
@@ -183,6 +197,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "loki",
+        generos: ["Drama"],
         orden: 115,
         tipo: "plataforma",
         medio: "serie",
@@ -196,6 +211,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "wandavision",
+        generos: ["Fantasía", "Comedia"],
         orden: 116,
         tipo: "plataforma",
         medio: "serie",
@@ -209,6 +225,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "the-bear",
+        generos: ["Drama"],
         orden: 117,
         tipo: "plataforma",
         medio: "serie",
@@ -222,6 +239,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "the-last-of-us",
+        generos: ["Aventura"],
         orden: 118,
         tipo: "plataforma",
         medio: "serie",
@@ -235,6 +253,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "chernobil",
+        generos: ["Drama"],
         orden: 119,
         tipo: "plataforma",
         medio: "serie",
@@ -248,6 +267,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "juego-de-tronos",
+        generos: ["Drama"],
         orden: 120,
         tipo: "plataforma",
         medio: "serie",
@@ -261,6 +281,7 @@ const CATALOGO_SERIES = [
     },
     {
         id: "la-casa-del-dragon",
+        generos: ["Fantasía"],
         orden: 121,
         tipo: "plataforma",
         medio: "serie",

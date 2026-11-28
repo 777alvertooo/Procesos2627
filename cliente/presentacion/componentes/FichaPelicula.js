@@ -12,6 +12,7 @@ function FichaPelicula(selector) {
         cadena = cadena + "<div>";
         cadena = cadena + "<h1>" + Html.escapar(pelicula.titulo) + "</h1>";
         cadena = cadena + dondeVerHtml(pelicula);
+        cadena = cadena + generosHtml(pelicula);
         cadena = cadena + '<h2 class="titulo-sinopsis">Sinopsis</h2>';
         cadena = cadena + '<p class="ficha-sinopsis">' + Html.escapar(pelicula.sinopsis) + "</p>";
         cadena = cadena + temporadasHtml(pelicula);
@@ -124,6 +125,12 @@ function temporadasHtml(pelicula) {
 function dondeVerHtml(pelicula) {
     if (pelicula.tipo === "cine") return bloqueCines(pelicula.cines);
     return '<p class="ficha-dato"><span>Dónde verla</span> ' + Html.escapar(pelicula.dondeVer) + "</p>";
+}
+
+function generosHtml(pelicula) {
+    let lista = pelicula.generos || [];
+    if (!lista.length) return "";
+    return '<p class="ficha-dato"><span>Géneros</span> ' + Html.escapar(lista.join(", ")) + "</p>";
 }
 
 function bloqueCines(cines) {

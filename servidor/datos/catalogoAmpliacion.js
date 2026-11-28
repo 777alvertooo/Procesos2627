@@ -1,6 +1,7 @@
-const CATALOGO_PELICULAS_EXTRA = [
+﻿const CATALOGO_PELICULAS_EXTRA = [
     {
         "id": "regreso-al-futuro",
+        "generos": ["Ciencia ficción", "Aventura", "Comedia"],
         "orden": 200,
         "tipo": "cine",
         "titulo": "Regreso al futuro",
@@ -16,6 +17,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "parque-jurasico",
+        "generos": ["Comedia", "Aventura"],
         "orden": 201,
         "tipo": "cine",
         "titulo": "Parque Jurásico",
@@ -31,6 +33,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "vengadores-endgame",
+        "generos": ["Ciencia ficción", "Acción"],
         "orden": 202,
         "tipo": "cine",
         "titulo": "Vengadores: Endgame",
@@ -46,6 +49,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "vengadores-infinity-war",
+        "generos": ["Ciencia ficción", "Acción"],
         "orden": 203,
         "tipo": "cine",
         "titulo": "Vengadores: Infinity War",
@@ -61,6 +65,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "black-panther",
+        "generos": ["Acción"],
         "orden": 204,
         "tipo": "cine",
         "titulo": "Black Panther",
@@ -76,6 +81,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "guardianes-de-la-galaxia",
+        "generos": ["Crimen", "Acción"],
         "orden": 205,
         "tipo": "cine",
         "titulo": "Guardianes de la galaxia",
@@ -91,6 +97,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "no-mires-arriba",
+        "generos": ["Drama"],
         "orden": 206,
         "tipo": "plataforma",
         "titulo": "No mires arriba",
@@ -102,6 +109,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "glass-onion",
+        "generos": ["Thriller", "Crimen"],
         "orden": 207,
         "tipo": "plataforma",
         "titulo": "Puñales por la espalda: El misterio de Glass Onion",
@@ -113,6 +121,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "alerta-roja",
+        "generos": ["Drama"],
         "orden": 208,
         "tipo": "plataforma",
         "titulo": "Alerta roja",
@@ -124,6 +133,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "historia-de-un-matrimonio",
+        "generos": ["Drama"],
         "orden": 209,
         "tipo": "plataforma",
         "titulo": "Historia de un matrimonio",
@@ -135,6 +145,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "your-name",
+        "generos": ["Drama"],
         "orden": 210,
         "tipo": "plataforma",
         "titulo": "Your Name",
@@ -146,6 +157,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-hoyo",
+        "generos": ["Drama"],
         "orden": 211,
         "tipo": "plataforma",
         "titulo": "El hoyo",
@@ -157,6 +169,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "ejercito-de-los-muertos",
+        "generos": ["Drama"],
         "orden": 212,
         "tipo": "plataforma",
         "titulo": "El ejército de los muertos",
@@ -168,6 +181,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "6-underground",
+        "generos": ["Terror"],
         "orden": 213,
         "tipo": "plataforma",
         "titulo": "6 en la sombra",
@@ -179,6 +193,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "roma-cuaron",
+        "generos": ["Historia", "Drama"],
         "orden": 214,
         "tipo": "plataforma",
         "titulo": "Roma",
@@ -190,6 +205,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-poder-del-perro",
+        "generos": ["Animación"],
         "orden": 215,
         "tipo": "plataforma",
         "titulo": "El poder del perro",
@@ -201,6 +217,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "klaus",
+        "generos": ["Animación"],
         "orden": 216,
         "tipo": "plataforma",
         "titulo": "Klaus",
@@ -212,6 +229,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-bestia-del-mar",
+        "generos": ["Animación"],
         "orden": 217,
         "tipo": "plataforma",
         "titulo": "La bestia del mar",
@@ -223,6 +241,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "rebel-moon",
+        "generos": ["Drama"],
         "orden": 218,
         "tipo": "plataforma",
         "titulo": "Rebel Moon",
@@ -234,6 +253,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "sociedad-de-la-nieve",
+        "generos": ["Drama"],
         "orden": 219,
         "tipo": "plataforma",
         "titulo": "La sociedad de la nieve",
@@ -245,6 +265,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-hoy-no",
+        "generos": ["Drama"],
         "orden": 220,
         "tipo": "plataforma",
         "titulo": "Nowhere",
@@ -256,6 +277,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "da-5-bloods",
+        "generos": ["Aventura", "Historia"],
         "orden": 221,
         "tipo": "plataforma",
         "titulo": "Da 5 Bloods",
@@ -267,6 +289,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-juicio-de-los-7-de-chicago",
+        "generos": ["Terror", "Historia", "Drama"],
         "orden": 222,
         "tipo": "plataforma",
         "titulo": "El juicio de los 7 de Chicago",
@@ -278,6 +301,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-hija-oscura",
+        "generos": ["Drama"],
         "orden": 223,
         "tipo": "plataforma",
         "titulo": "La hija oscura",
@@ -289,6 +313,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-mano-de-dios",
+        "generos": ["Drama"],
         "orden": 224,
         "tipo": "plataforma",
         "titulo": "La mano de Dios",
@@ -300,6 +325,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-tigre-blanco",
+        "generos": ["Crimen"],
         "orden": 225,
         "tipo": "plataforma",
         "titulo": "El tigre blanco",
@@ -311,6 +337,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "mononoke",
+        "generos": ["Drama"],
         "orden": 226,
         "tipo": "plataforma",
         "titulo": "La princesa Mononoke",
@@ -322,6 +349,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "skyfall",
+        "generos": ["Acción"],
         "orden": 227,
         "tipo": "plataforma",
         "titulo": "Skyfall",
@@ -333,6 +361,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "sin-tiempo-para-morir",
+        "generos": ["Ciencia ficción", "Acción"],
         "orden": 228,
         "tipo": "plataforma",
         "titulo": "Sin tiempo para morir",
@@ -344,6 +373,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "spectre",
+        "generos": ["Acción"],
         "orden": 229,
         "tipo": "plataforma",
         "titulo": "Spectre",
@@ -355,6 +385,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "casino-royale",
+        "generos": ["Terror", "Acción"],
         "orden": 230,
         "tipo": "plataforma",
         "titulo": "Casino Royale",
@@ -366,6 +397,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-hobbit",
+        "generos": ["Fantasía", "Aventura"],
         "orden": 231,
         "tipo": "plataforma",
         "titulo": "El hobbit: Un viaje inesperado",
@@ -377,6 +409,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-desolacion-de-smaug",
+        "generos": ["Fantasía", "Aventura"],
         "orden": 232,
         "tipo": "plataforma",
         "titulo": "El hobbit: La desolación de Smaug",
@@ -388,6 +421,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-batalla-de-los-cinco-ejercitos",
+        "generos": ["Fantasía"],
         "orden": 233,
         "tipo": "plataforma",
         "titulo": "El hobbit: La batalla de los cinco ejércitos",
@@ -399,6 +433,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "las-dos-torres",
+        "generos": ["Fantasía"],
         "orden": 234,
         "tipo": "plataforma",
         "titulo": "Las dos torres",
@@ -410,6 +445,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-retorno-del-rey",
+        "generos": ["Drama"],
         "orden": 235,
         "tipo": "plataforma",
         "titulo": "El retorno del rey",
@@ -421,6 +457,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "guerra-del-manana",
+        "generos": ["Ciencia ficción"],
         "orden": 236,
         "tipo": "plataforma",
         "titulo": "La guerra del mañana",
@@ -432,6 +469,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "air",
+        "generos": ["Drama"],
         "orden": 237,
         "tipo": "plataforma",
         "titulo": "Air",
@@ -443,6 +481,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "being-the-ricardos",
+        "generos": ["Comedia", "Drama"],
         "orden": 238,
         "tipo": "plataforma",
         "titulo": "Being the Ricardos",
@@ -454,6 +493,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "sound-of-metal",
+        "generos": ["Drama"],
         "orden": 239,
         "tipo": "plataforma",
         "titulo": "Sound of Metal",
@@ -465,6 +505,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "one-night-in-miami",
+        "generos": ["Acción"],
         "orden": 240,
         "tipo": "plataforma",
         "titulo": "Una noche en Miami",
@@ -476,6 +517,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "borat-2",
+        "generos": ["Documental", "Comedia", "Aventura"],
         "orden": 241,
         "tipo": "plataforma",
         "titulo": "Borat, siguiente película documental",
@@ -487,6 +529,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "un-principe-en-nueva-york-2",
+        "generos": ["Drama"],
         "orden": 242,
         "tipo": "plataforma",
         "titulo": "El príncipe de Zamunda 2",
@@ -498,6 +541,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "sin-remordimientos",
+        "generos": ["Drama"],
         "orden": 243,
         "tipo": "plataforma",
         "titulo": "Tom Clancy: Sin remordimientos",
@@ -509,6 +553,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-terminal",
+        "generos": ["Drama"],
         "orden": 244,
         "tipo": "plataforma",
         "titulo": "La terminal",
@@ -520,6 +565,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "naufrago",
+        "generos": ["Ciencia ficción"],
         "orden": 245,
         "tipo": "plataforma",
         "titulo": "Náufrago",
@@ -531,6 +577,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-show-de-truman",
+        "generos": ["Drama"],
         "orden": 246,
         "tipo": "plataforma",
         "titulo": "El show de Truman",
@@ -542,6 +589,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-club-de-los-poetas-muertos",
+        "generos": ["Drama"],
         "orden": 247,
         "tipo": "plataforma",
         "titulo": "El club de los poetas muertos",
@@ -553,6 +601,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-indomable-will-hunting",
+        "generos": ["Drama"],
         "orden": 248,
         "tipo": "plataforma",
         "titulo": "El indomable Will Hunting",
@@ -564,6 +613,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "una-mente-maravillosa",
+        "generos": ["Drama"],
         "orden": 249,
         "tipo": "plataforma",
         "titulo": "Una mente maravillosa",
@@ -575,6 +625,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "catch-me-if-you-can",
+        "generos": ["Acción"],
         "orden": 250,
         "tipo": "plataforma",
         "titulo": "Atrápame si puedes",
@@ -586,6 +637,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "moana",
+        "generos": ["Aventura"],
         "orden": 251,
         "tipo": "plataforma",
         "titulo": "Vaiana",
@@ -597,6 +649,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "luca",
+        "generos": ["Animación"],
         "orden": 252,
         "tipo": "plataforma",
         "titulo": "Luca",
@@ -608,6 +661,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "turning-red",
+        "generos": ["Drama"],
         "orden": 253,
         "tipo": "plataforma",
         "titulo": "Red",
@@ -619,6 +673,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "elemental",
+        "generos": ["Animación"],
         "orden": 254,
         "tipo": "plataforma",
         "titulo": "Elemental",
@@ -630,6 +685,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "toy-story-4",
+        "generos": ["Animación", "Aventura"],
         "orden": 255,
         "tipo": "plataforma",
         "titulo": "Toy Story 4",
@@ -641,6 +697,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "frozen-2",
+        "generos": ["Animación"],
         "orden": 256,
         "tipo": "plataforma",
         "titulo": "Frozen 2",
@@ -652,6 +709,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-sirenita-2023",
+        "generos": ["Animación", "Terror", "Ciencia ficción"],
         "orden": 257,
         "tipo": "plataforma",
         "titulo": "La sirenita",
@@ -663,6 +721,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "aladdin-2019",
+        "generos": ["Animación"],
         "orden": 258,
         "tipo": "plataforma",
         "titulo": "Aladdín",
@@ -674,6 +733,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "zootropolis",
+        "generos": ["Terror", "Crimen"],
         "orden": 259,
         "tipo": "plataforma",
         "titulo": "Zootrópolis",
@@ -685,6 +745,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "encanto",
+        "generos": ["Animación", "Drama"],
         "orden": 260,
         "tipo": "plataforma",
         "titulo": "Encanto",
@@ -696,6 +757,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "del-reves",
+        "generos": ["Drama"],
         "orden": 261,
         "tipo": "plataforma",
         "titulo": "Del revés",
@@ -707,6 +769,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "brave",
+        "generos": ["Animación", "Fantasía", "Drama"],
         "orden": 262,
         "tipo": "plataforma",
         "titulo": "Brave",
@@ -718,6 +781,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "malefica",
+        "generos": ["Animación"],
         "orden": 263,
         "tipo": "plataforma",
         "titulo": "Maléfica",
@@ -729,6 +793,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "cruella",
+        "generos": ["Animación"],
         "orden": 264,
         "tipo": "plataforma",
         "titulo": "Cruella",
@@ -740,6 +805,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "mulan-2020",
+        "generos": ["Drama"],
         "orden": 265,
         "tipo": "plataforma",
         "titulo": "Mulán",
@@ -751,6 +817,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "buscando-a-dory",
+        "generos": ["Animación", "Drama"],
         "orden": 266,
         "tipo": "plataforma",
         "titulo": "Buscando a Dory",
@@ -762,6 +829,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "los-increibles",
+        "generos": ["Animación", "Drama"],
         "orden": 267,
         "tipo": "plataforma",
         "titulo": "Los Increíbles",
@@ -773,6 +841,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "los-increibles-2",
+        "generos": ["Animación"],
         "orden": 268,
         "tipo": "plataforma",
         "titulo": "Los Increíbles 2",
@@ -784,6 +853,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "monstruos-sa",
+        "generos": ["Animación"],
         "orden": 269,
         "tipo": "plataforma",
         "titulo": "Monstruos, S.A.",
@@ -795,6 +865,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "cars",
+        "generos": ["Animación"],
         "orden": 270,
         "tipo": "plataforma",
         "titulo": "Cars",
@@ -806,6 +877,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "cenicienta-2015",
+        "generos": ["Animación", "Fantasía"],
         "orden": 271,
         "tipo": "plataforma",
         "titulo": "Cenicienta",
@@ -817,6 +889,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-libro-de-la-selva-2016",
+        "generos": ["Drama"],
         "orden": 272,
         "tipo": "plataforma",
         "titulo": "El libro de la selva",
@@ -828,6 +901,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-lobo-de-wall-street",
+        "generos": ["Terror", "Fantasía"],
         "orden": 273,
         "tipo": "plataforma",
         "titulo": "El lobo de Wall Street",
@@ -839,6 +913,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "it-eso",
+        "generos": ["Terror", "Comedia"],
         "orden": 274,
         "tipo": "plataforma",
         "titulo": "It",
@@ -850,6 +925,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "it-capitulo-2",
+        "generos": ["Terror", "Comedia"],
         "orden": 275,
         "tipo": "plataforma",
         "titulo": "It: Capítulo dos",
@@ -861,6 +937,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "expediente-warren",
+        "generos": ["Terror", "Drama"],
         "orden": 276,
         "tipo": "plataforma",
         "titulo": "Expediente Warren",
@@ -872,6 +949,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "wonder-woman",
+        "generos": ["Acción"],
         "orden": 277,
         "tipo": "plataforma",
         "titulo": "Wonder Woman",
@@ -883,6 +961,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "aquaman",
+        "generos": ["Acción"],
         "orden": 278,
         "tipo": "plataforma",
         "titulo": "Aquaman",
@@ -894,6 +973,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-escuadron-suicida",
+        "generos": ["Comedia", "Acción"],
         "orden": 279,
         "tipo": "plataforma",
         "titulo": "El Escuadrón Suicida",
@@ -905,6 +985,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "tenet",
+        "generos": ["Ciencia ficción", "Acción"],
         "orden": 280,
         "tipo": "plataforma",
         "titulo": "Tenet",
@@ -916,6 +997,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "dunkirk",
+        "generos": ["Drama"],
         "orden": 281,
         "tipo": "plataforma",
         "titulo": "Dunkerque",
@@ -927,6 +1009,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "get-out",
+        "generos": ["Drama"],
         "orden": 282,
         "tipo": "plataforma",
         "titulo": "Déjame salir",
@@ -938,6 +1021,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "us",
+        "generos": ["Drama"],
         "orden": 283,
         "tipo": "plataforma",
         "titulo": "Nosotros",
@@ -949,6 +1033,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "nope",
+        "generos": ["Drama"],
         "orden": 284,
         "tipo": "plataforma",
         "titulo": "Nope",
@@ -960,6 +1045,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "joker-folie",
+        "generos": ["Terror", "Drama"],
         "orden": 285,
         "tipo": "plataforma",
         "titulo": "Joker: Folie à Deux",
@@ -971,6 +1057,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "batman-vs-superman",
+        "generos": ["Animación", "Acción"],
         "orden": 286,
         "tipo": "plataforma",
         "titulo": "Batman v Superman: El amanecer de la justicia",
@@ -982,6 +1069,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-hombre-de-acero",
+        "generos": ["Acción"],
         "orden": 287,
         "tipo": "plataforma",
         "titulo": "El hombre de acero",
@@ -993,6 +1081,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "liga-de-la-justicia",
+        "generos": ["Comedia"],
         "orden": 288,
         "tipo": "plataforma",
         "titulo": "Liga de la Justicia",
@@ -1004,6 +1093,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "wonder-woman-1984",
+        "generos": ["Acción"],
         "orden": 289,
         "tipo": "plataforma",
         "titulo": "Wonder Woman 1984",
@@ -1015,6 +1105,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "aves-de-presa",
+        "generos": ["Drama"],
         "orden": 290,
         "tipo": "plataforma",
         "titulo": "Aves de presa",
@@ -1026,6 +1117,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "shazam",
+        "generos": ["Drama"],
         "orden": 291,
         "tipo": "plataforma",
         "titulo": "¡Shazam!",
@@ -1037,6 +1129,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "the-flash-2023",
+        "generos": ["Comedia"],
         "orden": 292,
         "tipo": "plataforma",
         "titulo": "The Flash",
@@ -1048,6 +1141,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "black-adam",
+        "generos": ["Drama"],
         "orden": 293,
         "tipo": "plataforma",
         "titulo": "Black Adam",
@@ -1059,6 +1153,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "matrix-reloaded",
+        "generos": ["Drama"],
         "orden": 294,
         "tipo": "plataforma",
         "titulo": "Matrix Reloaded",
@@ -1070,6 +1165,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "matrix-revolutions",
+        "generos": ["Drama"],
         "orden": 295,
         "tipo": "plataforma",
         "titulo": "Matrix Revolutions",
@@ -1081,6 +1177,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "ocean-s-eleven",
+        "generos": ["Animación", "Acción"],
         "orden": 296,
         "tipo": "plataforma",
         "titulo": "Ocean's Eleven",
@@ -1092,6 +1189,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-gran-lebowski",
+        "generos": ["Comedia", "Thriller"],
         "orden": 297,
         "tipo": "plataforma",
         "titulo": "El gran Lebowski",
@@ -1103,6 +1201,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "fargo-pelicula",
+        "generos": ["Thriller", "Crimen"],
         "orden": 298,
         "tipo": "plataforma",
         "titulo": "Fargo",
@@ -1114,6 +1213,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "mulholland-drive",
+        "generos": ["Drama"],
         "orden": 299,
         "tipo": "plataforma",
         "titulo": "Mulholland Drive",
@@ -1125,6 +1225,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "perdidos-en-tokio",
+        "generos": ["Drama"],
         "orden": 300,
         "tipo": "plataforma",
         "titulo": "Perdidos en Tokio",
@@ -1136,6 +1237,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "hereditary",
+        "generos": ["Drama"],
         "orden": 301,
         "tipo": "plataforma",
         "titulo": "Hereditary",
@@ -1147,6 +1249,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "midsommar",
+        "generos": ["Drama"],
         "orden": 302,
         "tipo": "plataforma",
         "titulo": "Midsommar",
@@ -1158,6 +1261,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-bruja",
+        "generos": ["Terror", "Fantasía", "Drama"],
         "orden": 303,
         "tipo": "plataforma",
         "titulo": "La bruja",
@@ -1169,6 +1273,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-faro",
+        "generos": ["Drama"],
         "orden": 304,
         "tipo": "plataforma",
         "titulo": "El faro",
@@ -1180,6 +1285,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "moonlight",
+        "generos": ["Drama"],
         "orden": 305,
         "tipo": "plataforma",
         "titulo": "Moonlight",
@@ -1191,6 +1297,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "lady-bird",
+        "generos": ["Romance"],
         "orden": 306,
         "tipo": "plataforma",
         "titulo": "Lady Bird",
@@ -1202,6 +1309,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-triangulo-de-la-tristeza",
+        "generos": ["Romance"],
         "orden": 307,
         "tipo": "plataforma",
         "titulo": "El triángulo de la tristeza",
@@ -1213,6 +1321,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "the-square",
+        "generos": ["Ciencia ficción"],
         "orden": 308,
         "tipo": "plataforma",
         "titulo": "The Square",
@@ -1224,6 +1333,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "fuerza-mayor",
+        "generos": ["Aventura", "Drama"],
         "orden": 309,
         "tipo": "plataforma",
         "titulo": "Fuerza mayor",
@@ -1235,6 +1345,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "amicie",
+        "generos": ["Animación"],
         "orden": 310,
         "tipo": "plataforma",
         "titulo": "Amélie",
@@ -1246,6 +1357,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-laberinto-del-fauno",
+        "generos": ["Drama"],
         "orden": 311,
         "tipo": "plataforma",
         "titulo": "El laberinto del fauno",
@@ -1257,6 +1369,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "intimidad",
+        "generos": ["Drama"],
         "orden": 312,
         "tipo": "plataforma",
         "titulo": "Intocable",
@@ -1268,6 +1381,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "amor",
+        "generos": ["Romance"],
         "orden": 313,
         "tipo": "plataforma",
         "titulo": "Amour",
@@ -1279,6 +1393,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "dolor-y-gloria",
+        "generos": ["Drama"],
         "orden": 314,
         "tipo": "plataforma",
         "titulo": "Dolor y gloria",
@@ -1290,6 +1405,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "madres-paralelas",
+        "generos": ["Drama"],
         "orden": 315,
         "tipo": "plataforma",
         "titulo": "Madres paralelas",
@@ -1301,6 +1417,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "volver",
+        "generos": ["Drama"],
         "orden": 316,
         "tipo": "plataforma",
         "titulo": "Volver",
@@ -1312,6 +1429,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "hable-con-ella",
+        "generos": ["Drama"],
         "orden": 317,
         "tipo": "plataforma",
         "titulo": "Hable con ella",
@@ -1323,6 +1441,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "todo-sobre-mi-madre",
+        "generos": ["Drama"],
         "orden": 318,
         "tipo": "plataforma",
         "titulo": "Todo sobre mi madre",
@@ -1334,6 +1453,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "mar-adentro",
+        "generos": ["Drama"],
         "orden": 319,
         "tipo": "plataforma",
         "titulo": "Mar adentro",
@@ -1345,6 +1465,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "la-isla-minima",
+        "generos": ["Crimen"],
         "orden": 320,
         "tipo": "plataforma",
         "titulo": "La isla mínima",
@@ -1356,6 +1477,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "celda-211",
+        "generos": ["Drama"],
         "orden": 321,
         "tipo": "plataforma",
         "titulo": "Celda 211",
@@ -1367,6 +1489,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "contratiempo",
+        "generos": ["Ciencia ficción", "Crimen"],
         "orden": 322,
         "tipo": "plataforma",
         "titulo": "Contratiempo",
@@ -1378,6 +1501,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-cuerpo",
+        "generos": ["Drama"],
         "orden": 323,
         "tipo": "plataforma",
         "titulo": "El cuerpo",
@@ -1389,6 +1513,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "el-orfanato",
+        "generos": ["Drama"],
         "orden": 324,
         "tipo": "plataforma",
         "titulo": "El orfanato",
@@ -1400,6 +1525,7 @@ const CATALOGO_PELICULAS_EXTRA = [
     },
     {
         "id": "roma-cuaron-filmin",
+        "generos": ["Historia"],
         "orden": 325,
         "tipo": "plataforma",
         "titulo": "Roma",
@@ -1414,6 +1540,7 @@ const CATALOGO_PELICULAS_EXTRA = [
 const CATALOGO_SERIES_EXTRA = [
     {
         "id": "ozark",
+        "generos": ["Drama"],
         "orden": 400,
         "tipo": "plataforma",
         "titulo": "Ozark",
@@ -1444,6 +1571,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-gambito-de-dama",
+        "generos": ["Drama"],
         "orden": 401,
         "tipo": "plataforma",
         "titulo": "Gambito de dama",
@@ -1462,6 +1590,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "mindhunter",
+        "generos": ["Crimen"],
         "orden": 402,
         "tipo": "plataforma",
         "titulo": "Mindhunter",
@@ -1484,6 +1613,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-umbrella-academy",
+        "generos": ["Drama"],
         "orden": 403,
         "tipo": "plataforma",
         "titulo": "The Umbrella Academy",
@@ -1514,6 +1644,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "sex-education",
+        "generos": ["Drama"],
         "orden": 404,
         "tipo": "plataforma",
         "titulo": "Sex Education",
@@ -1544,6 +1675,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "heartstopper",
+        "generos": ["Ciencia ficción"],
         "orden": 405,
         "tipo": "plataforma",
         "titulo": "Heartstopper",
@@ -1570,6 +1702,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "midnight-mass",
+        "generos": ["Drama"],
         "orden": 406,
         "tipo": "plataforma",
         "titulo": "Misa de medianoche",
@@ -1588,6 +1721,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-glory",
+        "generos": ["Animación", "Comedia"],
         "orden": 407,
         "tipo": "plataforma",
         "titulo": "The Glory",
@@ -1606,6 +1740,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "russian-doll",
+        "generos": ["Drama"],
         "orden": 408,
         "tipo": "plataforma",
         "titulo": "Muñeca rusa",
@@ -1628,6 +1763,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "narcos",
+        "generos": ["Crimen"],
         "orden": 409,
         "tipo": "plataforma",
         "titulo": "Narcos",
@@ -1654,6 +1790,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "peaky-blinders",
+        "generos": ["Crimen"],
         "orden": 410,
         "tipo": "plataforma",
         "titulo": "Peaky Blinders",
@@ -1692,6 +1829,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "arcane",
+        "generos": ["Terror", "Acción"],
         "orden": 411,
         "tipo": "plataforma",
         "titulo": "Arcane",
@@ -1714,6 +1852,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "cobra-kai",
+        "generos": ["Drama"],
         "orden": 412,
         "tipo": "plataforma",
         "titulo": "Cobra Kai",
@@ -1752,6 +1891,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "you",
+        "generos": ["Romance"],
         "orden": 413,
         "tipo": "plataforma",
         "titulo": "You",
@@ -1786,6 +1926,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "orange-is-the-new-black",
+        "generos": ["Ciencia ficción"],
         "orden": 414,
         "tipo": "plataforma",
         "titulo": "Orange Is the New Black",
@@ -1828,6 +1969,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "bojack-horseman",
+        "generos": ["Comedia"],
         "orden": 415,
         "tipo": "plataforma",
         "titulo": "BoJack Horseman",
@@ -1866,6 +2008,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "lupin",
+        "generos": ["Drama"],
         "orden": 416,
         "tipo": "plataforma",
         "titulo": "Lupin",
@@ -1892,6 +2035,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "dahmer",
+        "generos": ["Ciencia ficción", "Crimen"],
         "orden": 417,
         "tipo": "plataforma",
         "titulo": "Dahmer",
@@ -1910,6 +2054,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "all-of-us-are-dead",
+        "generos": ["Comedia"],
         "orden": 418,
         "tipo": "plataforma",
         "titulo": "Estamos muertos",
@@ -1928,6 +2073,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "hill-house",
+        "generos": ["Drama"],
         "orden": 419,
         "tipo": "plataforma",
         "titulo": "La maldición de Hill House",
@@ -1946,6 +2092,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "bly-manor",
+        "generos": ["Drama"],
         "orden": 420,
         "tipo": "plataforma",
         "titulo": "La maldición de Bly Manor",
@@ -1964,6 +2111,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "la-maravilla-de-maisel",
+        "generos": ["Drama"],
         "orden": 421,
         "tipo": "plataforma",
         "titulo": "La maravillosa señora Maisel",
@@ -1998,6 +2146,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "fleabag",
+        "generos": ["Drama"],
         "orden": 422,
         "tipo": "plataforma",
         "titulo": "Fleabag",
@@ -2020,6 +2169,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-expanse",
+        "generos": ["Thriller"],
         "orden": 423,
         "tipo": "plataforma",
         "titulo": "The Expanse",
@@ -2058,6 +2208,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "reacher",
+        "generos": ["Crimen"],
         "orden": 424,
         "tipo": "plataforma",
         "titulo": "Reacher",
@@ -2084,6 +2235,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "good-omens",
+        "generos": ["Historia"],
         "orden": 425,
         "tipo": "plataforma",
         "titulo": "Good Omens",
@@ -2106,6 +2258,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "la-rueda-del-tiempo",
+        "generos": ["Ciencia ficción", "Fantasía"],
         "orden": 426,
         "tipo": "plataforma",
         "titulo": "La rueda del tiempo",
@@ -2132,6 +2285,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "jack-ryan",
+        "generos": ["Drama"],
         "orden": 427,
         "tipo": "plataforma",
         "titulo": "Jack Ryan",
@@ -2162,6 +2316,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-hombre-en-el-castillo",
+        "generos": ["Drama"],
         "orden": 428,
         "tipo": "plataforma",
         "titulo": "El hombre en el castillo",
@@ -2192,6 +2347,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "bosch",
+        "generos": ["Thriller", "Crimen"],
         "orden": 429,
         "tipo": "plataforma",
         "titulo": "Bosch",
@@ -2234,6 +2390,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "invincible",
+        "generos": ["Drama"],
         "orden": 430,
         "tipo": "plataforma",
         "titulo": "Invincible",
@@ -2260,6 +2417,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "gen-v",
+        "generos": ["Comedia"],
         "orden": 431,
         "tipo": "plataforma",
         "titulo": "Gen V",
@@ -2282,6 +2440,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-terminal-list",
+        "generos": ["Drama"],
         "orden": 432,
         "tipo": "plataforma",
         "titulo": "La lista terminal",
@@ -2300,6 +2459,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "daisy-jones",
+        "generos": ["Drama"],
         "orden": 433,
         "tipo": "plataforma",
         "titulo": "Daisy Jones & The Six",
@@ -2318,6 +2478,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-verano-en-que-me-enamore",
+        "generos": ["Romance"],
         "orden": 434,
         "tipo": "plataforma",
         "titulo": "El verano en que me enamoré",
@@ -2344,6 +2505,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "citadel",
+        "generos": ["Drama"],
         "orden": 435,
         "tipo": "plataforma",
         "titulo": "Citadel",
@@ -2362,6 +2524,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-peripheral",
+        "generos": ["Drama"],
         "orden": 436,
         "tipo": "plataforma",
         "titulo": "The Peripheral",
@@ -2380,6 +2543,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "goliath",
+        "generos": ["Drama"],
         "orden": 437,
         "tipo": "plataforma",
         "titulo": "Goliath",
@@ -2410,6 +2574,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "hunters",
+        "generos": ["Drama"],
         "orden": 438,
         "tipo": "plataforma",
         "titulo": "Hunters",
@@ -2432,6 +2597,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "carnival-row",
+        "generos": ["Crimen"],
         "orden": 439,
         "tipo": "plataforma",
         "titulo": "Carnival Row",
@@ -2454,6 +2620,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "vox-machina",
+        "generos": ["Fantasía"],
         "orden": 440,
         "tipo": "plataforma",
         "titulo": "La leyenda de Vox Machina",
@@ -2480,6 +2647,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "mr-and-mrs-smith",
+        "generos": ["Drama"],
         "orden": 441,
         "tipo": "plataforma",
         "titulo": "Sr. y Sra. Smith",
@@ -2498,6 +2666,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "swarm",
+        "generos": ["Aventura"],
         "orden": 442,
         "tipo": "plataforma",
         "titulo": "Swarm",
@@ -2516,6 +2685,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "outer-range",
+        "generos": ["Ciencia ficción", "Acción", "Drama"],
         "orden": 443,
         "tipo": "plataforma",
         "titulo": "Outer Range",
@@ -2538,6 +2708,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "una-liga-propia",
+        "generos": ["Animación"],
         "orden": 444,
         "tipo": "plataforma",
         "titulo": "A League of Their Own",
@@ -2556,6 +2727,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "homecoming",
+        "generos": ["Thriller"],
         "orden": 445,
         "tipo": "plataforma",
         "titulo": "Homecoming",
@@ -2578,6 +2750,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-wilds",
+        "generos": ["Drama"],
         "orden": 446,
         "tipo": "plataforma",
         "titulo": "The Wilds",
@@ -2600,6 +2773,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "upload",
+        "generos": ["Terror", "Ciencia ficción", "Romance"],
         "orden": 447,
         "tipo": "plataforma",
         "titulo": "Upload",
@@ -2630,6 +2804,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "ahsoka",
+        "generos": ["Ciencia ficción"],
         "orden": 448,
         "tipo": "plataforma",
         "titulo": "Ahsoka",
@@ -2648,6 +2823,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-libro-de-boba-fett",
+        "generos": ["Drama"],
         "orden": 449,
         "tipo": "plataforma",
         "titulo": "El libro de Boba Fett",
@@ -2666,6 +2842,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "obi-wan-kenobi",
+        "generos": ["Ciencia ficción"],
         "orden": 450,
         "tipo": "plataforma",
         "titulo": "Obi-Wan Kenobi",
@@ -2684,6 +2861,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-acolyte",
+        "generos": ["Ciencia ficción", "Historia"],
         "orden": 451,
         "tipo": "plataforma",
         "titulo": "The Acolyte",
@@ -2702,6 +2880,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "skeleton-crew",
+        "generos": ["Drama"],
         "orden": 452,
         "tipo": "plataforma",
         "titulo": "Skeleton Crew",
@@ -2720,6 +2899,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "hawkeye",
+        "generos": ["Crimen", "Drama"],
         "orden": 453,
         "tipo": "plataforma",
         "titulo": "Hawkeye",
@@ -2738,6 +2918,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "moon-knight",
+        "generos": ["Acción"],
         "orden": 454,
         "tipo": "plataforma",
         "titulo": "Caballero Luna",
@@ -2756,6 +2937,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "ms-marvel",
+        "generos": ["Acción", "Drama"],
         "orden": 455,
         "tipo": "plataforma",
         "titulo": "Ms. Marvel",
@@ -2774,6 +2956,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "she-hulk",
+        "generos": ["Drama"],
         "orden": 456,
         "tipo": "plataforma",
         "titulo": "She-Hulk: abogada Hulka",
@@ -2792,6 +2975,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "invasion-secreta",
+        "generos": ["Drama"],
         "orden": 457,
         "tipo": "plataforma",
         "titulo": "Invasión secreta",
@@ -2810,6 +2994,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "echo",
+        "generos": ["Drama"],
         "orden": 458,
         "tipo": "plataforma",
         "titulo": "Echo",
@@ -2828,6 +3013,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "agatha-en-todas-partes",
+        "generos": ["Fantasía"],
         "orden": 459,
         "tipo": "plataforma",
         "titulo": "Agatha en todas partes",
@@ -2846,6 +3032,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "daredevil-born-again",
+        "generos": ["Crimen"],
         "orden": 460,
         "tipo": "plataforma",
         "titulo": "Daredevil: Born Again",
@@ -2864,6 +3051,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "what-if",
+        "generos": ["Animación"],
         "orden": 461,
         "tipo": "plataforma",
         "titulo": "What If...?",
@@ -2890,6 +3078,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "x-men-97",
+        "generos": ["Terror"],
         "orden": 462,
         "tipo": "plataforma",
         "titulo": "X-Men '97",
@@ -2908,6 +3097,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "percy-jackson",
+        "generos": ["Fantasía", "Acción"],
         "orden": 463,
         "tipo": "plataforma",
         "titulo": "Percy Jackson y los dioses del Olimpo",
@@ -2930,6 +3120,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "shogun",
+        "generos": ["Drama"],
         "orden": 464,
         "tipo": "plataforma",
         "titulo": "Shōgun",
@@ -2948,6 +3139,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "solo-asesinatos-en-el-edificio",
+        "generos": ["Thriller", "Crimen"],
         "orden": 465,
         "tipo": "plataforma",
         "titulo": "Solo asesinatos en el edificio",
@@ -2982,6 +3174,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-cuento-de-la-criada",
+        "generos": ["Ciencia ficción"],
         "orden": 466,
         "tipo": "plataforma",
         "titulo": "El cuento de la criada",
@@ -3020,6 +3213,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "reservation-dogs",
+        "generos": ["Comedia"],
         "orden": 467,
         "tipo": "plataforma",
         "titulo": "Reservation Dogs",
@@ -3046,6 +3240,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "atlanta",
+        "generos": ["Drama"],
         "orden": 468,
         "tipo": "plataforma",
         "titulo": "Atlanta",
@@ -3076,6 +3271,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-viejo",
+        "generos": ["Acción"],
         "orden": 469,
         "tipo": "plataforma",
         "titulo": "El viejo",
@@ -3098,6 +3294,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-dropout",
+        "generos": ["Comedia"],
         "orden": 470,
         "tipo": "plataforma",
         "titulo": "The Dropout",
@@ -3116,6 +3313,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "dopesick",
+        "generos": ["Drama"],
         "orden": 471,
         "tipo": "plataforma",
         "titulo": "Dopesick",
@@ -3134,6 +3332,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "falcon-y-el-soldado",
+        "generos": ["Drama"],
         "orden": 472,
         "tipo": "plataforma",
         "titulo": "Falcon y el Soldado de Invierno",
@@ -3152,6 +3351,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "succession",
+        "generos": ["Romance", "Acción", "Drama"],
         "orden": 473,
         "tipo": "plataforma",
         "titulo": "Succession",
@@ -3182,6 +3382,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-white-lotus",
+        "generos": ["Romance", "Drama"],
         "orden": 474,
         "tipo": "plataforma",
         "titulo": "The White Lotus",
@@ -3208,6 +3409,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-penguin",
+        "generos": ["Crimen", "Drama"],
         "orden": 475,
         "tipo": "plataforma",
         "titulo": "El Pingüino",
@@ -3226,6 +3428,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "euphoria",
+        "generos": ["Drama"],
         "orden": 476,
         "tipo": "plataforma",
         "titulo": "Euphoria",
@@ -3248,6 +3451,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "true-detective",
+        "generos": ["Ciencia ficción", "Thriller", "Crimen"],
         "orden": 477,
         "tipo": "plataforma",
         "titulo": "True Detective",
@@ -3278,6 +3482,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "los-soprano",
+        "generos": ["Crimen", "Drama"],
         "orden": 478,
         "tipo": "plataforma",
         "titulo": "Los Soprano",
@@ -3316,6 +3521,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-wire",
+        "generos": ["Crimen"],
         "orden": 479,
         "tipo": "plataforma",
         "titulo": "The Wire",
@@ -3350,6 +3556,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "hermanos-de-sangre",
+        "generos": ["Drama"],
         "orden": 480,
         "tipo": "plataforma",
         "titulo": "Hermanos de sangre",
@@ -3368,6 +3575,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-pacific",
+        "generos": ["Drama"],
         "orden": 481,
         "tipo": "plataforma",
         "titulo": "The Pacific",
@@ -3386,6 +3594,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "mare-of-easttown",
+        "generos": ["Thriller", "Crimen"],
         "orden": 482,
         "tipo": "plataforma",
         "titulo": "Mare of Easttown",
@@ -3404,6 +3613,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "big-little-lies",
+        "generos": ["Comedia", "Crimen"],
         "orden": 483,
         "tipo": "plataforma",
         "titulo": "Big Little Lies",
@@ -3426,6 +3636,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "objetos-afilados",
+        "generos": ["Crimen", "Drama"],
         "orden": 484,
         "tipo": "plataforma",
         "titulo": "Objetos afilados",
@@ -3444,6 +3655,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "watchmen",
+        "generos": ["Crimen"],
         "orden": 485,
         "tipo": "plataforma",
         "titulo": "Watchmen",
@@ -3462,6 +3674,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "westworld",
+        "generos": ["Ciencia ficción", "Acción"],
         "orden": 486,
         "tipo": "plataforma",
         "titulo": "Westworld",
@@ -3492,6 +3705,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "barry",
+        "generos": ["Comedia"],
         "orden": 487,
         "tipo": "plataforma",
         "titulo": "Barry",
@@ -3522,6 +3736,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "silicon-valley",
+        "generos": ["Comedia"],
         "orden": 488,
         "tipo": "plataforma",
         "titulo": "Silicon Valley",
@@ -3560,6 +3775,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-leftovers",
+        "generos": ["Thriller", "Crimen"],
         "orden": 489,
         "tipo": "plataforma",
         "titulo": "The Leftovers",
@@ -3586,6 +3802,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "boardwalk-empire",
+        "generos": ["Historia"],
         "orden": 490,
         "tipo": "plataforma",
         "titulo": "Boardwalk Empire",
@@ -3620,6 +3837,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "a-dos-metros-bajo-tierra",
+        "generos": ["Drama"],
         "orden": 491,
         "tipo": "plataforma",
         "titulo": "A dos metros bajo tierra",
@@ -3654,6 +3872,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "deadwood",
+        "generos": ["Drama"],
         "orden": 492,
         "tipo": "plataforma",
         "titulo": "Deadwood",
@@ -3680,6 +3899,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "roma-hbo",
+        "generos": ["Historia"],
         "orden": 493,
         "tipo": "plataforma",
         "titulo": "Roma",
@@ -3702,6 +3922,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "peacemaker",
+        "generos": ["Drama"],
         "orden": 494,
         "tipo": "plataforma",
         "titulo": "Peacemaker",
@@ -3724,6 +3945,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-flight-attendant",
+        "generos": ["Drama"],
         "orden": 495,
         "tipo": "plataforma",
         "titulo": "La asistente de vuelo",
@@ -3746,6 +3968,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "station-eleven",
+        "generos": ["Historia"],
         "orden": 496,
         "tipo": "plataforma",
         "titulo": "Station Eleven",
@@ -3764,6 +3987,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "tokyo-vice",
+        "generos": ["Thriller", "Crimen"],
         "orden": 497,
         "tipo": "plataforma",
         "titulo": "Tokyo Vice",
@@ -3786,6 +4010,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "dune-la-profecia",
+        "generos": ["Drama"],
         "orden": 498,
         "tipo": "plataforma",
         "titulo": "Dune: la profecía",
@@ -3804,6 +4029,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "normal-people",
+        "generos": ["Ciencia ficción", "Romance"],
         "orden": 499,
         "tipo": "plataforma",
         "titulo": "Normal People",
@@ -3822,6 +4048,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "i-may-destroy-you",
+        "generos": ["Drama"],
         "orden": 500,
         "tipo": "plataforma",
         "titulo": "Puedo destruirte",
@@ -3840,6 +4067,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "its-a-sin",
+        "generos": ["Terror"],
         "orden": 501,
         "tipo": "plataforma",
         "titulo": "It's a Sin",
@@ -3858,6 +4086,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "derry-girls",
+        "generos": ["Terror", "Comedia", "Drama"],
         "orden": 502,
         "tipo": "plataforma",
         "titulo": "Derry Girls",
@@ -3884,6 +4113,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-end-of-the-fucking-world",
+        "generos": ["Crimen", "Aventura"],
         "orden": 503,
         "tipo": "plataforma",
         "titulo": "The End of the F***ing World",
@@ -3906,6 +4136,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "sherlock",
+        "generos": ["Thriller", "Crimen"],
         "orden": 504,
         "tipo": "plataforma",
         "titulo": "Sherlock",
@@ -3936,6 +4167,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "broadchurch",
+        "generos": ["Thriller", "Crimen", "Drama"],
         "orden": 505,
         "tipo": "plataforma",
         "titulo": "Broadchurch",
@@ -3962,6 +4194,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "happy-valley",
+        "generos": ["Crimen", "Drama"],
         "orden": 506,
         "tipo": "plataforma",
         "titulo": "Happy Valley",
@@ -3988,6 +4221,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "line-of-duty",
+        "generos": ["Crimen"],
         "orden": 507,
         "tipo": "plataforma",
         "titulo": "Line of Duty",
@@ -4026,6 +4260,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "bodyguard",
+        "generos": ["Drama"],
         "orden": 508,
         "tipo": "plataforma",
         "titulo": "Bodyguard",
@@ -4044,6 +4279,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "killing-eve",
+        "generos": ["Thriller", "Crimen", "Acción"],
         "orden": 509,
         "tipo": "plataforma",
         "titulo": "Killing Eve",
@@ -4074,6 +4310,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "llamame-agente",
+        "generos": ["Drama"],
         "orden": 510,
         "tipo": "plataforma",
         "titulo": "Llámeme, agente",
@@ -4104,6 +4341,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-bureau",
+        "generos": ["Drama"],
         "orden": 511,
         "tipo": "plataforma",
         "titulo": "El Bureau",
@@ -4138,6 +4376,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "gomorra",
+        "generos": ["Crimen", "Historia", "Drama"],
         "orden": 512,
         "tipo": "plataforma",
         "titulo": "Gomorra",
@@ -4172,6 +4411,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "babylon-berlin",
+        "generos": ["Drama"],
         "orden": 513,
         "tipo": "plataforma",
         "titulo": "Babylon Berlin",
@@ -4202,6 +4442,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "deutschland-83",
+        "generos": ["Drama"],
         "orden": 514,
         "tipo": "plataforma",
         "titulo": "Deutschland 83",
@@ -4220,6 +4461,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "deutschland-86",
+        "generos": ["Drama"],
         "orden": 515,
         "tipo": "plataforma",
         "titulo": "Deutschland 86",
@@ -4238,6 +4480,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "deutschland-89",
+        "generos": ["Drama"],
         "orden": 516,
         "tipo": "plataforma",
         "titulo": "Deutschland 89",
@@ -4256,6 +4499,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "unorthodox",
+        "generos": ["Romance", "Drama"],
         "orden": 517,
         "tipo": "plataforma",
         "titulo": "Unorthodox",
@@ -4274,6 +4518,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "fauda",
+        "generos": ["Drama"],
         "orden": 518,
         "tipo": "plataforma",
         "titulo": "Fauda",
@@ -4304,6 +4549,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "la-amiga-estupenda",
+        "generos": ["Drama"],
         "orden": 519,
         "tipo": "plataforma",
         "titulo": "La amiga estupenda",
@@ -4334,6 +4580,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-young-pope",
+        "generos": ["Thriller"],
         "orden": 520,
         "tipo": "plataforma",
         "titulo": "The Young Pope",
@@ -4352,6 +4599,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "the-new-pope",
+        "generos": ["Drama"],
         "orden": 521,
         "tipo": "plataforma",
         "titulo": "The New Pope",
@@ -4370,6 +4618,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "patria",
+        "generos": ["Historia", "Drama"],
         "orden": 522,
         "tipo": "plataforma",
         "titulo": "Patria",
@@ -4388,6 +4637,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "antidisturbios",
+        "generos": ["Terror", "Drama"],
         "orden": 523,
         "tipo": "plataforma",
         "titulo": "Antidisturbios",
@@ -4406,6 +4656,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "farina",
+        "generos": ["Drama"],
         "orden": 524,
         "tipo": "plataforma",
         "titulo": "Fariña",
@@ -4424,6 +4675,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-tiempo-entre-costuras",
+        "generos": ["Ciencia ficción"],
         "orden": 525,
         "tipo": "plataforma",
         "titulo": "El tiempo entre costuras",
@@ -4442,6 +4694,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "isabel",
+        "generos": ["Historia", "Drama"],
         "orden": 526,
         "tipo": "plataforma",
         "titulo": "Isabel",
@@ -4468,6 +4721,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "el-ministerio-del-tiempo",
+        "generos": ["Ciencia ficción"],
         "orden": 527,
         "tipo": "plataforma",
         "titulo": "El ministerio del tiempo",
@@ -4498,6 +4752,7 @@ const CATALOGO_SERIES_EXTRA = [
     },
     {
         "id": "vis-a-vis",
+        "generos": ["Drama"],
         "orden": 528,
         "tipo": "plataforma",
         "titulo": "Vis a vis",

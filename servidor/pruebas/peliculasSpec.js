@@ -27,6 +27,7 @@ describe("cartelera", function () {
                 expect(res.peliculas[0].cartel).toContain("https://");
                 expect(res.peliculas[0].dondeVer).toEqual("En cines");
                 expect(res.peliculas[0].cines).toContain("Cinesa Príncipe Pío");
+                expect(res.peliculas[0].generos).toEqual(["Drama", "Historia"]);
                 expect(res.peliculas[5].cines).toEqual([]);
                 expect(res.peliculas[0].trailerUrl).toEqual("https://www.youtube.com/watch?v=uYPbbksJxIg");
                 expect(res.idsPendientes).toEqual([]);
@@ -39,6 +40,7 @@ describe("cartelera", function () {
                 expect(series.length).toEqual(150);
                 expect(cines.length).toEqual(30);
                 expect(plataformas.length).toEqual(150);
+                expect(res.peliculas.every(function (p) { return Array.isArray(p.generos) && p.generos.length > 0; })).toEqual(true);
                 ["Netflix", "Prime Video", "Disney+", "Max", "Filmin"].forEach(function (plataforma) {
                     expect(pelis.filter(function (p) { return p.dondeVer === plataforma; }).length).toEqual(30);
                     expect(series.filter(function (p) { return p.dondeVer === plataforma; }).length).toEqual(30);
@@ -46,6 +48,7 @@ describe("cartelera", function () {
                 expect(series.every(function (p) { return p.tipo === "plataforma" && p.cines.length === 0 && p.dondeVer; })).toEqual(true);
                 expect(series[0].id).toEqual("stranger-things");
                 expect(series[0].dondeVer).toEqual("Netflix");
+                expect(series[0].generos).toContain("Ciencia ficción");
                 expect(series[0].temporadas.length).toEqual(5);
                 expect(series[0].temporadas[0]).toEqual({ numero: 1, capitulos: 8 });
                 expect(series[0].temporadas[4].capitulos).toEqual(8);
@@ -206,7 +209,8 @@ describe("cartelera", function () {
                     tipo: "cine",
                     cartel: "https://example.com/cartel.jpg",
                     trailer: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                    cines: "Cines Prueba\nYelmo Centro"
+                    cines: "Cines Prueba\nYelmo Centro",
+                    generos: "Drama\nThriller"
                 };
                 sistema.crearPelicula(ana, datos, function (prohibida) {
                     expect(prohibida.tipo).toEqual(TipoError.PROHIBIDO);
@@ -219,11 +223,13 @@ describe("cartelera", function () {
                                 expect(ficha.pelicula.titulo).toEqual("La prueba");
                                 expect(ficha.pelicula.cines).toEqual(["Cines Prueba", "Yelmo Centro"]);
                                 expect(ficha.pelicula.dondeVer).toEqual("En cines");
+                                expect(ficha.pelicula.generos).toEqual(["Drama", "Thriller"]);
                                 expect(ficha.pelicula.trailerUrl).toEqual("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
                                 sistema.anadirPendiente(ana, creada.id, function () {
                                     sistema.valorarPelicula(ana, { peliculaId: creada.id, puntuacion: 4, texto: "Bien" }, function () {
                                         datos.titulo = "La prueba final";
                                         datos.sinopsis = "Sinopsis corregida por el admin.";
+                                        datos.generos = "Comedia";
                                         sistema.actualizarPelicula(ana, creada.id, datos, function (sinPermiso) {
                                             expect(sinPermiso.tipo).toEqual(TipoError.PROHIBIDO);
                                             sistema.actualizarPelicula(admin, creada.id, datos, function (editada) {
@@ -231,6 +237,7 @@ describe("cartelera", function () {
                                                 sistema.obtenerPelicula(admin, creada.id, function (actual) {
                                                     expect(actual.pelicula.titulo).toEqual("La prueba final");
                                                     expect(actual.pelicula.sinopsis).toEqual("Sinopsis corregida por el admin.");
+                                                    expect(actual.pelicula.generos).toEqual(["Comedia"]);
                                                     sistema.eliminarPelicula(ana, creada.id, function (noBorra) {
                                                         expect(noBorra.tipo).toEqual(TipoError.PROHIBIDO);
                                                         sistema.eliminarPelicula(admin, creada.id, function (borrada) {

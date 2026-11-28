@@ -5,6 +5,7 @@ function CatalogoPeliculas(selector) {
     let alAbrir = function () {};
     let alMarcar = function () {};
     let filtro = "todas";
+    let genero = "";
     let consulta = "";
     let pestana = "pelicula";
 
@@ -15,6 +16,7 @@ function CatalogoPeliculas(selector) {
         alAbrir = abrir;
         alMarcar = marcar;
         filtro = "todas";
+        genero = "";
         consulta = "";
         pestana = datos.pestana === "serie" ? "serie" : "pelicula";
         let cadena = '<div class="catalogo">';
@@ -30,7 +32,12 @@ function CatalogoPeliculas(selector) {
         if (datos.esAdmin) {
             cadena = cadena + '<button type="button" id="btnNuevaPelicula" class="btn btn-oliva btn-sm">Nueva película</button>';
         }
-        cadena = cadena + "</div></div>";
+        cadena = cadena + "</div>";
+        cadena = cadena + '<div class="filtro-genero">';
+        cadena = cadena + '<label for="filtroGenero" class="etiqueta-genero">Género</label>';
+        cadena = cadena + '<select id="filtroGenero" class="campo-genero" aria-label="Filtrar por género">';
+        cadena = cadena + opcionesGenero(peliculas, pestana, "");
+        cadena = cadena + "</select></div></div>";
         cadena = cadena + '<div id="rejillaCatalogo"></div>';
         cadena = cadena + "</div>";
         $(selector).html(cadena);
@@ -45,6 +52,10 @@ function CatalogoPeliculas(selector) {
             filtro = $(this).attr("data-filtro");
             $(selector).find(".filtro-catalogo").removeClass("activo").attr("aria-pressed", "false");
             $(this).addClass("activo").attr("aria-pressed", "true");
+            pintarFilas();
+        });
+        $(selector).find("#filtroGenero").on("change", function () {
+            genero = $(this).val() || "";
             pintarFilas();
         });
         $(selector).find("#btnNuevaPelicula").on("click", function () {
@@ -71,6 +82,7 @@ function CatalogoPeliculas(selector) {
             .attr("aria-label", series ? "Buscar serie" : "Buscar película");
         $(selector).find(".filtro-catalogo").toggle(!series);
         $(selector).find("#btnNuevaPelicula").text(series ? "Nueva serie" : "Nueva película");
+        $(selector).find("#filtroGenero").html(opcionesGenero(peliculas, pestana, genero));
     }
 
     function pintarFilas() {
@@ -81,6 +93,9 @@ function CatalogoPeliculas(selector) {
         });
         let visibles = dePestana.filter(function (pelicula) {
             if (pestana === "pelicula" && filtro !== "todas" && pelicula.tipo !== filtro) return false;
+            if (genero && !(pelicula.generos || []).some(function (nombre) {
+                return normalizar(nombre) === normalizar(genero);
+            })) return false;
             if (!texto) return true;
             return normalizar(pelicula.titulo).indexOf(texto) !== -1;
         });
@@ -109,6 +124,29 @@ function CatalogoPeliculas(selector) {
             alMarcar($(this).attr("data-id"), $(this).attr("data-en-lista") === "si");
         });
     }
+}
+
+function opcionesGenero(lista, pestanaActual, seleccionado) {
+    let vistos = {};
+    let nombres = [];
+    (lista || []).forEach(function (pelicula) {
+        let esSerie = pelicula.medio === "serie";
+        if (pestanaActual === "serie" ? !esSerie : esSerie) return;
+        (pelicula.generos || []).forEach(function (nombre) {
+            let clave = normalizar(nombre);
+            if (!nombre || vistos[clave]) return;
+            vistos[clave] = true;
+            nombres.push(nombre);
+        });
+    });
+    nombres.sort(function (a, b) { return a.localeCompare(b, "es"); });
+    let cadena = '<option value="">Todos los géneros</option>';
+    nombres.forEach(function (nombre) {
+        let activo = normalizar(nombre) === normalizar(seleccionado);
+        cadena = cadena + '<option value="' + Html.escapar(nombre) + '"' + (activo ? " selected" : "") + ">";
+        cadena = cadena + Html.escapar(nombre) + "</option>";
+    });
+    return cadena;
 }
 
 function botonFiltro(valor, etiqueta, activo) {

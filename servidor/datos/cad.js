@@ -240,12 +240,14 @@ function sembrarPeliculas(coleccion) {
             let copia = Object.assign({}, pelicula);
             copia.cines = (pelicula.cines || []).slice();
             let sinopsis = copia.sinopsis;
+            let generos = (copia.generos || []).slice();
             let temporadas = (copia.temporadas || []).map(function (temporada) {
                 return { numero: temporada.numero, capitulos: temporada.capitulos };
             });
             delete copia.sinopsis;
+            delete copia.generos;
             delete copia.temporadas;
-            let cambios = { sinopsis: sinopsis };
+            let cambios = { sinopsis: sinopsis, generos: generos };
             if (copia.medio === "serie") cambios.temporadas = temporadas;
             return coleccion.updateOne(
                 { id: copia.id },

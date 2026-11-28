@@ -1,6 +1,7 @@
 const CATALOGO_PELICULAS = [
     {
         id: "oppenheimer",
+        generos: ["Drama", "Historia"],
         orden: 1,
         tipo: "cine",
         titulo: "Oppenheimer",
@@ -12,6 +13,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "dune-parte-dos",
+        generos: ["Ciencia ficción", "Aventura"],
         orden: 2,
         tipo: "cine",
         titulo: "Dune: Parte dos",
@@ -23,6 +25,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "spider-man-no-way-home",
+        generos: ["Acción", "Aventura", "Ciencia ficción"],
         orden: 3,
         tipo: "cine",
         titulo: "Spider-Man: No Way Home",
@@ -34,6 +37,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "spider-man-spiderverse",
+        generos: ["Animación", "Acción", "Aventura"],
         orden: 4,
         tipo: "cine",
         titulo: "Spider-Man: Cruzando el multiverso",
@@ -45,6 +49,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "pobres-criaturas",
+        generos: ["Aventura"],
         orden: 5,
         tipo: "cine",
         titulo: "Pobres criaturas",
@@ -56,6 +61,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "parasitos",
+        generos: ["Drama", "Thriller"],
         orden: 6,
         tipo: "plataforma",
         titulo: "Parásitos",
@@ -67,6 +73,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "interstellar",
+        generos: ["Drama"],
         orden: 7,
         tipo: "plataforma",
         titulo: "Interstellar",
@@ -78,6 +85,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "whiplash",
+        generos: ["Drama"],
         orden: 8,
         tipo: "plataforma",
         titulo: "Whiplash",
@@ -89,6 +97,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "sin-novedad-en-el-frente",
+        generos: ["Historia"],
         orden: 9,
         tipo: "plataforma",
         titulo: "Sin novedad en el frente",
@@ -100,6 +109,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "el-irlandes",
+        generos: ["Crimen"],
         orden: 10,
         tipo: "plataforma",
         titulo: "El irlandés",
@@ -111,6 +121,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "barbie",
+        generos: ["Drama"],
         orden: 11,
         tipo: "cine",
         titulo: "Barbie",
@@ -122,6 +133,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "joker",
+        generos: ["Comedia"],
         orden: 12,
         tipo: "cine",
         titulo: "Joker",
@@ -133,6 +145,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "top-gun-maverick",
+        generos: ["Drama"],
         orden: 13,
         tipo: "cine",
         titulo: "Top Gun: Maverick",
@@ -144,6 +157,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "avatar-el-sentido-del-agua",
+        generos: ["Drama"],
         orden: 14,
         tipo: "cine",
         titulo: "Avatar: El sentido del agua",
@@ -155,6 +169,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "john-wick-4",
+        generos: ["Drama"],
         orden: 15,
         tipo: "cine",
         titulo: "John Wick: Capítulo 4",
@@ -166,6 +181,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "dune",
+        generos: ["Drama"],
         orden: 16,
         tipo: "cine",
         titulo: "Dune",
@@ -177,6 +193,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "del-reves-2",
+        generos: ["Drama"],
         orden: 17,
         tipo: "cine",
         titulo: "Del revés 2",
@@ -188,6 +205,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "deadpool-y-lobezno",
+        generos: ["Acción", "Aventura"],
         orden: 18,
         tipo: "cine",
         titulo: "Deadpool y Lobezno",
@@ -199,6 +217,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "el-caballero-oscuro",
+        generos: ["Crimen"],
         orden: 19,
         tipo: "cine",
         titulo: "El caballero oscuro",
@@ -210,6 +229,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "origen",
+        generos: ["Drama"],
         orden: 20,
         tipo: "cine",
         titulo: "Origen",
@@ -221,6 +241,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "wicked",
+        generos: ["Drama"],
         orden: 21,
         tipo: "cine",
         titulo: "Wicked",
@@ -232,6 +253,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "la-sustancia",
+        generos: ["Drama"],
         orden: 22,
         tipo: "cine",
         titulo: "La sustancia",
@@ -243,6 +265,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "furiosa",
+        generos: ["Drama"],
         orden: 23,
         tipo: "cine",
         titulo: "Furiosa: De la saga Mad Max",
@@ -254,6 +277,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "mad-max-furia-en-la-carretera",
+        generos: ["Acción"],
         orden: 24,
         tipo: "cine",
         titulo: "Mad Max: Furia en la carretera",
@@ -265,6 +289,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "blade-runner-2049",
+        generos: ["Thriller"],
         orden: 25,
         tipo: "cine",
         titulo: "Blade Runner 2049",
@@ -276,6 +301,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "titanic",
+        generos: ["Aventura"],
         orden: 26,
         tipo: "cine",
         titulo: "Titanic",
@@ -287,6 +313,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "gladiator",
+        generos: ["Drama"],
         orden: 27,
         tipo: "cine",
         titulo: "Gladiator",
@@ -298,6 +325,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "la-comunidad-del-anillo",
+        generos: ["Fantasía"],
         orden: 28,
         tipo: "cine",
         titulo: "El señor de los anillos: La comunidad del anillo",
@@ -309,6 +337,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "una-nueva-esperanza",
+        generos: ["Drama"],
         orden: 29,
         tipo: "cine",
         titulo: "La guerra de las galaxias: Una nueva esperanza",
@@ -320,6 +349,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "toy-story",
+        generos: ["Ciencia ficción"],
         orden: 30,
         tipo: "plataforma",
         titulo: "Toy Story",
@@ -331,6 +361,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "up",
+        generos: ["Aventura"],
         orden: 31,
         tipo: "plataforma",
         titulo: "Up",
@@ -342,6 +373,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "wall-e",
+        generos: ["Ciencia ficción"],
         orden: 32,
         tipo: "plataforma",
         titulo: "WALL·E",
@@ -353,6 +385,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "buscando-a-nemo",
+        generos: ["Terror"],
         orden: 33,
         tipo: "plataforma",
         titulo: "Buscando a Nemo",
@@ -364,6 +397,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "ratatouille",
+        generos: ["Drama"],
         orden: 34,
         tipo: "plataforma",
         titulo: "Ratatouille",
@@ -375,6 +409,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "frozen",
+        generos: ["Drama"],
         orden: 35,
         tipo: "plataforma",
         titulo: "Frozen: El reino del hielo",
@@ -386,6 +421,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "todo-a-la-vez-en-todas-partes",
+        generos: ["Drama"],
         orden: 36,
         tipo: "plataforma",
         titulo: "Todo a la vez en todas partes",
@@ -397,6 +433,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "matrix",
+        generos: ["Drama"],
         orden: 37,
         tipo: "plataforma",
         titulo: "Matrix",
@@ -408,6 +445,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "el-padrino",
+        generos: ["Romance", "Drama"],
         orden: 38,
         tipo: "plataforma",
         titulo: "El padrino",
@@ -419,6 +457,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "pulp-fiction",
+        generos: ["Romance"],
         orden: 39,
         tipo: "plataforma",
         titulo: "Pulp Fiction",
@@ -430,6 +469,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "el-club-de-la-lucha",
+        generos: ["Drama"],
         orden: 40,
         tipo: "plataforma",
         titulo: "El club de la lucha",
@@ -441,6 +481,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "cadena-perpetua",
+        generos: ["Crimen"],
         orden: 41,
         tipo: "plataforma",
         titulo: "Cadena perpetua",
@@ -452,6 +493,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "forrest-gump",
+        generos: ["Drama"],
         orden: 42,
         tipo: "plataforma",
         titulo: "Forrest Gump",
@@ -463,6 +505,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "el-viaje-de-chihiro",
+        generos: ["Fantasía", "Acción", "Aventura"],
         orden: 43,
         tipo: "plataforma",
         titulo: "El viaje de Chihiro",
@@ -474,6 +517,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "coco",
+        generos: ["Drama"],
         orden: 44,
         tipo: "plataforma",
         titulo: "Coco",
@@ -485,6 +529,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "soul",
+        generos: ["Drama"],
         orden: 45,
         tipo: "plataforma",
         titulo: "Soul",
@@ -496,6 +541,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "el-gran-hotel-budapest",
+        generos: ["Drama"],
         orden: 46,
         tipo: "plataforma",
         titulo: "El gran hotel Budapest",
@@ -507,6 +553,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "la-llegada",
+        generos: ["Drama"],
         orden: 47,
         tipo: "plataforma",
         titulo: "La llegada",
@@ -518,6 +565,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "her",
+        generos: ["Drama"],
         orden: 48,
         tipo: "plataforma",
         titulo: "Her",
@@ -529,6 +577,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "olvidate-de-mi",
+        generos: ["Drama"],
         orden: 49,
         tipo: "plataforma",
         titulo: "¡Olvídate de mí!",
@@ -540,6 +589,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "el-silencio-de-los-corderos",
+        generos: ["Crimen"],
         orden: 50,
         tipo: "plataforma",
         titulo: "El silencio de los corderos",
@@ -551,6 +601,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "uno-de-los-nuestros",
+        generos: ["Crimen"],
         orden: 51,
         tipo: "plataforma",
         titulo: "Uno de los nuestros",
@@ -562,6 +613,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "taxi-driver",
+        generos: ["Drama"],
         orden: 52,
         tipo: "plataforma",
         titulo: "Taxi Driver",
@@ -573,6 +625,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "la-lista-de-schindler",
+        generos: ["Drama"],
         orden: 53,
         tipo: "plataforma",
         titulo: "La lista de Schindler",
@@ -584,6 +637,7 @@ const CATALOGO_PELICULAS = [
     },
     {
         id: "seven",
+        generos: ["Crimen"],
         orden: 54,
         tipo: "plataforma",
         titulo: "Seven",
